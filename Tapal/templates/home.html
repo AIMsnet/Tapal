@@ -1,0 +1,93 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet">
+
+
+ <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+<!-- External CSS -->
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/NavMenu.css'%}">
+{% endblock css %}
+
+    <title>Inward | Home </title>
+
+</head> 
+<body>
+    <!--header-->
+        <nav class="navbar navbar-expand-lg navbar-light bg-info">
+                <div class="col-9 col-lg-9 col-md-9 col-sm-9 mt-2">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item mt-2 mr-1">
+                           <a style=""><img src="{% static 'images/file-svgrepo-com.svg'%}" style="height:50px"></a>
+                        </li>
+                        <li class="nav-item mt-2 mr-1">
+                            <a class="navbar-brand ml-2 mt-0" href="#" style="font-size: 16px;">District<br> Superintendent</a>
+                        </li>
+                        <li class="nav-item mt-2 mr-1">
+                            <a class="nav-link border-left border-secondary" href="#"><h6 class="mt-3"> Department section Left </h6><span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item mt-2 mr-1">
+                           <a class="nav-link border-left border-secondary" href="#"><h6 class="mt-3"> Ticket Stock</h6> </a>
+                        </li>
+                        <li class="nav-item mt-2 mr-1">
+                           <a class="nav-link border-left border-secondary" href="#"><h6 class="mt-3"> Returned From Department</h6></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-3 col-lg-3 col-md-3 col-sm-3 mb-2" style="text-align: right; justify-content: center;">
+                    <ul class="navbar-nav justify-content-end">
+                        <li class="nav-item mt-2 mr-1"><img src="{% static 'images/log-in-svgrepo-com.svg'%}" style="height:50px"></li>
+                        <li class="nav-item mt-2 mr-1">
+                          <a class="navbar-brand ml-2" style="font-size: 14px;" href="#">WELCOME<br>
+                            <h5 class="m-0">INWARD</h5>
+                            <a href="/" type="button" class="btn btn-sm btn-outline-light ml-0">Sign Out</a>
+                          </a>
+                        </li>
+                    </ul>
+                </div>
+        </nav>
+    <!--/.header>-->
+    <!--menu-->
+        <nav class="nav bg-dark menulist justify-content-center m-0">
+          <a class="nav-link text-light m-2 mt-0" href="#">Home</a>
+          <a class="nav-link text-light" href="/inwardForm">Inward<br>Registery</a>
+          <a class="nav-link text-light" href="/manageDepartment">Manage<br>Department</a>
+          <a class="nav-link text-light" href="/outwardRegistery">Outward<br> Registery</a>
+          <a class="nav-link text-light" href="/ticketPurcahesInformation">Ticket<br> purchase Information</a>
+          <a class="nav-link text-light" href="#">Ledger<br>Discripton/Worksheet</a>
+          <a class="nav-link text-light" href="/report">Reports</a>
+          <a class="nav-link text-light" href="#">Change<br> Security Questions</a>
+          <a class="nav-link text-light" href="/changePassword">Change<br> Password</a>
+        </nav>
+
+    <!--/.menu-->
+    {% block content %}
+
+        <div class="card">
+        <img src=" {% static 'images/allind2.png' %} " style="width:100%; height: 300px;">
+        </div>
+
+        <p>The Inward section receives letters from the citizens and registers them. These letters are then sent to Joint Municipal Commissioner/Asst. Municipal Commissioner for their information and signatures if required. The signed letters are dispatched to the concern section.
+
+        The letters from the department sent to the concern departments, Individuals and citizens are registered in outward register.<p>
+        
+
+    {% endblock content %}
+</body>
+</html>
+

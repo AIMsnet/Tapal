@@ -1,0 +1,61 @@
+/*@import url('https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap');
+
+body{
+    font-family: 'Baloo Tammudu 2', cursive;
+    background-color:#fff;
+}
+
+.navbar{
+    padding: 4px 3vh 0vh;
+}
+
+.nav-item a{
+    font-size: 10px;
+    text-align: left;
+    min-height: 60px;
+    padding: 2px 0vh 0vh;
+}
+
+.menulist{
+    padding: 4px 3vh 0vh;
+    margin-top: 2px;
+
+}
+
+.menulist a{
+    font-size: 14px;
+    margin: 4px;
+    padding: 3px 3vh;
+text-decoration-color: dark;
+}
+*/
+.formcon{
+    width: 70%;
+    padding: 4px 4vh;
+    border-style: groove;
+    border-radius: 5px;
+    border-color: #17a2b8;
+    font-size:14px;
+
+}
+
+.formcon input{
+    margin-bottom: 3px;
+    padding-top: 2px 2vh;
+
+}
+.formcon label{
+    margin-top:0px;
+    padding:0vh;
+}
+.formcon textarea{
+    margin-bottom: 3px;
+    padding-top: 2px 2vh;
+    font-size: 14px;
+}
+.form-footer{
+    justify-content: center;
+    padding:3px 0vh;
+    margin-top: 4px;
+}

@@ -1,0 +1,383 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'styles/SendingDetails.css' %}">
+{% endblock css %}
+
+
+{% block content %}
+
+    <!--/.menu-->
+    <!--Form-->
+<div class="m-3"></div>
+<div class="container formcon">
+    <h5 class="m-2 mb-3 border-info border-bottom">Fill the Information Below:</h5>
+    <form>
+
+    <!--AccordionParent-->
+      <div class="accordion" id="accordionParent">
+
+                <div class="row justify-content-start FormRadio">
+                  <div class="col-2">
+                    <label>Type :</label>
+                  </div>
+                  <div class="col-10">
+                    <div class="row justify-content-start"> <!--Heading-->
+                      <div class="col-3" id="headingOne">
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="TypeRadio" value="Applicant" data-toggle="collapse" data-target="#Applicant" aria-expanded="true" aria-controls="Applicant">
+                          <label class="form-check-label" for="inlineRadio1">Applicant</label>
+                        </div>   
+                      </div>
+                      <div class="col-3" id="headingTwo">              
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="TypeRadio" value="Other" data-toggle="collapse" data-target="#Other" aria-expanded="true" aria-controls="Other">
+                          <label class="form-check-label" for="inlineRadio2">Other</label>
+                        </div>       
+                      </div>
+                      <div class="col-3" id="headingThree">   
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="TypeRadio" value="To Department" data-toggle="collapse" data-target="#Todept" aria-expanded="true" aria-controls="Todept">
+                          <label class="form-check-label" for="inlineRadio3">To Department</label>
+                        </div>
+                      </div>
+                      <div class="col-3" id="headingFour">
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="TypeRadio" value="Await Register" data-toggle="collapse" data-target="#AwaitReg" aria-expanded="true" aria-controls="AwaitReg">
+                          <label class="form-check-label" for="inlineRadio3">Await Register</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <!--Applicant-->
+                <div class="collapse multi-collapse" id="Applicant" aria-labelledby="headingOne" data-parent="#accordionParent">
+                  <div class="accordion" id="accordionChild">   <!--AccordionChild-->
+                    <div class="card card-body">
+                      <div class="row form-group justify-content-start">
+                        <div class="col-3 mt-2">
+                            <label for="">Name</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control form-control-sm" id="dptInNo" style="width:150px;">
+                        </div>
+                      </div>
+                      <div class="row form-group justify-content-start">
+                        <div class="col-md-3 mt-2">
+                            <label for="eId">Select Save Type</label>
+                        </div>
+                        <div class="col-md-3">
+                              <select id="typOfRef" class="form-control form-control-sm" style="width: 150px;">
+                                <option selected>Select</option>
+                                <option>A</option>
+                                <option>B</option>
+                                <option>C</option>
+                                <option>C1</option>
+                                <option>D</option>
+                              </select>
+                        </div>
+                      </div>
+                      <div class="row form-group justify-content-start FormRadio"> <!--Sub Heading-->
+                        <div class="col-3">
+                          <label style="width: 170px;">Permanent Sending Type:</label>
+                        </div>
+                        <div class="col-8">
+                          <div class="row justify-content-start">
+                            <div class="col-3" id="subheadingOne">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="SendingTypeText" value="E-mail Id" data-toggle="collapse" data-target="#Email" aria-expanded="false" aria-controls="Email">
+                                <label class="form-check-label" for="inlineRadio1">E-mail Id</label>
+                              </div>   
+                            </div>
+                            <div class="col-3" id="subheadingTwo">              
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="SendingTypeText" value="Post" data-toggle="collapse" data-target="#Post" aria-expanded="false" aria-controls="Post">
+                                <label class="form-check-label" for="inlineRadio2">Post</label>
+                              </div>       
+                            </div>
+                            <div class="col-3" id="subheadingThree">   
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="SendingTypeText" value="Both" data-toggle="collapse" data-target="#BothEP" aria-expanded="false" aria-controls="BothEP">
+                                <label class="form-check-label" for="inlineRadio3">Both</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!--accordionChild-->
+                      <!--Email-->
+                      <div class="collapse multi-collapse" id="Email" aria-labelledby="subheadingOne" data-parent="#accordionChild">
+                        <div class="card card-body">
+                          <div class="row form-group justify-content-start">
+                            <div class="col-3 mt-2">
+                                <label for="">E-mail Id</label>
+                            </div>
+                            <div class="col-3">
+                                <input type="email" class="form-control form-control-sm" placeholder="name@example.com" id="dptInNo" style="width:150px;">
+                            </div>
+                          </div>
+                          <div class="row justify-content-start mt-2">
+                            <div class="col-3 mt-3">
+                                <label for="attDoc">Attach Documents</label>
+                            </div>
+                            <div class="col-3">
+                                <div class="custom-file">
+                                  <input type="file" class="custom-file-input" id="attDoc"style="width: 280px; height: 38px;">
+                                  <label class="custom-file-label" for="attDoc" style="width: 280px; height: 38px;"></label>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>  <!--/End E-mail-->
+                      <!--Post-->
+                      <div class="collapse multi-collapse" id="Post" aria-labelledby="subheadingTwo" data-parent="#accordionChild">
+                        <div class="card card-body">
+                          <div class="row form-group justify-content-start">
+                            <div class="col-3 mt-2">
+                                <label for="">Address</label>
+                            </div>
+                            <div class="col-3">
+                                <input type="text" readonly class="form-control form-control-sm" value="Pune" id="dptInNo" style="width:150px;">
+                            </div>
+                          </div>
+                          <div class="row justify-content-start mt-2">
+                            <div class="col-3 mt-3">
+                                <label for="attDoc">Attach Documents</label>
+                            </div>
+                            <div class="col-3">
+                                <div class="custom-file">
+                                  <input type="file" class="custom-file-input" id="attDoc"style="width: 280px; height: 38px;">
+                                  <label class="custom-file-label" for="attDoc" style="width: 280px; height: 38px;"></label>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>  <!--/End Post-->
+                      <!--Both-->
+                      <div class="collapse multi-collapse" id="BothEP" aria-labelledby="subheadingThree" data-parent="#accordionChild">
+                        <div class="card card-body">
+                          <div class="row form-group justify-content-start">
+                            <div class="col-3 mt-2">
+                                <label for="">E-mail Id</label>
+                            </div>
+                            <div class="col-3">
+                                <input type="email" class="form-control form-control-sm" placeholder="name@example.com" id="dptInNo" style="width:150px;">
+                            </div>
+                          </div>
+                          <div class="row form-group justify-content-start">
+                            <div class="col-3 mt-2">
+                                <label for="">Address</label>
+                            </div>
+                            <div class="col-3">
+                                <input type="text" readonly class="form-control form-control-sm" value="Pune" id="dptInNo" style="width:150px;">
+                            </div>
+                          </div>
+                          <div class="row justify-content-start mt-2">
+                            <div class="col-3 mt-3">
+                                <label for="attDoc">Attach Documents</label>
+                            </div>
+                            <div class="col-3">
+                                <div class="custom-file">
+                                  <input type="file" class="custom-file-input" id="attDoc"style="width: 280px; height: 38px;">
+                                  <label class="custom-file-label" for="attDoc" style="width: 280px; height: 38px;"></label>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>  <!--/End Both-->
+
+                    </div>
+                  </div>
+                </div>    <!--End Applicant-->
+              <!--End Applicant-->
+              <!-- Other -->
+                <div class="collapse multi-collapse" id="Other" aria-labelledby="headingTwo" data-parent="#accordionParent">
+                  <div class="accordion" id="accordionChild2">   <!--AccordionChild-->
+                    <div class="card card-body">
+                      <div class="row form-group justify-content-start">
+                        <div class="col-3 mt-2">
+                            <label for="">Name</label>
+                        </div>
+                        <div class="col-3">
+                            <input type="text" class="form-control form-control-sm" id="dptInNo" style="width:150px;">
+                        </div>
+                      </div>
+                      <div class="row form-group justify-content-start">
+                        <div class="col-md-3 mt-2">
+                            <label for="eId">Select Save Type</label>
+                        </div>
+                        <div class="col-md-3">
+                              <select id="typOfRef" class="form-control form-control-sm" style="width: 150px;">
+                                <option selected>Select</option>
+                                <option>A</option>
+                                <option>B</option>
+                                <option>C</option>
+                                <option>C1</option>
+                                <option>D</option>
+                              </select>
+                        </div>
+                      </div>
+                      <div class="row form-group justify-content-start FormRadio"> <!--Sub Heading-->
+                        <div class="col-3">
+                          <label style="width: 170px;">Permanent Sending Type:</label>
+                        </div>
+                        <div class="col-8">
+                          <div class="row justify-content-start">
+                            <div class="col-3" id="subheadingOne2">
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="SendingTypeText" value="E-mail Id" data-toggle="collapse" data-target="#Email1" aria-expanded="false" aria-controls="Email1">
+                                <label class="form-check-label" for="inlineRadio1">E-mail Id</label>
+                              </div>   
+                            </div>
+                            <div class="col-3" id="subheadingTwo2">              
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="SendingTypeText" value="Post" data-toggle="collapse" data-target="#Post1" aria-expanded="false" aria-controls="Post1">
+                                <label class="form-check-label" for="inlineRadio2">Post</label>
+                              </div>       
+                            </div>
+                            <div class="col-3" id="subheadingThree2">   
+                              <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="SendingTypeText" value="Both" data-toggle="collapse" data-target="#BothEP1" aria-expanded="false" aria-controls="BothEP1">
+                                <label class="form-check-label" for="inlineRadio3">Both</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!--accordionChild2-->
+                      <!--Email-->
+                      <div class="collapse multi-collapse" id="Email1" aria-labelledby="subheadingOne2" data-parent="#accordionChild2">
+                        <div class="card card-body">
+                          <div class="row form-group justify-content-start">
+                            <div class="col-3 mt-2">
+                                <label for="">E-mail Id</label>
+                            </div>
+                            <div class="col-3">
+                                <input type="email" class="form-control form-control-sm" placeholder="name@example.com" id="dptInNo" style="width:150px;">
+                            </div>
+                          </div>
+                          <div class="row justify-content-start mt-2">
+                            <div class="col-3 mt-3">
+                                <label for="attDoc">Attach Documents</label>
+                            </div>
+                            <div class="col-3">
+                                <div class="custom-file">
+                                  <input type="file" class="custom-file-input" id="attDoc"style="width: 280px; height: 38px;">
+                                  <label class="custom-file-label" for="attDoc" style="width: 280px; height: 38px;"></label>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>  <!--/End E-mail-->
+                      <!--Post-->
+                      <div class="collapse multi-collapse" id="Post1" aria-labelledby="subheadingTwo2" data-parent="#accordionChild2">
+                        <div class="card card-body">
+                          <div class="row form-group justify-content-start">
+                            <div class="col-3 mt-2">
+                                <label for="">Address</label>
+                            </div>
+                            <div class="col-3">
+                                <textarea class="form-control" rows = "2" cols = "10" name = "addr" id="ltrDtls" style="width: 150px;">
+                       
+                                </textarea>
+                            </div>
+                          </div>
+                          <div class="row justify-content-start mt-2">
+                            <div class="col-3 mt-3">
+                                <label for="attDoc">Attach Documents</label>
+                            </div>
+                            <div class="col-3">
+                                <div class="custom-file">
+                                  <input type="file" class="custom-file-input" id="attDoc"style="width: 280px; height: 38px;">
+                                  <label class="custom-file-label" for="attDoc" style="width: 280px; height: 38px;"></label>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>  <!--/End Post-->
+                      <!--Both-->
+                      <div class="collapse multi-collapse" id="BothEP1" aria-labelledby="subheadingThree2" data-parent="#accordionChild2">
+                        <div class="card card-body">
+                          <div class="row form-group justify-content-start">
+                            <div class="col-3 mt-2">
+                                <label for="">E-mail Id</label>
+                            </div>
+                            <div class="col-3">
+                                <input type="email" class="form-control form-control-sm" placeholder="name@example.com" id="dptInNo" style="width:150px;">
+                            </div>
+                          </div>
+                          <div class="row form-group justify-content-start">
+                            <div class="col-3 mt-2">
+                                <label for="">Address</label>
+                            </div>
+                            <div class="col-3">
+                                <textarea class="form-control" rows = "2" cols = "10" name="addr" id="ltrDtls" style="width: 150px;">
+                       
+                                </textarea>
+                            </div>
+                          </div>
+                          <div class="row justify-content-start mt-2">
+                            <div class="col-3 mt-3">
+                                <label for="attDoc">Attach Documents</label>
+                            </div>
+                            <div class="col-3">
+                                <div class="custom-file">
+                                  <input type="file" class="custom-file-input" id="attDoc"style="width: 280px; height: 38px;">
+                                  <label class="custom-file-label" for="attDoc" style="width: 280px; height: 38px;"></label>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>  <!--/End Both-->
+
+                    </div>
+                  </div>
+                </div>
+              <!--End Other-->
+              <!--To Department-->
+                <div class="collapse multi-collapse" id="Todept" aria-labelledby="headingThree" data-parent="#accordionParent">
+                  <div class="card card-body">
+                    <div class="row form-group justify-content-start">
+                      <div class="col-md-3 mt-2">
+                          <label for="eId">Choose Department</label>
+                      </div>
+                      <div class="col-md-3">
+                          <select id="typOfRef" class="form-control form-control-sm" style="width: 150px;">
+                            <option selected>Select</option>
+                            <option>A</option>
+                            <option>B</option>
+                            <option>C</option>
+                            <option>C1</option>
+                            <option>D</option>
+                          </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <!--End To Department-->
+              <!--Await Reg-->
+                <div class="collapse multi-collapse" id="AwaitReg" aria-labelledby="headingFour" data-parent="#accordionParent">
+                  <div class="card card-body">
+                    <h6>On Hold!</h6>
+                  </div>
+                </div>
+              <!--End Await Reg-->
+
+
+                <div class="form-footer footer row mt-2">
+                  <button class="btn btn-info btn-sm mr-3 pr-2" type="submit" style="width:100px;">Send</button>
+                  <button class="btn btn-info btn-sm ml-3 pl-2" type="exit" style="width:100px;">Cancel</button>
+                </div>
+
+      </div>  
+      <!--AccordionParent-->
+
+    </form>               
+              
+</div>
+
+<div class="m-3"></div>
+{% endblock content %}

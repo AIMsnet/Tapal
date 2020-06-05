@@ -1,0 +1,148 @@
+{% extends 'home.html' %}
+{% load static %}
+
+
+{% block css %}
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css'%}">
+        <link rel="stylesheet" type="text/css" href="{% static 'styles/outwardRegistery.css'%}">
+{% endblock css %}
+
+{% block content %}
+
+<!----------------Outward Registery Start-------------->
+  <div class="m-3"></div>
+  <div class="container outwordRegisteryFormcon">
+  <!-- <main class="container pt-5"> -->
+   <h5 class="text-center m-3 mb-4 border-bottom border-info">Outward Rgistery</h5>
+   <form>
+   <div class="form-group options">
+     <label for="show">Show :</label>
+     <select style="width: 7%;height: 25px;">
+           <option value="Collecter Office">500</option>
+           <option value="Thashildar">200</option>
+           <option value="Police Department">50</option>
+   </select>Entries
+   <div class="search">
+      <input type="text" class="form-control form-control-sm"  placeholder="Search">
+      <button type="submit" class="btn btn-info btn-sm btn-search">Search</button>
+     </div>
+ </div>
+</form>
+   <div class="card  mt-0">
+       <!-- <div class="card-header">Manage Departments</div> -->
+       <div class="card-block p-0 table-responsive">
+           <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+               <thead class="">
+                   <tr>
+                    <th>Inward No</th>
+                    <th>Outward Date</th>
+                    <th>Letter Sent To Whom</th>
+                    <th>Letter Number</th>
+                    <th>Desk Letter Number</th>
+                    <th>Action Taken</th>
+                    <th>Rs.1</th>
+                    <th>Rs.2</th>
+                    <th>Rs.5</th>
+                    <th>Rs.50</th>
+                    <th>100</th>
+                    <th>20</th>
+                    <th>Total</th>
+                    <th>Remark</th>
+                    <th>Ticket Purchase Information</th>
+                    <th>Tappal Outward Date</th>
+                   </tr>
+               </thead>
+               <tbody>
+                 <tr>
+              <td contenteditable='true'>17-0032</td>
+             <td contenteditable='true'>12-04-2020</td>
+             <td contenteditable='true'>ZP Office</td>
+             <td contenteditable='true'>LS-2</td>
+             <td contenteditable='true'>DS-1</td>
+             <td contenteditable='true'>IN</td>
+             <td contenteditable="true">0</td>
+             <td contenteditable="true">1</td>
+             <td contenteditable="true">0</td>
+             <td contenteditable="true">0</td>
+             <td contenteditable="true">0</td>
+             <td contenteditable="true">0</td>
+             <td contenteditable="true">1</td>
+             <td contenteditable="true"></td>
+             <td class="text-center">
+              <a href="/EditTicketDetails">Edit</a>
+              <a href="/InwrdOtwrdDetails" class="text-danger mt-1">Attached<br>Document</a>
+             </td>
+             <td contenteditable="true"></td>
+               </tr>
+               <tr>
+                <td contenteditable='true'>17-0032</td>
+               <td contenteditable='true'>12-04-2020</td>
+               <td contenteditable='true'>ZP Office</td>
+               <td contenteditable='true'>LS-2</td>
+               <td contenteditable='true'>DS-1</td>
+               <td contenteditable='true'>IN</td>
+               <td contenteditable="true">0</td>
+               <td contenteditable="true">1</td>
+               <td contenteditable="true">0</td>
+               <td contenteditable="true">0</td>
+               <td contenteditable="true">0</td>
+               <td contenteditable="true">0</td>
+               <td contenteditable="true">1</td>
+               <td contenteditable="true"></td>
+               <td class="text-center">
+                <a href="/EditTicketDetails">Edit</a>
+                <a href="/InwrdOtwrdDetails" class="text-danger mt-1">Attached<br>Document</a>
+               </td>
+               <td contenteditable="true"></td>
+                 </tr>
+                 <tr>
+                  <td contenteditable='true'>17-0032</td>
+                 <td contenteditable='true'>12-04-2020</td>
+                 <td contenteditable='true'>ZP Office</td>
+                 <td contenteditable='true'>LS-2</td>
+                 <td contenteditable='true'>DS-1</td>
+                 <td contenteditable='true'>IN</td>
+                 <td contenteditable="true">0</td>
+                 <td contenteditable="true">1</td>
+                 <td contenteditable="true">0</td>
+                 <td contenteditable="true">0</td>
+                 <td contenteditable="true">0</td>
+                 <td contenteditable="true">0</td>
+                 <td contenteditable="true">1</td>
+                 <td contenteditable="true"></td>
+                 <td class="text-center">
+                  <a href="/EditTicketDetails">Edit</a>
+                  <a href="/InwrdOtwrdDetails" class="text-danger mt-1">Attached<br>Document</a>
+                 </td>
+                 <td contenteditable="true"></td>
+                   </tr>
+               </tbody>
+           </table>
+       </div>
+       <div class="card-footer p-0">
+           <nav aria-label="...">
+               <ul class="pagination justify-content-end mt-3 mr-3">
+                   <li class="page-item disabled">
+                       <span class="page-link">Previous</span>
+                   </li>
+                   <li class="page-item"><a class="page-link" href="#">1</a></li>
+                   <li class="page-item active">
+                       <span class="page-link">2<span class="sr-only">(current)</span>
+                       </span>
+                   </li>
+                   <li class="page-item"><a class="page-link" href="#">3</a></li>
+                   <li class="page-item">
+                       <a class="page-link" href="#">Next</a>
+                   </li>
+               </ul>
+           </nav>
+       </div>
+   </div>
+   <div class="form-footer footer row">
+      <a type="button" class="btn btn-info btn-sm" href="#">Save</a>
+      <button  class="btn btn-secondary ml-2"><i class="fa fa-close"></i>Cancel</button>
+  </div>
+ </div>
+
+  <!----------------Outward Registery End-------------->
+{% endblock content %}

@@ -1,0 +1,169 @@
+{% extends 'DeptHome.html' %}
+{% load static %}
+
+{% block css %}
+    <!-- External CSS -->
+    <link rel="stylesheet" href="{% static 'styles/deptInwardReg.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/NavMenu.css' %}">
+{% endblock css %}
+    
+{% block content %}
+<!--Form-->
+<div class="m-3"></div>
+<div class="container formcon">
+     <h5 class="text-center m-2 mb-3 border-info border-bottom">DEPARTMENT INWARD REGISTER</h5>
+    <form>
+
+        <div class="from-group row justify-content-between">
+            <div class="col-md-6">
+                <div class="row mt-1">
+                    <div class="col-md-4 mt-2">
+                        <label for="InNo">Inward No.</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" readonly value="17-0013" class="form-control form-control-sm" id="InNo" style="width: 150px;">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4 mt-2">
+                        <label for="refNo">Reference Number</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control form-control-sm" id="refNo" style="width: 150px;">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4 mt-2">
+                        <label for="dtOfRef">DOf Ref. Received</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="date" class="form-control form-control-sm" id="dtOfRef">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4 mt-2">
+                        <label for="ltrDtls">Letter Details</label>
+                    </div>
+                    <div class="col-md-8">
+                        <textarea class="form-control" rows = "2" cols = "24" name = "description" id="ltrDtls">
+                        Some Text Here...
+                        </textarea>
+                        <!--<input type="textarea" class="form-control form-control-sm" id="ltrDtls" placeholder="Some Text Here...">-->
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4 mt-2">
+                        <label for="eId">Email-Id</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control form-control-sm" id="eId">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4 mt-2">
+                        <label for="addr">Adderess</label>
+                    </div>
+                    <div class="col-md-8">
+                        <textarea class="form-control" rows = "2" cols = "24" name = "description" id="addr">
+                        Type Here...
+                        </textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6 mt-2">
+                <div class="row">
+                    <div class="col-md-4 mt-2">
+                        <label for="dptInNo">Dept. Inward No.</label>
+                    </div>
+                    <div class="col-md-8 ">
+                        <input type="text" readonly value="17-0003" class="form-control form-control-sm" id="dptInNo" style="width: 150px;">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4">
+                        <label for="typRef">Type of Ref.</label>
+                    </div>
+                    <div class="form-check col-md-8 justify-content-center">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="typRef" value="Local" checked>
+                          <label class="form-check-label" for="typRef">Local</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="exampleRadios" id="typRef" value="Local" checked>
+                          <label class="form-check-label" for="typRef">Govt.</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    <div class="col-md-4 mt-2">
+                        <label for="refDt">Ref. Date</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="date" class="form-control form-control-sm" id="refDt">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4 mt-2">
+                        <label for="recFrm">Received From</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control form-control-sm" id="recFrm">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4 mt-2">
+                        <label for="mblNo">Mobile Number</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" class="form-control form-control-sm" id="mblNo">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4 mt-2">
+                        <label for="typOfRef">Type of Reference</label>
+                    </div>
+                    <div class="col-md-8">
+                          <select id="typOfRef" class="form-control form-control-sm">
+                            <option selected>Collector Office</option>
+                            <option>Tahashildar</option>
+                            <option>...</option>
+                            <option>...</option>
+                          </select>
+                    </div>
+                </div>
+                <div class="row mt-2" >
+                    <div class="col-md-4 mt-2">
+                        <label for="prio">Priority</label>
+                    </div>
+                    <div class="col-md-8">
+                        <select id="prio" class="form-control form-control-sm">
+                            <option selected>1 Day</option>
+                            <option>2 Day</option>
+                            <option>3 Day</option>
+                            <option>...</option>
+                          </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="row justify-content-start mt-2">
+                <div class="col-2 mt-3">
+                    <label for="attDoc">Attach Documents</label>
+                </div>
+                <div class="col-6">
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="attDoc">
+                      <label class="custom-file-label" for="attDoc"></label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-footer footer row mt-2">
+                <a href="receipt.html" type="button" class="btn btn-info mr-3 pr-2" type="submit" style="width:100px;">Submit</a>
+                <button class="btn btn-info ml-3 pl-2" type="exit" style="width:100px;">Exit</button>
+            </div>
+    </form>
+</div>
+<div class="m-3"></div>
+{% endblock content %}

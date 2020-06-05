@@ -1,0 +1,170 @@
+{% extends 'DeptHome.html' %}
+{% load static %}
+
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/ActionToBeTaken.css'%}">
+{% endblock css %}
+
+
+{% block content %}
+
+    <!--Form-->
+<div class="m-3"></div>
+<div class="container formcon">
+     <h5 class="text-center m-2 mb-3 border-info border-bottom">Action To Be Taken</h5>
+    <form>
+            <div class="from-group row">
+              <div class="col-md-4 mt-2">
+                <div class="row mt-1">
+                    <div class="col-md-4 mt-2">
+                        <label for="InNo">Dept. Inward No.</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" readonly value="17-0013" class="form-control form-control-sm" id="InNo">
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-4 mt-2">
+                <div class="row mt-1">
+                    <div class="col-md-5 mt-2">
+                        <label for="dptInNo">Approved by Dept</label>
+                    </div>
+                    <div class="col-md-4 ">
+                        <input type="date" readonly value="17-0003" class="form-control form-control-sm" id="dptInNo">
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-4 mt-2">
+                <div class="row mt-1">
+                    <div class="col-md-5 mt-2">
+                        <label for="InNo">Dept. Inward Date</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" readonly value="17-0013" class="form-control form-control-sm" id="InNo">
+                    </div>
+                </div>
+              </div>
+            </div>
+
+          <div class="from-group row justify-content-start">
+              <div class="col-md-4">
+                <div class="row mt-2">
+                    <div class="col-md-4 mt-2">
+                        <label for="refNo">Inward No.</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" readonly value="17-0013" class="form-control form-control-sm" id="InNo">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4 mt-2">
+                        <label for="dtOfRef">Reference Number</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" readonly value="17-0013" class="form-control form-control-sm" id="InNo">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-4 mt-2">
+                        <label for="ltrDtls">Letter Details</label>
+                    </div>
+                    <div class="col-md-4">
+                        <textarea class="form-control" readonly rows = "2" cols = "10" name = "description" id="ltrDtls" style="width: 150px;">
+                        </textarea>
+                        <!--<input type="textarea" class="form-control form-control-sm" id="ltrDtls" placeholder="Some Text Here...">-->
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-md-4 mt-2">
+                        <label for="eId">Select Save Type</label>
+                    </div>
+                    <div class="col-md-4">
+                          <select id="typOfRef" class="form-control form-control-sm" style="width: 150px;">
+                            <option selected>Select</option>
+                            <option>A</option>
+                            <option>B</option>
+                            <option>C</option>
+                            <option>C1</option>
+                            <option>D</option>
+                          </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4 mt-2">
+                <div class="row ">
+                    <div class="col-md-5 mt-1">
+                        <label for="typRef">Inward Date</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="date" readonly value="17-0003" class="form-control form-control-sm" id="dptInNo">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-5 mt-2">
+                        <label for="refDt">Ref. Date</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="date" readonly value="17-0003" class="form-control form-control-sm" id="dptInNo">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-5 mt-2">
+                        <label for="recFrm">Action Taken</label>
+                    </div>
+                    <div class="col-md-4">    
+                      <div class="row">
+                        <div class="col-6 select-style">
+                          <select name="form-control form-control-sm fixture-use" id="fixture-use" style="width: 100px;" >
+                            <option value="">select</option>
+                            <option value="other">Other</option>
+                            <option value="Case Filed">Case Filed</option>
+                            <option value="Inquiry Complete">Inquiry Complete</option>
+                            <option value="Noted">Noted</option>
+                          </select>
+                        </div>
+                        <div class="col-6 select-style ml-5">
+                          <textarea type="text" class="hidden-textbox" name="fixture-use" id="fixture-use"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </div>
+        </div>
+            <div class="row justify-content-start mt-2">
+                <div class="col-2 mt-3">
+                    <label for="attDoc">Attach Documents</label>
+                </div>
+                <div class="col-6">
+                    <div class="custom-file">
+                      <input type="file" class="custom-file-input" id="attDoc"style="width: 280px; height: 38px;">
+                      <label class="custom-file-label" for="attDoc" style="width: 280px; height: 38px;"></label>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-footer footer row mt-2">
+                <button class="btn btn-info mr-3 pr-2" type="submit" style="width:100px;">Update</button>
+                <a href="SendingDetails.html" type="button" class="btn btn-info mr-3 pr-2" type="submit" style="width:100px;">Send</a>
+                <button class="btn btn-info ml-3 pl-2" type="exit" style="width:100px;">Cancel</button>
+            </div>
+    </form>
+</div>
+
+
+<script>
+  $(document).ready(function(){
+    $(".hidden-textbox").hide();
+    $("select#fixture-use").change(function(){
+      var currentVal = $(this).val();
+      if(currentVal == "other"){
+        $(".hidden-textbox").show();
+      }
+      else
+        $(".hidden-textbox").hide();
+    });  
+  });
+</script>  
+{% endblock content %}
+

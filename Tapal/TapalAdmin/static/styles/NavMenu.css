@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap');
+
+body{
+    font-family: 'Baloo Tammudu 2', cursive;
+    background-color:#fff;
+}
+
+.navbar{
+    padding: 4px 3vh 0vh;
+}
+
+.mr-auto a{
+    font-size: 10px;
+    text-align: left;
+    min-height: 60px;
+    padding: 2px 0vh 0vh;
+}
+.navbar-nav .btn{
+    
+.menulist{
+    padding: 4px 0vh 0vh;
+    margin-top: 2px;
+
+}
+
+.menulist a{
+    font-size: 14px;
+    margin: 4px;
+    padding: 3px 3vh;
+text-decoration-color: dark;
+}

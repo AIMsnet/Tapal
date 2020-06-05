@@ -1,0 +1,144 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap');
+
+body{
+    font-family: 'Baloo Tammudu 2', cursive;
+    background-color:#fff;
+}
+
+.formcon{
+    width: 77%;
+    padding: 4px 4vh;
+    border-style: groove;
+    border-radius: 5px;
+    border-color: #17a2b8;
+    font-size:14px;
+
+}
+.formcon input{
+    margin-bottom: 2px;
+    padding-top: 2px 0vh;
+
+}
+.formcon label{
+    margin-top:3px;
+    padding:1vh;
+}
+.form-footer{
+    justify-content: center;
+    padding:3px 0vh;
+    margin: 3px;
+}
+
+/*------Manage Departements----*/
+
+
+
+  .footer .btn {
+  /*background-color: DodgerBlue;*/
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 83px;
+  height: 40px;
+
+}
+
+
+/*---------login-----------*/
+#login .container #login-row #login-column #login-box {
+  margin-top: 120px;
+  max-width: 500px;
+  height: 320px;
+  border: 1px solid #9C9C9C;
+  /*background-color: #EAEAEA;*/
+}
+#login .container #login-row #login-column #login-box #login-form {
+  padding: 20px;
+
+}
+#login .container #login-row #login-column #login-box #login-form #register-link {
+  margin-top: -85px;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+/*----------------------login-----------------*/
+
+
+/*--------------Searchbox---------------------*/
+
+
+#search {
+  float: right;
+  margin-top: 9px;
+  width: 250px;
+}
+
+.search {
+  padding: 5px 0;
+  width: 230px;
+  height: 30px;
+  position: relative;
+  /* left: 10px; */
+  float: right;
+  line-height: 22px;
+}
+
+  .search input {
+      position: absolute;
+      width: 0px;
+      float: Left;
+      margin-left: 210px;
+      -webkit-transition: all 0.7s ease-in-out;
+      -moz-transition: all 0.7s ease-in-out;
+      -o-transition: all 0.7s ease-in-out;
+      transition: all 0.7s ease-in-out;
+      height: 30px;
+      line-height: 18px;
+      padding: 0 2px 0 2px;
+      border-radius:1px;
+  }
+
+      .search:hover input, .search input:focus {
+          width: 200px;
+          margin-left: 0px;
+      }
+
+.btn-search {
+  height: 30px;
+  position: absolute;
+  right: 0;
+  top: 5px;
+  border-radius:1px;
+}
+/*--------------Searchbox---------------------*/
+
+/* Outword Registary */
+
+.outwordRegisteryFormcon{
+  width: 90%;
+  padding: 4px 4vh;
+  border-style: groove;
+  border-radius: 5px;
+  border-color: #17a2b8;
+  font-size:14px;
+}

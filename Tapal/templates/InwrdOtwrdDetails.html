@@ -1,0 +1,128 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block css %}
+  <link rel="stylesheet" href="{% static 'styles/InwrdOtwrdDetails.css' %} ">
+{% endblock css %}
+
+{% block content %}
+
+<div class="container MainBlock mt-5">
+
+<ul class="nav">
+  
+        <button class="tablink ml-2" id="defaultOpen" onclick="openBlock('InwardReg',this,'white')">Inward Registry</button>
+     
+        <button class="tablink" id="btn2" onclick="openBlock('OutwardReg',this,'white')">Outward Registry</button>
+   
+</ul>
+  <div class="block111" id="InwardReg" >
+      <span onclick="this.parentElement.style.display='none'"class="w3-button w3-large w3-display-topright"></span>
+    <form>
+      <div class="form-group BlockOne mt-4">
+        <div class="row justify-content-start">
+          <div class="col-4">
+            <label for="inwno">Inward Number</label>
+            <input type="text" readonly class="form-control-plaintext form-control-sm" id="inwno" value="17-0013">
+          </div>
+          <div class="col-4">
+            <label for="inwdt mb-0">Inward date</label>
+            <input type="date" readonly class="form-control-plaintext form-control-sm" id="inwdt" value="22/03/2019">
+          </div>
+        </div>
+        <div class="row  justify-content-start">
+          <div class="col-4">
+            <label for="subj">Subject</label>
+            <input type="text" readonly class="form-control-plaintext form-control-sm" id="subj" value="....">
+          </div>
+          <div class="col-4">
+            <label for="recfrm">Received From</label>
+            <input type="text" readonly class="form-control-plaintext form-control-sm" id="recfrm" value="...">
+          </div>
+        </div>
+        <div class="row justify-content-start">
+          <div class="col-4">
+            <label for="dptinwno">Dept. Inward No.</label>
+            <input type="text" readonly class="form-control-plaintext form-control-sm" id="dptinwno" value="17-0003">
+          </div>
+          <div class="col-4">
+            <label for="dptinwdt">Dept. Inward Date</label>
+            <input type="date" readonly class="form-control-plaintext form-control-sm" id="dptinwdt" value="17/05/2003">
+          </div>
+          <div class="col-4">
+            <label for="acttkn">Action Taken</label>
+            <input type="text" readonly class="form-control-plaintext form-control-sm" id="acttkn" value="Taken">
+          </div>
+        </div>
+        <div class="fileNF text-center"><h1 class="text-secondary">-------FILE NOT FOUND------</h1> </div>
+        <div class="text-center m-2"> <button class="btn btn-info">Print Page</button> </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="block111" id="OutwardReg">
+    <span onclick="this.parentElement.style.display='none'"class="w3-button w3-large w3-display-topright"></span>
+    <form>
+      <div class="form-group BlockOne mt-4">
+        <div class="row justify-content-start">
+          <div class="col-4">
+            <label for="inwno">Outward Number</label>
+            <input type="text" readonly class="form-control-plaintext form-control-sm" id="inwno" value="17-0013">
+          </div>
+          <div class="col-4">
+            <label for="inwdt mb-0">Outward date</label>
+            <input type="date" readonly class="form-control-plaintext form-control-sm" id="inwdt" value="22/03/2019">
+          </div>
+        </div>
+        <div class="row  justify-content-start">
+          <div class="col-4">
+            <label for="subj">Subject</label>
+            <input type="text" readonly class="form-control-plaintext form-control-sm" id="subj" value="....">
+          </div>
+          <div class="col-4">
+            <label for="recfrm">Send To</label>
+            <input type="text" readonly class="form-control-plaintext form-control-sm" id="recfrm" value="...">
+          </div>
+        </div>
+        <div class="row justify-content-start">
+          <div class="col-4">
+            <label for="dptinwno">Dept. Outward No.</label>
+            <input type="text" readonly class="form-control-plaintext form-control-sm" id="dptinwno" value="17-0003">
+          </div>
+          <div class="col-4">
+            <label for="dptinwdt">Dept. Outward Date</label>
+            <input type="date" readonly class="form-control-plaintext form-control-sm" id="dptinwdt" value="17/05/2003">
+          </div>
+          <div class="col-4">
+            <label for="acttkn">Action Taken</label>
+            <input type="text" readonly class="form-control-plaintext form-control-sm" id="acttkn" value="Taken">
+          </div>
+        </div>
+        <div class="fileNF text-center"><h1 class="text-secondary"></h1> </div>
+        <div class="text-center m-2"> <button class="btn btn-info">Print Page</button> </div>
+      </div>
+    </form>
+  </div>
+
+
+</div>
+
+<script>
+function openBlock(blockName,elmnt,color) {
+  var i, block, tablinks;
+  block111 = document.getElementsByClassName("block111");
+  for (i = 0; i < block111.length; i++) {
+    block111[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablink");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].style.backgroundColor = "";
+  }
+  document.getElementById(blockName).style.display = "block";
+  elmnt.style.backgroundColor = color;
+}
+
+// Get the element with id="defaultOpen" and click on it
+document.getElementById("defaultOpen").click();
+</script>
+{% endblock content %}

@@ -1,0 +1,36 @@
+{% extends 'home.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css' %}">
+{% endblock css %}
+
+{% block content %}
+
+<!----------------Report Start-------------->
+  <div class="m-5"></div>
+  <div class="container formcon">
+   <h5 class="text-center m-3 mb-4 border-bottom border-info">Report</h5>
+   <div class="container contOne">
+    <!-- <div class=" header bg-info">
+      <h4 class="text-center">Tapal Docket</h4>
+    </div> -->
+    <form>
+      <div class="form-group text-center">
+        <label for="strtdt" class="form-content">Start Date</label>
+        <input class="ml-2 form-control-sm" type="date" id="strtdt" name="strtdt">
+        <label for="enddt" class="form-content ml-3">End Date</label>
+        <input class="form-control-sm" type="date" id="enddt" name="enddt">
+        <div class="form-group m-2 p-2">
+          <button class="btn bg-info m-2" role="button" id="subtxt">Go</button>
+          <button class="btn bg-info m-2" id="clrtxt">Clear</button>
+        </div>
+        <div class="btnclas ml-5">
+          <button class="btn btn-outline-info mr-2" role="button" id="subtxt">Print</button>
+          <button class="btn btn-outline-info ml-2" id="clrtxt">Export To Excel</button>
+        </div>
+        </div>
+    </form>
+ </div>
+ <!----------------Report End-------------->
+{% endblock content %}
