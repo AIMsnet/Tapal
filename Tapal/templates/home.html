@@ -33,7 +33,7 @@
                 <div class="col-9 col-lg-9 col-md-9 col-sm-9 mt-2">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item mt-2 mr-1">
-                           <a style=""><img src="{% static 'images/file-svgrepo-com.svg'%}" style="height:50px"></a>
+                           <a ><img src="{% static 'images/file-svgrepo-com.svg'%}" style="height:50px"></a>
                         </li>
                         <li class="nav-item mt-2 mr-1">
                             <a class="navbar-brand ml-2 mt-0" href="#" style="font-size: 16px;">District<br> Superintendent</a>
@@ -51,10 +51,13 @@
                 </div>
                 <div class="col-3 col-lg-3 col-md-3 col-sm-3 mb-2" style="text-align: right; justify-content: center;">
                     <ul class="navbar-nav justify-content-end">
-                        <li class="nav-item mt-2 mr-1"><img src="{% static 'images/log-in-svgrepo-com.svg'%}" style="height:50px"></li>
+                        <!-- <li class="nav-item mt-2 mr-1"><img src="{% static 'images/log-in-svgrepo-com.svg'%}" style="height:50px"></li> -->
                         <li class="nav-item mt-2 mr-1">
                           <a class="navbar-brand ml-2" style="font-size: 14px;" href="#">WELCOME<br>
-                            <h5 class="m-0">INWARD</h5>
+
+                        {% if user.is_authenticated %}
+                            <h5 class="m-0">{{user.user_id}}</h5>
+                        {% endif %}
                             <a href="/" type="button" class="btn btn-sm btn-outline-light ml-0">Sign Out</a>
                           </a>
                         </li>
@@ -88,6 +91,7 @@
         
 
     {% endblock content %}
+    
 </body>
 </html>
 

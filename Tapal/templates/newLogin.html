@@ -1,0 +1,26 @@
+{% extends 'home.html' %}
+{% load crispy_forms_tags %}
+
+<body class="p-5">
+    {% block content %}
+    <h2 class="text-center">Customer Login</h2>
+    <form action="login/" method="POST" style="text-align: -webkit-center;">
+        {% csrf_token %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="form-group">
+            {{ form|crispy }}
+        </div>
+        
+        <div class="form-group">
+            <input type="submit" value="Sign In" class="btn btn-primary">
+        </div>
+        Don't have account ? <a href="/">Register Here</a>
+    </form>  
+    {% endblock %}
+</body>
