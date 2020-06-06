@@ -11,13 +11,32 @@ from django.contrib.auth.decorators import login_required
 from datetime import date,datetime
 import datetime
 from django.utils.dateparse import parse_date
+from django.db.models import Q
 
-# from django.db import connections
 
-# # Create your views here.
+def createUser(request):
+    form = createUserForms()
+    if request.method == 'POST':
+        print('insude if post')
+        form = createUserForms(request.POST or None)
+        print('form')
+        if form.is_valid():
+            print('form is valid')
+            form.save()
+            username = form.cleaned_data.get('first_name')
+            messages.success(request, f'Your account has been created ! You are now able to login {username}!')
+            print('saved')
+            return redirect('/')
+        else:
+            print('invalid')
+            print(form.errors)
+    else:
+        form = createUserForms()
+    return render (request, "CreateUser.html", {'form' : form})
 
-# def login1(request):
-#     return render(request, "LoginForm.html")
+def logout(request):
+    auth.logout(request)
+    return redirect('/')
 
 def home(request):
     return render(request, "home.html")
@@ -78,13 +97,11 @@ def manageDepartment(request):
             print(desk_id, user_id)
 
     records  =   InwardRegistry.objects.filter(user_id=user_id)
-    print("a")
 
     if request.method == 'POST':
         print('inside post')
         SelectedUser    = request.POST.get('selectUser')
         buttonForward   =  request.POST.get('buttonForward')
-    
 
         updateRecord   =    InwardRegistry.objects.get(id = buttonForward)
         updateRecord.user_id    =   SelectedUser
@@ -98,7 +115,6 @@ def manageDepartment(request):
         }
 
         return render(request, "manageDepartment.html", context)
-   
     else:
         context ={
             'records'   : records,
@@ -134,10 +150,8 @@ def report(request):
         }
         return render(request, "report.html",context)
     else:
-        context ={
-            'records'   : records,          
-        }
-        return render(request, "report.html", context)
+        
+        return render(request, "report.html")
     
 def changePassword(request):
     return render(request, "changePassword.html")
@@ -159,58 +173,62 @@ def deptInwardReg(request):
     return render(request, 'deptInwardReg.html')
 
 def DeptReport(request):
-    return render(request,'DeptReport.html')
+
+    if request.method == 'POST' :
+        
+        startDate   = request.POST.get('strtdt')
+        endDate   = request.POST.get('enddt')
+
+        records  =   InwardRegistry.objects.filter(ReferenceRecievedDate__range=(startDate, endDate))
+        
+        context ={
+            'records'   : records,          
+        }
+        return render(request, "DeptReport.html",context)
+    else:
+        return render(request,'DeptReport.html')
 
 def actionToBeTaken(request):
     return render(request, "ActionToBeTaken.html")
 
+def adminManageRegistry(request):
 
-# def BranchMaster(request):
-#     form = BranchMasterForm()
-#     return render(request, "branchMasterForm.html", {'form' : form})
+    users   =   User.objects.all()
+    records  =   InwardRegistry.objects.all
 
-# def InwordDoc(request):
-#     form = InwordDocForm()
-#     return render(request, "InwordDocForm.html", {'form' : form})
+    if request.method == 'POST' and 'buttonForward' in request.POST:
+        print('inside post')
+        SelectedUser    = request.POST.get('selectUser')
+        buttonForward   =  request.POST.get('buttonForward')
 
-# def MonitorLatter(request):
-#     form = MonitorLatterForm()
-#     return render(request, "MonitorLatterForm.html", {'form' : form})
+        updateRecord   =    InwardRegistry.objects.get(id = buttonForward)
+        updateRecord.user_id    =   SelectedUser
+        updateRecord.save()
 
-# def UserReg(request):
-#     form = UserRegForms()
-#     return render (request, "UserRegForms.html", {'form' : form})
+        context ={
+            'records'   : records,
+            'users'     : users,
+        }
+        return render(request, "adminManageRegistry.html", context)
 
-def createUser(request):
-    form = createUserForms()
-    if request.method == 'POST':
-        print('insude if post')
-        form = createUserForms(request.POST or None)
-        print('form')
-        if form.is_valid():
-            print('form is valid')
-            form.save()
-            username = form.cleaned_data.get('first_name')
-            messages.success(request, f'Your account has been created ! You are now able to login {username}!')
-            print('saved')
-            return redirect('/')
+    elif request.method == 'POST' and 'buttonSearch' in request.POST:
+        search    = request.POST.get('searchInput')
+
+        if search.isnumeric():
+            records = InwardRegistry.objects.filter(id = search) or InwardRegistry.objects.filter(MobileNumber = search)
         else:
-            print('invalid')
-            print(form.errors)
+         records = InwardRegistry.objects.filter(user_id = search) or InwardRegistry.objects.filter(EmailId = search)
+
+        context ={
+            'records'   : records,
+            'users'      : users
+        }
+        return render(request, "adminManageRegistry.html", context)
     else:
-        form = createUserForms()
-    return render (request, "CreateUser.html", {'form' : form})
+        context ={
+            'records'   : records,
+            'users'     : users,
+        }
+        return render(request, "adminManageRegistry.html", context)
+
     
-def logout(request):
-    auth.logout(request)
-    return redirect('/')
-
-
-# class CustomLogin(auth_views.LoginView):
-#     print('a')
-#     def form_valid(self, form):
-#          login(self.request, form.get_user())
-#         #  print()
-#         #  self.request.session['userid']    =  user.first_name
-#         #  print()
-#          return HttpResponseRedirect(self.get_success_url())

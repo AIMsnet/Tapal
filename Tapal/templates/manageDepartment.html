@@ -24,14 +24,14 @@
   </select>Entries
   <div class="search">
     <input type="text" class="form-control input-sm"  placeholder="Search" />
-     <button type="submit" class="btn btn-primary btn-sm btn-search">Search</button>
-    </div>
+    <button type="submit" class="btn btn-primary btn-sm btn-search">Search</button>
+  </div>
 </div>
   <div class="card  mt-4">
       <!-- <div class="card-header">Manage Departments</div> -->
       <div class="card-block p-0 table-responsive">
           <table class="table table-striped table-bordered" cellspacing="0" width="100%">
-            <form action="manageDepartment/" method="POST">
+            <form action="/manageDepartment/" method="POST">
             {% csrf_token %}
               <thead class="">
                   <tr>
@@ -74,12 +74,12 @@
       </div>
   </div>
 </div>
-
+<!-- 
 <script>
   window.setTimeout(function () {
   location.href = "/manageDepartment/";
 }, 30000);
 
-</script>
+</script> -->
 
 {% endblock content %}

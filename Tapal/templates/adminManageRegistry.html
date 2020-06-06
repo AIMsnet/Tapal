@@ -1,0 +1,85 @@
+{% extends 'DeptHome.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css' %}">
+{% endblock css %}
+
+
+{% block content %}
+
+ <!----------------Manage Departments Start-------------->
+ <div id="navigation"></div>
+ <div class="m-3"></div>
+ <div class="container formcon">
+ <!-- <main class="container pt-5"> -->
+  <h5 class="text-center m-3 mb-4 border-bottom border-info">Manage Departments</h5>
+  <div class="options">
+    <label for="show">Show:</label>
+    <select style="width: 7%;height: 25px;">
+          <option value="Collecter Office">500</option>
+          <option value="Thashildar">200</option>
+          <option value="Police Department">50</option>
+  </select>
+    
+        <div class="search">
+            <form action="/adminManageRegistry/"  method="POST">
+                {% csrf_token %}
+            <input type="text" class="form-control input-sm"  name="searchInput" placeholder="Search" required="true"/>
+            <button type="submit" class="btn btn-primary btn-sm btn-search" name="buttonSearch">Search</button>
+        </form>
+        </div>
+    
+</div>
+  <div class="card  mt-4">
+      <!-- <div class="card-header">Manage Departments</div> -->
+      <div class="card-block p-0 table-responsive">
+          <table class="table table-striped table-bordered table-fixed table-condensed" id= "registryTable" cellspacing="0" width="100%">
+            <form action="/adminManageRegistry/" method="POST">
+            {% csrf_token %}
+              <thead class="">
+                  <tr>
+                      <th>ID</th>
+                      <th>Reference Number</th>
+                      <th>Reference Date</th>
+                      <th>Date Of Reference Received</th>
+                      <th>Received From</th>
+                      <th>Brief Details</th>
+                      <th>Departments</th>
+                      <th>View Documents</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {% for record in records %}
+                <tr class="clickableRow">
+                  <td contenteditable='true'>{{record.id}}</td>
+                  <td contenteditable='true'>{{record.ReferenceNumber}}</td>
+                  <td contenteditable='true'>{{record.ReferenceDate}}</td>
+                  <td contenteditable='true'>{{record.ReferenceRecievedDate}}</td>
+                  <td contenteditable='true'>{{record.RecievedFrom}}</td>
+                  <td contenteditable='true'>{{record.LatterDetails}}</td>
+                     
+                {{ form.user_id.as_hidden }}
+                            
+                  <td contenteditable='true'>
+                      <select class="selectpicker" name="selectUser">
+                        {% for user in users %}
+                          <option value="{{user.user_id}}">{{user.user_id}}</option>
+                        {% endfor %}
+                      </select> 
+                  </td>
+
+                <td> <a href=""><button class="btn btn-primary ml-2" value="{{record.id}}" name="buttonForward">Forward</button></a> </td>
+                </tr>
+              {% endfor %}
+              </tbody>
+             </form>
+          </table>
+      </div>
+  </div>
+</div>
+
+
+
+{% endblock content %}

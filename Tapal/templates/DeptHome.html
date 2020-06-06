@@ -26,7 +26,7 @@
 <body>
    
 <!--header-->
-        <nav class="navbar navbar-expand-lg navbar-light bg-info">
+        <nav class="navbar navbar-expand-lg navbar-light bg-info" style="height: 70px;">
                 <div class="col-9 col-lg-9 col-md-9 col-sm-9 mt-2">
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item mt-2 mr-1">
@@ -35,24 +35,15 @@
                         <li class="nav-item mt-2 mr-1">
                             <a class="navbar-brand ml-2 mt-0" href="#" style="font-size: 16px;">District<br> Superintendent</a>
                         </li>
-                        <li class="nav-item mt-2 mr-1">
-                            <a class="nav-link border-left border-secondary" href="#"><h6 class="mt-3"> Department section Left </h6><span class="sr-only">(current)</span></a>
-                        </li>
-                        <li class="nav-item mt-2 mr-1">
-                           <a class="nav-link border-left border-secondary" href="#"><h6 class="mt-3"> Ticket Stock</h6> </a>
-                        </li>
-                        <li class="nav-item mt-2 mr-1">
-                           <a class="nav-link border-left border-secondary" href="#"><h6 class="mt-3"> Returned From Department</h6></a>
-                        </li>
                     </ul>
                 </div>
                 <div class="col-3 col-lg-3 col-md-3 col-sm-3 mb-2" style="text-align: right; justify-content: center;">
                     <ul class="navbar-nav justify-content-end">
-                        <li class="nav-item mt-2 mr-1"><img src="{% static 'images/log-in-svgrepo-com.svg' %}" style="type="text/css"height:50px"></li>
+                        <!-- <li class="nav-item mt-2 mr-1"><img src="{% static 'images/log-in-svgrepo-com.svg' %}" style="height:50px"></li> -->
                         <li class="nav-item mt-2 mr-1">
                           <a class="navbar-brand ml-2" style="font-size: 14px;" href="#">WELCOME<br>
-                            <h5 class="m-0">STENOL TR</h5>
-                            <a href="/" type="button" class="btn btn-sm btn-outline-light ml-0">Sign Out</a>
+                            <h5 class="m-0">AS AN ADMIN</h5>
+                            <a href="/" type="button" class="btn btn-sm btn-outline-light ml-0 mb-3">Sign Out</a>
                           </a>
                         </li>
                     </ul>
@@ -61,24 +52,28 @@
     <!--/.header>-->
     <!--menu-->
         <nav class="nav bg-dark menulist justify-content-center m-0">
-          <a class="nav-link text-light m-2 mt-0" href="#">Home</a>
-          <a class="nav-link text-light" href="/deptInwardReg">Inward<br>Registery</a>
-          <a class="nav-link text-light" href="#">Letter<br>Acceptance</a>
-          <a class="nav-link text-light" href="#">Reference<br>Slag</a>
-          <a class="nav-link text-light" href="/actionToBeTaken">Take<br>Action</a>
-          <a class="nav-link text-light" href="#">Ledger<br>Discripton/<br>Worksheet</a>
-          <a class="nav-link text-light" href="#">Register<br>Case</a>
-          <a class="nav-link text-light" href="#">Await<br>Register</a>
-          <a class="nav-link text-light" href="/DeptReport">Reports</a>
-          <a class="nav-link text-light" href="#">Record<br>Sorting</a>
-          <a class="nav-link text-light" href="#">Resend<br>Approved<br>Letters</a>
-          <a class="nav-link text-light" href="#">Change<br>Security<br>Question</a>
+          <a class="nav-link text-light m-2 mt-0" href="/DeptHome">Home</a>
+          <a class="nav-link text-light m-2 mt-0" href="/CreateUser">Create User</a>
+          <a class="nav-link text-light m-2 mt-0" href="/adminManageRegistry">Manage Department</a>
+          <!-- <a class="nav-link text-light m-2 mt-0" href="/deptInwardReg">Inward Registery</a> -->
+          <a class="nav-link text-light m-2 mt-0" href="#">Letter Acceptance</a>
+          <a class="nav-link text-light m-2 mt-0" href="#">Reference Slag</a>
+          <a class="nav-link text-light m-2 mt-0" href="/actionToBeTaken">Take Action</a>
+          <!-- <a class="nav-link text-light m-2 mt-0" href="#">Ledger<br>Discripton/<br>Worksheet</a>
+          <a class="nav-link text-light m-2 mt-0" href="#">Register<br>Case</a>
+          <a class="nav-link text-light m-2 mt-0" href="#">Await<br>Register</a> -->
+          <a class="nav-link text-light m-2 mt-0" href="/DeptReport">Reports</a>
+          <a class="nav-link text-light m-2 mt-0" href="#">Record Sorting</a>
+          <!-- <a class="nav-link text-light m-2 mt-0" href="#">Resend<br>Approved<br>Letters</a>
+          <a class="nav-link text-light m-2 mt-0" href="#">Change<br>Security<br>Question</a> -->
         </nav>
     <!--/.menu-->
     {% block content %}
-
+    <div class="card">
+        <img src=" {% static 'images/allind2.png' %} " style="width:100%; height: 300px;">
+        </div>
     {% endblock content %}
-
+    
 
   </body>
   </html>
