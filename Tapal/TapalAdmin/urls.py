@@ -8,8 +8,9 @@ urlpatterns = [
 
 # MENU FORMS
 
-    # path('', auth_views.LoginView.as_view(template_name='LoginForm.html'), name='login'),
     path('', views.CustomLogin.as_view(template_name='LoginForm.html'), name='login'),
+    # path('', views.login_view, name='login'),
+
 
     path('home/', views.home),
     path('inwardForm/', views.inwardForm),

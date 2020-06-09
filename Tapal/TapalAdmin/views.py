@@ -2,25 +2,34 @@ from django.shortcuts import render,redirect, reverse
 from django.http import HttpResponseRedirect
 # from .forms import InwardRegistryForm,BranchMasterForm, InwordDocForm, MonitorLatterForm, UserRegForms, createUserForms
 from .forms import createUserForms, InwardRegistryForm,forwardForm
-from .models import InwardRegistry, User
+from .models import InwardReg, User
 from django.contrib import messages
 from django.contrib import auth
 from django.contrib.auth import login
 from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import  LoginView
 from django.contrib.auth.decorators import login_required
-from datetime import date,datetime
-import datetime
+from datetime import datetime, date
 from django.utils.dateparse import parse_date
 from django.db.models import Q
 
 
 class CustomLogin(auth_views.LoginView):
-    def form_valid(self, form):
-        login(self.request, form.get_user())
-        self.request.session['user_id'] = self.request.user.user_id
-        print(self.request.session['user_id'])
-        return HttpResponseRedirect(self.get_success_url())
+        def form_valid(self, form):
+            login(self.request, form.get_user())
+            self.request.session['user_id'] = self.request.user.user_id
+            print(self.request.session['user_id'])
+            return HttpResponseRedirect(self.get_success_url())
 
+# def login_view(self):
+#         form = LoginView
+#         login(self, form.get_user())
+#         self.session['user_id'] = self.user.user_id
+#         print(self.session['user_id'])
+#         # return HttpResponseRedirect(self.get_success_url())
+#         return render(self, 'LoginForm.html')
+
+# (template_name='LoginForm.html')
 def createUser(request):
     form = createUserForms()
     if request.method == 'POST':
@@ -58,7 +67,7 @@ def inwardForm(request):
         form=InwardRegistryForm()
         if request.method == 'POST':
             print('a')
-            form = InwardRegistryForm(request.POST or None)
+            form = InwardRegistryForm(request.POST, request.FILES or None)
             print('b')
             if form.is_valid():
                 print('form is valid')
@@ -104,33 +113,58 @@ def forward(request):
 @login_required
 def manageDepartment(request):
     if request.session.has_key('user_id'):
-
         users   =   User.objects.all()
 
         if request.user.is_authenticated :
                 desk_id     =   request.user.desk_id
                 user_id     =   request.user.user_id
                 print(desk_id, user_id)
+        
+        records  =   InwardReg.objects.filter(user_id=user_id)
 
-        records  =   InwardRegistry.objects.filter(user_id=user_id)
+        if request.method == 'POST' and 'saveModel' in request.POST:
+            print("inside modelsave")
 
-        if request.method == 'POST':
+            SelectedUser   =    request.POST.get('saveModel')
+            updateText     =  request.POST.get('updateText')
+            print(SelectedUser)
+            print(updateText)
+            
+            addUpdate      =    InwardReg.objects.get(id = SelectedUser)
+            dat = addUpdate.LatterDetails
+            addedDate = datetime.day
+            # .replace(microsecond=0)
+            dt = str(addedDate)
+            
+            addUpdate.LatterDetails   =   dat + dt + updateText
+            addUpdate.save()
+
+            
+            context ={
+                'records'   : records,
+                'users'     : users,
+            }
+            return render(request, "manageDepartment.html",context)
+        
+        if request.method == 'POST' and 'buttonForward' in request.POST:
             print('inside post')
             SelectedUser    = request.POST.get('selectUser')
             buttonForward   =  request.POST.get('buttonForward')
 
-            updateRecord   =    InwardRegistry.objects.get(id = buttonForward)
+            updateRecord   =    InwardReg.objects.get(id = buttonForward)
             updateRecord.user_id    =   SelectedUser
+            updateRecord.RecievedFrom   =   user_id
+            updateRecord.status         =   "Unseen"
             updateRecord.save()
 
-            records  =   InwardRegistry.objects.filter(user_id=user_id)
+            records  =   InwardReg.objects.filter(user_id=user_id)
 
             context ={
                 'records'   : records,
                 'users'     : users,
             }
-
             return render(request, "manageDepartment.html", context)
+
         else:
             context ={
                 'records'   : records,
@@ -168,7 +202,7 @@ def report(request):
             startDate   = request.POST.get('strtdt')
             endDate   = request.POST.get('enddt')
 
-            records  =   InwardRegistry.objects.filter(ReferenceRecievedDate__range=(startDate, endDate), user_id=user_id)
+            records  =   InwardReg.objects.filter(LttrRecDate__range=(startDate, endDate), user_id=user_id)
             
             context ={
                 'records'   : records,          
@@ -205,7 +239,7 @@ def DeptReport(request):
         startDate   = request.POST.get('strtdt')
         endDate   = request.POST.get('enddt')
 
-        records  =   InwardRegistry.objects.filter(ReferenceRecievedDate__range=(startDate, endDate))
+        records  =   InwardReg.objects.filter(LttrRecDate__range=(startDate, endDate))
         
         context ={
             'records'   : records,          
@@ -220,14 +254,14 @@ def actionToBeTaken(request):
 def adminManageRegistry(request):
 
     users   =   User.objects.all()
-    records  =   InwardRegistry.objects.all
+    records  =   InwardReg.objects.all
 
     if request.method == 'POST' and 'buttonForward' in request.POST:
         print('inside post')
         SelectedUser    = request.POST.get('selectUser')
         buttonForward   =  request.POST.get('buttonForward')
 
-        updateRecord   =    InwardRegistry.objects.get(id = buttonForward)
+        updateRecord   =    InwardReg.objects.get(id = buttonForward)
         updateRecord.user_id    =   SelectedUser
         updateRecord.save()
 
@@ -241,9 +275,9 @@ def adminManageRegistry(request):
         search    = request.POST.get('searchInput')
 
         if search.isnumeric():
-            records = InwardRegistry.objects.filter(id = search) or InwardRegistry.objects.filter(MobileNumber = search)
+            records = InwardReg.objects.filter(id = search) or InwardReg.objects.filter(MobileNumber = search)
         else:
-         records = InwardRegistry.objects.filter(user_id = search) or InwardRegistry.objects.filter(EmailId = search)
+         records = InwardReg.objects.filter(user_id = search) or InwardReg.objects.filter(EmailId = search)
 
         context ={
             'records'   : records,

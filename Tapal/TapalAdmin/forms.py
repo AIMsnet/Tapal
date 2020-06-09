@@ -1,7 +1,6 @@
 from django import forms
-from  .models import User, InwardRegistry
+from  .models import User, InwardReg
 from django.contrib.auth.forms import UserCreationForm
-from bootstrap_datepicker_plus import DatePickerInput, TimePickerInput
 
 
 
@@ -51,27 +50,28 @@ class createUserForms(UserCreationForm):
 
 class InwardRegistryForm(forms.ModelForm):
     class Meta:
-        model = InwardRegistry
+        model = InwardReg
         
         fields = [
             'user_id',
-            'ReferenceNumber',
-            'ReferenceRecievedDate',
+            'RecRefNumber',
+            'LttrRecDate',
             'LatterDetails',
             'EmailId',
             'Address',
-            'ReferenceType',
-            'ReferenceDate',
-            'RecievedFrom',
-            'MobileNumber',
             'TypeOfReference',
+            'RecDate',
+            'RecFrom',
+            'MobileNumber',
+            'RecFromDept',
             'Priority',
-            'docsAttch'    
+            'docsAttch',
+            'Status'    
         ]
         
 
 class forwardForm(forms.ModelForm):
-    model = InwardRegistry
+    model = InwardReg
     fields = [
             'user_id',   
     ]

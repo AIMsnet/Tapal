@@ -1,28 +1,9 @@
-from django.db import models
-from django.contrib.auth.models import AbstractUser
-from datetime import datetime, date
 
-
-class User(AbstractUser):
-    username    =   None
-    email       =   models.EmailField(max_length=255,null=False, unique=True)
-    mobile_no   =   models.CharField(max_length=100, null=False, unique=True)
-    employee_id =   models.CharField(max_length=50,null=False, unique=True)
-    role        =   models.CharField(max_length=50, null=False)
-    designation =   models.CharField(max_length=50, null=False)
-    desk_id        =   models.CharField(max_length=50, null=False)
-    user_id     =   models.CharField(max_length=100, null=False, unique=True)
-
-
-    USERNAME_FIELD = 'user_id'
-    REQUIRED_FIELDS =  []
- 
-
-class InwardReg(models.Model):
+class InwardRegistry(models.Model):
     #InwardNumber     =  models.AutoField(null= False)
     RecRefNumber  =  models.IntegerField(("Recieved Reference Number"),default='0000001', null=False)
     LttrRecDate   =   models.DateField(("Latter Recieved Date"), default=datetime.now)
-    LatterDetails    = models.TextField(("Latter Details"), default='xyz', null=False)
+    LatterDetails   =   models.CharField(("Latter Details"),max_length=150, default='xyz', null=False)
     EmailId =   models.EmailField(("E-mail ID"), default='xyz@gmail.com',max_length=254)
     Address =   models.CharField(("Address"), default='Pune', max_length=200)
     TYPE_OF_REF= [
@@ -54,15 +35,5 @@ class InwardReg(models.Model):
         ]
     users     =   models.CharField((''),max_length=20, choices=users)
     user_id         =   models.CharField(('user_id'),default='0000000',max_length=20)
-    Status      =   models.CharField(max_length=20, default='Unseen')
-
-
-
-
-class TicketPurchaseInformation(models.Model):
-    TicketName  =   models.CharField(max_length=50)
-    Quantity    =   models.IntegerField()
-    Ammount     =   models.IntegerField()
-    PurchaseDate    =   models.DateField()
-
+    status          =   models.BooleanField(default='Unseen')
 

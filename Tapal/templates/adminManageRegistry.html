@@ -54,10 +54,10 @@
               {% for record in records %}
                 <tr class="clickableRow">
                   <td contenteditable='true'>{{record.id}}</td>
-                  <td contenteditable='true'>{{record.ReferenceNumber}}</td>
-                  <td contenteditable='true'>{{record.ReferenceDate}}</td>
-                  <td contenteditable='true'>{{record.ReferenceRecievedDate}}</td>
-                  <td contenteditable='true'>{{record.RecievedFrom}}</td>
+                  <td contenteditable='true'>{{record.RecRefNumber}}</td>
+                  <td contenteditable='true'>{{record.LttrRecDate}}</td>
+                  <td contenteditable='true'>{{record.RecDate}}</td>
+                  <td contenteditable='true'>{{record.RecFrom}}</td>
                   <td contenteditable='true'>{{record.LatterDetails}}</td>
                      
                 {{ form.user_id.as_hidden }}
