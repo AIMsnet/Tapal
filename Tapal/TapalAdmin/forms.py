@@ -65,7 +65,8 @@ class InwardRegistryForm(forms.ModelForm):
             'RecievedFrom',
             'MobileNumber',
             'TypeOfReference',
-            'Priority',            
+            'Priority',
+            'docsAttch'    
         ]
         
 

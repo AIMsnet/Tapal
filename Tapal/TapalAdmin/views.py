@@ -14,6 +14,13 @@ from django.utils.dateparse import parse_date
 from django.db.models import Q
 
 
+class CustomLogin(auth_views.LoginView):
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        self.request.session['user_id'] = self.request.user.user_id
+        print(self.request.session['user_id'])
+        return HttpResponseRedirect(self.get_success_url())
+
 def createUser(request):
     form = createUserForms()
     if request.method == 'POST':
@@ -35,38 +42,46 @@ def createUser(request):
     return render (request, "CreateUser.html", {'form' : form})
 
 def logout(request):
+    print('logging out')
+    request.session.flush()
+    print("Session flushed")
     auth.logout(request)
     return redirect('/')
 
 def home(request):
-    return render(request, "home.html")
+    if request.session.has_key('user_id'):
+        return render(request, "home.html")
+    return redirect("/")
 
 def inwardForm(request):
-    form=InwardRegistryForm()
-    if request.method == 'POST':
-        print('a')
-        form = InwardRegistryForm(request.POST or None)
-        print('b')
-        if form.is_valid():
-            print('form is valid')
-            if request.user.is_authenticated :
-                desk_id     =   request.user.desk_id
-                user_id     =   request.user.user_id
-                print(desk_id, user_id)
-           
-            obj =   form.save()
-            obj.user_id = user_id
-            obj.save()
-           
-            print('saved')
-            return redirect('inwardForm/')
+    if request.session.has_key('user_id'):
+        form=InwardRegistryForm()
+        if request.method == 'POST':
+            print('a')
+            form = InwardRegistryForm(request.POST or None)
+            print('b')
+            if form.is_valid():
+                print('form is valid')
+                if request.user.is_authenticated :
+                    desk_id     =   request.user.desk_id
+                    user_id     =   request.user.user_id
+                    print(desk_id, user_id)
+            
+                obj =   form.save()
+                obj.user_id = user_id
+                obj.save()
+            
+                print('saved')
+                return redirect('inwardForm/')
+            else:
+                print(form.errors)
+                print('c')
         else:
-            print(form.errors)
-            print('c')
-    else:
-        print('d')
-        form = InwardRegistryForm()
-    return render(request, "InwardForm.html",{'form' : form})
+            print('d')
+            form = InwardRegistryForm()
+        return render(request, "InwardForm.html",{'form' : form})
+    return redirect("/")
+
 
 def forward(request):
     
@@ -88,70 +103,81 @@ def forward(request):
 
 @login_required
 def manageDepartment(request):
+    if request.session.has_key('user_id'):
 
-    users   =   User.objects.all()
+        users   =   User.objects.all()
 
-    if request.user.is_authenticated :
-            desk_id     =   request.user.desk_id
-            user_id     =   request.user.user_id
-            print(desk_id, user_id)
-
-    records  =   InwardRegistry.objects.filter(user_id=user_id)
-
-    if request.method == 'POST':
-        print('inside post')
-        SelectedUser    = request.POST.get('selectUser')
-        buttonForward   =  request.POST.get('buttonForward')
-
-        updateRecord   =    InwardRegistry.objects.get(id = buttonForward)
-        updateRecord.user_id    =   SelectedUser
-        updateRecord.save()
+        if request.user.is_authenticated :
+                desk_id     =   request.user.desk_id
+                user_id     =   request.user.user_id
+                print(desk_id, user_id)
 
         records  =   InwardRegistry.objects.filter(user_id=user_id)
 
-        context ={
-            'records'   : records,
-            'users'     : users,
-        }
+        if request.method == 'POST':
+            print('inside post')
+            SelectedUser    = request.POST.get('selectUser')
+            buttonForward   =  request.POST.get('buttonForward')
 
-        return render(request, "manageDepartment.html", context)
-    else:
-        context ={
-            'records'   : records,
-            'users'     : users,
-        }
-        return render(request, "manageDepartment.html", context)
+            updateRecord   =    InwardRegistry.objects.get(id = buttonForward)
+            updateRecord.user_id    =   SelectedUser
+            updateRecord.save()
+
+            records  =   InwardRegistry.objects.filter(user_id=user_id)
+
+            context ={
+                'records'   : records,
+                'users'     : users,
+            }
+
+            return render(request, "manageDepartment.html", context)
+        else:
+            context ={
+                'records'   : records,
+                'users'     : users,
+            }
+            return render(request, "manageDepartment.html", context)
+    return redirect("/")
 
 def outwardRegistery(request):
-    return render(request, "outwardRegistery.html")
+    if request.session.has_key('user_id'):
+        return render(request, "outwardRegistery.html")
+    return redirect("/")
 
 def ticketPurcahesInformation(request):
-    return render(request, "ticketPurcahesInformation.html")
+    if request.session.has_key('user_id'):
+        return render(request, "ticketPurcahesInformation.html")
+    return redirect("/")
 
 def InwrdOtwrdDetails(request):
-    return render(request, "InwrdOtwrdDetails.html")
+    if request.session.has_key('user_id'):
+        return render(request, "InwrdOtwrdDetails.html")
+    return redirect('/')
 
 @login_required
 def report(request):
-    if request.user.is_authenticated :
-            desk_id     =   request.user.desk_id
-            user_id     =   request.user.user_id
-            print(desk_id, user_id)
+    if request.session.has_key('user_id'):
 
-    if request.method == 'POST' :
-        
-        startDate   = request.POST.get('strtdt')
-        endDate   = request.POST.get('enddt')
+        if request.user.is_authenticated :
+                desk_id     =   request.user.desk_id
+                user_id     =   request.user.user_id
+                print(desk_id, user_id)
 
-        records  =   InwardRegistry.objects.filter(ReferenceRecievedDate__range=(startDate, endDate), user_id=user_id)
-        
-        context ={
-            'records'   : records,          
-        }
-        return render(request, "report.html",context)
-    else:
-        
-        return render(request, "report.html")
+        if request.method == 'POST' :
+            
+            startDate   = request.POST.get('strtdt')
+            endDate   = request.POST.get('enddt')
+
+            records  =   InwardRegistry.objects.filter(ReferenceRecievedDate__range=(startDate, endDate), user_id=user_id)
+            
+            context ={
+                'records'   : records,          
+            }
+            return render(request, "report.html",context)
+        else:
+            
+            return render(request, "report.html")
+    return redirect('/')
     
 def changePassword(request):
     return render(request, "changePassword.html")

@@ -46,7 +46,7 @@ class InwardRegistry(models.Model):
         ('3Day', '3Day')
         ]
     Priority        =   models.CharField(("Priority"),max_length=20, choices=priority)
-    AttachedDocuments   =   models.FileField(("Attached Documents"), upload_to='docs', max_length=100)
+    docsAttch   =   models.FileField(("Attached Documents"), upload_to='documents', max_length=100, null=True , blank=True)
     Desk_id         =   models.CharField(("Desk_id"),max_length=20)
     Dept= [
         ('user-1', 'user-1'),
