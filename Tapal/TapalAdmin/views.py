@@ -1,8 +1,7 @@
 from django.shortcuts import render,redirect, reverse
 from django.http import HttpResponseRedirect
-# from .forms import InwardRegistryForm,BranchMasterForm, InwordDocForm, MonitorLatterForm, UserRegForms, createUserForms
-from .forms import createUserForms, InwardRegistryForm,forwardForm
-from .models import InwardReg, User
+from .forms import createUserForms, InwardRegistryForm,forwardForm, InwardDocForm
+from .models import InwardReg, User, InwardDocs
 from django.contrib import messages
 from django.contrib import auth
 from django.contrib.auth import login
@@ -10,9 +9,14 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth.views import  LoginView
 from django.contrib.auth.decorators import login_required
 from datetime import datetime, date
+import time as time
 from django.utils.dateparse import parse_date
 from django.db.models import Q
-
+from django.http import HttpResponse
+from wsgiref.util import FileWrapper
+import os
+import json # for json dumps
+from django.core import serializers
 
 class CustomLogin(auth_views.LoginView):
         def form_valid(self, form):
@@ -21,15 +25,6 @@ class CustomLogin(auth_views.LoginView):
             print(self.request.session['user_id'])
             return HttpResponseRedirect(self.get_success_url())
 
-# def login_view(self):
-#         form = LoginView
-#         login(self, form.get_user())
-#         self.session['user_id'] = self.user.user_id
-#         print(self.session['user_id'])
-#         # return HttpResponseRedirect(self.get_success_url())
-#         return render(self, 'LoginForm.html')
-
-# (template_name='LoginForm.html')
 def createUser(request):
     form = createUserForms()
     if request.method == 'POST':
@@ -64,12 +59,16 @@ def home(request):
 
 def inwardForm(request):
     if request.session.has_key('user_id'):
-        form=InwardRegistryForm()
+
+        form = InwardRegistryForm()
+        DocForm = InwardDocForm()
+
         if request.method == 'POST':
             print('a')
             form = InwardRegistryForm(request.POST, request.FILES or None)
+            DocForm = InwardDocForm(request.POST, request.FILES or None)
             print('b')
-            if form.is_valid():
+            if form.is_valid() and DocForm.is_valid():
                 print('form is valid')
                 if request.user.is_authenticated :
                     desk_id     =   request.user.desk_id
@@ -77,6 +76,7 @@ def inwardForm(request):
                     print(desk_id, user_id)
             
                 obj =   form.save()
+                DocForm.save()
                 obj.user_id = user_id
                 obj.save()
             
@@ -88,7 +88,8 @@ def inwardForm(request):
         else:
             print('d')
             form = InwardRegistryForm()
-        return render(request, "InwardForm.html",{'form' : form})
+            DocForm  =   InwardDocForm()
+        return render(request, "InwardForm.html",{'form' : form, 'DocForm' : DocForm})
     return redirect("/")
 
 
@@ -118,34 +119,9 @@ def manageDepartment(request):
         if request.user.is_authenticated :
                 desk_id     =   request.user.desk_id
                 user_id     =   request.user.user_id
-                print(desk_id, user_id)
         
         records  =   InwardReg.objects.filter(user_id=user_id)
-
-        if request.method == 'POST' and 'saveModel' in request.POST:
-            print("inside modelsave")
-
-            SelectedUser   =    request.POST.get('saveModel')
-            updateText     =  request.POST.get('updateText')
-            print(SelectedUser)
-            print(updateText)
-            
-            addUpdate      =    InwardReg.objects.get(id = SelectedUser)
-            dat = addUpdate.LatterDetails
-            addedDate = datetime.day
-            # .replace(microsecond=0)
-            dt = str(addedDate)
-            
-            addUpdate.LatterDetails   =   dat + dt + updateText
-            addUpdate.save()
-
-            
-            context ={
-                'records'   : records,
-                'users'     : users,
-            }
-            return render(request, "manageDepartment.html",context)
-        
+ 
         if request.method == 'POST' and 'buttonForward' in request.POST:
             print('inside post')
             SelectedUser    = request.POST.get('selectUser')
@@ -165,6 +141,27 @@ def manageDepartment(request):
             }
             return render(request, "manageDepartment.html", context)
 
+        if request.method == 'POST' and 'saveModelButton' in request.POST:
+            print("inside modelsave")
+
+            SelectedUser   =    request.POST.get('saveModelButton')
+            updateText     =    request.POST.get('updateText')
+            DocsAttch        =    request.FILES.get('DocsAttch')
+            
+            addUpdate      =    InwardReg.objects.get(id = SelectedUser)
+            dat = addUpdate.LatterDetails
+            tm = time.strftime('%d %b %Y')
+            addUpdate.LatterDetails   =   dat + "\n"+ user_id + " : " + tm + " : " + updateText
+            addUpdate.save()
+
+            inwardReg = InwardReg.objects.get(id = SelectedUser)
+            
+            inwardDocs =  InwardDocs.objects.create(InwardId = inwardReg, DocsAttch = DocsAttch, user_id = user_id)
+            context ={
+                'records'       : records,
+                'users'         : users,
+            }
+            return render(request, "manageDepartment.html",context)
         else:
             context ={
                 'records'   : records,
@@ -172,6 +169,15 @@ def manageDepartment(request):
             }
             return render(request, "manageDepartment.html", context)
     return redirect("/")
+
+
+def getFiles(request):
+    if request.method == 'POST':
+        inwardDocs = InwardDocs.objects.filter(InwardId = request.POST['inwardId'])
+        inwardDocs = serializers.serialize('json', inwardDocs)
+        inwardDocs = json.loads(inwardDocs)
+        response = {'status' : 0, 'inwardDocs' : inwardDocs}
+    return HttpResponse(json.dumps(response), content_type = 'application/json')
 
 def outwardRegistery(request):
     if request.session.has_key('user_id'):
@@ -284,6 +290,7 @@ def adminManageRegistry(request):
             'users'      : users
         }
         return render(request, "adminManageRegistry.html", context)
+
     else:
         context ={
             'records'   : records,
@@ -291,4 +298,11 @@ def adminManageRegistry(request):
         }
         return render(request, "adminManageRegistry.html", context)
 
-    
+def DownloadFile(request, fileName):
+    print("I m from view and file name is", fileName)
+    file = "media/documents/" + fileName
+    f = open(file)
+    response = HttpResponse(f.read(), content_type='application/txt')
+    response['Content-Length'] = os.path.getsize(file)
+    response['Content-Disposition'] = 'attachment; filename=%s' % fileName
+    return response

@@ -9,8 +9,6 @@ urlpatterns = [
 # MENU FORMS
 
     path('', views.CustomLogin.as_view(template_name='LoginForm.html'), name='login'),
-    # path('', views.login_view, name='login'),
-
 
     path('home/', views.home),
     path('inwardForm/', views.inwardForm),
@@ -21,8 +19,6 @@ urlpatterns = [
     path('ticketPurcahesInformation/', views.ticketPurcahesInformation),
     
     path('report/', views.report),
-    # path('report/report/', views.report),
-    # path('report/report/report/', views.report),
 
     path('changePassword/', views.changePassword),
     path('InwrdOtwrdDetails/', views.InwrdOtwrdDetails),
@@ -43,5 +39,6 @@ urlpatterns = [
     path('deptInwardReg/', views.deptInwardReg),
     path('DeptReport/', views.DeptReport),
     path('actionToBeTaken/', views.actionToBeTaken),
-
+    path("getFile/", views.getFiles),
+    url('file/(?P<fileName>[\w\s,@.]+)', views.DownloadFile, name = "showSupplier")
 ]
