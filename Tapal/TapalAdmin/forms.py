@@ -65,7 +65,6 @@ class InwardRegistryForm(forms.ModelForm):
             'MobileNumber',
             'RecFromDept',
             'Priority',
-            'Status'    
         ]
         
 
@@ -79,6 +78,6 @@ class InwardDocForm(forms.ModelForm):
     class Meta:
         model  =  InwardDocs
         fields = [
-                'DocsAttch',   
+                'DocsAttch',
         ]
     

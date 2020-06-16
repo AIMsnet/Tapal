@@ -4,148 +4,220 @@
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'styles/manageDepartment2.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/modalOutwrd.css' %}">
 {% endblock css %}
 
 
 {% block content %}
 
 <!----------------Manage Departments Start-------------->
-</div>
-<div class="card  mt-4">
-  <div class="card-block p-0 table-responsive">
-    <form action="/manageDepartment/" method="POST">
-      {% csrf_token %}
-      <table class="table table-bordered table-hover" cellspacing="0" width="100%" id="table_id">
-        <thead>
-          <tr class="">
-            <th>Inward ID</th>
-            <th>Recv Ref. No.</th>
-            <th>Letter Recv Date</th>
-            <th>Recieved Date</th>
-            <th>Received From</th>
-            <th>priority</th>
-            <th hidden="true">Letter Subject</th>
-            <th>Status</th>
-            <th>Users</th>
-            <th>Edit Details</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for record in records %}
-          <tr class="table-row">
-            <td>{{record.id}}</td>
-            <td>{{record.RecRefNumber}}</td>
-            <td>{{record.LttrRecDate}}</td>
-            <td>{{record.RecDate}}</td>
-            <td>{{record.RecFrom}}</td>
-            <td>{{record.Priority}}</td>
-            <td hidden="true">{{record.LatterDetails}}</td>
-            <td>{{record.Status}}</td>
+  <div class="card  mt-4">
+    <div class="card-block p-0 table-responsive">
+      <form action="/manageDepartment/" method="POST">
+        {% csrf_token %}
+        <table class="table table-bordered table-hover" cellspacing="0" id="table_id">
+          <thead style="text-align: center;">
+            <tr class="">
+              <th>Inward ID</th>
+              <th>Recv Ref. No.</th>
+              <th>Letter Recv Date</th>
+              <th>Recieved Date</th>
+              <th>Received From</th>
+              <th>priority</th>
+              <th hidden="true">Letter Subject</th>
+              <!-- <th>Status</th> -->
+              <th>Users</th>
+              <th>Edit Details</th>
+              <th>Forward</th>
+              <th>Outward</th>
+            </tr>
+          </thead>
+          <tbody class="p-0 m-0" style="text-align: center">
+            {% for record in records %}
+            <tr class="table-row" style="height : 60px">
+              <td>{{record.id}}</td>
+              <td>{{record.RecRefNumber}}</td>
+              <td>{{record.LttrRecDate}}</td>
+              <td>{{record.RecDate}}</td>
+              <td>{{record.RecFrom}}</td>
+              <td>{{record.Priority}}</td>
+              <td hidden="true">{{record.LatterDetails}}</td>
+              <!-- <td id="status">{{record.Status}}</td> -->
 
-            {{ form.user_id.as_hidden }}
+              {{ form.user_id.as_hidden }}
 
-            <td>
-              <select class="form-control form-control-sm" name="selectUser">
-                {% for user in users %}
-                <option value="{{user.user_id}}">{{user.user_id}}</option>
-                {% endfor %}
-              </select>
-            </td>
-            <td><a class="btn  btn-primary ml-2" role="button" href="#" value="{{record.id}}" name="buttonEdit">Edit</a>
-            </td>
-            <td> <a href=""><button class="btn btn-primary ml-2" value="{{record.id}}"
-                  name="buttonForward">Forward</button></a> </td>
-
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </form>
+              <td>
+                <select class="form-control form-control-sm" name="selectUser">
+                  <option>Select User</option>
+                  {% for user in users %}
+                  <option value="{{user.user_id}}">{{user.user_id}}</option>
+                  {% endfor %}
+                </select>
+              </td>
+              <td><a class="btn btn-light text-primary btnEdit" role="button" href="#" value="{{record.id}}" name="buttonEdit"><i class="fa fa-pencil-square-o"></i></a>
+              </td>
+              <td> <a href=""><button class="btn btn-light text-primary" value="{{record.id}}" name="buttonForward"><i class="fa fa-arrow-right"></i></button></a> 
+              </td>
+              <td><a class="btn btn-light text-primary btnOutwrd" id="btnOutwrd" role="button" href="#" value="{{record.id}}" name="buttonOutwrd">Outward</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </form>
+    </div>
   </div>
-</div>
 </div>
 
 <!----------------Manage Departments End-------------->
 
-<div class="modal fade" tabindex="-1" id="myModal">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title text-center">Manage Department Details</h4>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-            aria-hidden="true">&times;</span></button>
-      </div>
-      <div class="modal-body">
-        <form action="/manageDepartment/" method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-          <div class="row d-flex justify-content-around mt-3">
-            <div class="col-6">
-              <div class="d-flex justify-content-between">
-                <label class="col-5">Inward No.</label>
-                <input type="text" name="InwardId" class="col-7 form-control form-control-sm border-light" readonly
-                  id="txtinwrdno" />
+  <div class="modal fade" tabindex="-1" id="myModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-center">Manage Department Details</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <form action="/manageDepartment/" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row d-flex justify-content-around mt-3">
+              <div class="col-6">
+                <div class="d-flex justify-content-between">
+                  <label class="col-5">Inward No.</label>
+                  <input type="text" name="InwardId" class="col-7 form-control form-control-sm border-light" readonly
+                    id="txtinwrdno" />
+                </div>
+                <div class="d-flex justify-content-between">
+                  <label class="col-5">Recv Ref. No.</label>
+                  <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrefno" />
+                </div>
+                <div class="d-flex justify-content-between">
+                  <label class="col-5">Letter Recv Date</label>
+                  <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrefdt" />
+                </div>
               </div>
-              <div class="d-flex justify-content-between">
-                <label class="col-5">Recv Ref. No.</label>
-                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrefno" />
-              </div>
-              <div class="d-flex justify-content-between">
-                <label class="col-5">Letter Recv Date</label>
-                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrefdt" />
+              <div class="col-6">
+                <div class="d-flex justify-content-between">
+                  <label class="col-5">Recieved Date</label>
+                  <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrevdt" />
+                </div>
+                <div class="d-flex justify-content-between">
+                  <label class="col-5">Received From</label>
+                  <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrecfrom" />
+                </div>
+                <div class="d-flex justify-content-between">
+                  <label class="col-5">Priority</label>
+                  <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtprioriy" />
+                </div>
               </div>
             </div>
-            <div class="col-6">
-              <div class="d-flex justify-content-between">
-                <label class="col-5">Recieved Date</label>
-                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrevdt" />
+            <div class="row mt-3">
+              <div class="col-6 d-flex justify-content-between">
+                <label class="col-4 mt-3">History</label>
+                <textarea class="col-8" col="35" row="20" readonly id="txtHistory" style="height: 150px;"> </textarea>
               </div>
-              <div class="d-flex justify-content-between">
-                <label class="col-5">Received From</label>
-                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrecfrom" />
-              </div>
-              <div class="d-flex justify-content-between">
-                <label class="col-5">Priority</label>
-                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtprioriy" />
+              <div class="col-6 d-flex justify-content-center">
+                <label class="col-4 mt-3">Current Update</label>
+                <textarea class="col-8" col="25" row="5" id="txtUpdate" value="" style="height: 150px;" name="updateText"
+                  required> </textarea>
               </div>
             </div>
-          </div>
-          <div class="row mt-3">
-            <div class="col-6 d-flex justify-content-between">
-              <label class="col-4 mt-3">History</label>
-              <textarea class="col-8" col="35" row="20" readonly id="txtHistory" style="height: 150px;"> </textarea>
+            <div class="row mt-3  d-flex justify-content-between">
+              <div class="col-6 d-flex justify-content-between">
+                <label class="col-4 mt-3">Attach Document</label>
+                <input type="file" class="form-control" name="DocsAttch" id="customFile">
+              </div>
+              <div class="col-6 d-flex justify-content-around">
+                <label class="col-4 ">Attached Documents</label>
+                <select class="col-6 form-control mt-2 pb-1" id = "docDropdown" name="docDropdownName">
+                </select>
+                <span class="col-2 text-center form-control border-0 my-2 ">
+                  <!-- <a href="/downloadFile/"><i class="fa fa-download" style="font-size:30px;"></i></a> -->
+                  <a onclick="clickeddd()"><i class="fa fa-download" style="font-size:30px;"></i></a>
+                </span>
+              </div>
             </div>
-            <div class="col-6 d-flex justify-content-center">
-              <label class="col-4 mt-3">Current Update</label>
-              <textarea class="col-8" col="25" row="5" id="txtUpdate" value="" style="height: 150px;" name="updateText"
-                required> </textarea>
-            </div>
-          </div>
-          <div class="row mt-3  d-flex justify-content-between">
-            <div class="col-6 d-flex justify-content-between">
-              <label class="col-4 mt-3">Attach Document</label>
-              <input type="file" class="form-control" name="DocsAttch" id="customFile">
-            </div>
-            <div class="col-6 d-flex justify-content-around">
-              <label class="col-4 ">Attached Documents</label>
-              <select class="col-6 form-control mt-2 pb-1" id = "docDropdown" name="docDropdownName">
-              </select>
-              <span class="col-2 text-center form-control border-0 my-2 ">
-                <!-- <a href="/downloadFile/"><i class="fa fa-download" style="font-size:30px;"></i></a> -->
-                <a onclick="clickeddd()"><i class="fa fa-download" style="font-size:30px;"></i></a>
-              </span>
-            </div>
-          </div>
-      </div>
+        </div>
 
-      <div class="modal-footer">
-        <button type="cancel" class="btn btn-dfault" data-dismiss="modal">Cancel</button>
-        <button type="submit" class="btn btn-success" value="" id="saveModelButton" name="saveModelButton">Save
-          changes</button>
+        <div class="modal-footer">
+          <button type="cancel" class="btn btn-dfault" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-success" value="" id="saveModelButton" name="saveModelButton">Save
+            changes</button>
+        </div>
+        </form>
       </div>
-      </form>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+    </div>
+  </div>
+
+<!-- Outward Model -->
+
+    <div class="modal modal-outwrd fade ml-2 mr-2" id="outwardModel" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Outward</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="row">
+                <div class="col-6">
+                  <label class="mt-2">Inward ID</label>
+                  <input class="form-control form-control-sm" type="text" name="txtinwrd" readonly id="txtinwrd">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <label class="mt-2">Outward Date</label>
+                  <input class="form-control form-control-sm" type="date" name="txtdt" id="txtOutwrdDate">
+              </div>
+              <div class="col-6">
+                  <label class="mt-2">Outward Doc.</label>
+                  <div class="custom-file form-control-sm">
+                    <input type="file" class="custom-file-input custom-file-input-sm" id="outwrdDoc">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                  </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                  <label class="mt-2">Outward To</label>
+                  <input class="form-control form-control-sm" type="text" name="txtotto" id="outwrdTo">
+                </div>
+                <div class="col-6">
+                  <label class="mt-2">Outward By</label>
+                  <input class="form-control form-control-sm" type="text" name="txtotto" id="outwrdBy">
+                </div> 
+            </div>
+            <div class="row">
+              <div class="col-12">
+                  <label class="mt-2">Note</label>
+                  <textarea col="30" row="20" style="height:100px; width: 100%;" id="note"></textarea>
+                </div>
+            </div>
+          </form>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <div>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+          </div>
+          <div>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" name="outwardBtn">Move</button>
+          </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
 
 <script type="text/javascript">
   $('#myModal').on('shown.bs.modal', function () {
@@ -160,7 +232,12 @@
     $("#latter").hide();
   });
 
-  $('table tbody tr td .btn').on('click', function () {
+  $('table tbody tr td #btnOutwrd').on('click', function () {
+    $("#outwardModel").modal("show");
+    $("#txtinwrd").val($(this).closest('tr').children()[0].textContent);
+  });
+
+  $('table tbody tr td .btnEdit').on('click', function () {
     $("#myModal").modal("show");
     $("#txtinwrdno").val($(this).closest('tr').children()[0].textContent);
     $("#txtrefno").val($(this).closest('tr').children()[1].textContent);
@@ -194,7 +271,6 @@
         for(var i = 0; i < len ; i++)
         {
           if(res[i]['fields'].DocsAttch != "")
-          console.log()
           $('#docDropdown').append($("<option></option>").attr("value", res[i]['fields'].DocsAttch.substring(10, )).text(res[i]['fields'].DocsAttch.substring(10, )));
         }
       }
@@ -202,30 +278,11 @@
 
 
   });
-
-
   function clickeddd(){
     fileName = $("#docDropdown").val()
     console.log(fileName)
     window.open("file/"+fileName);
   }
-
-
 </script>
-<!-- window.setTimeout(function () {
-  location.href = "/manageDepartment/";
-}, 30000); -->
-
-<!-- console.log("out sidddddddddd")
-
-function show_hide_column( do_hide) {
-  console.log("insidddddddddd")
-  var tbl = document.getElementById('table_id');
-  var col = tbl.getElementsByTagName('col')[6];
-  if (col) {
-    col.style.visibility=do_show?"":"collapse";
-  }
-} -->
-
 
 {% endblock content %}

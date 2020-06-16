@@ -1,148 +1,208 @@
 {% extends 'home.html' %}
 {% load static %}
-
+{% load crispy_forms_tags %}
 
 {% block css %}
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css'%}">
-        <link rel="stylesheet" type="text/css" href="{% static 'styles/outwardRegistery.css'%}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/manageDepartment2.css' %}">
 {% endblock css %}
+
 
 {% block content %}
 
-<!----------------Outward Registery Start-------------->
-  <div class="m-3"></div>
-  <div class="container outwordRegisteryFormcon">
-  <!-- <main class="container pt-5"> -->
-   <h5 class="text-center m-3 mb-4 border-bottom border-info">Outward Rgistery</h5>
-   <form>
-   <div class="form-group options">
-     <label for="show">Show :</label>
-     <select style="width: 7%;height: 25px;">
-           <option value="Collecter Office">500</option>
-           <option value="Thashildar">200</option>
-           <option value="Police Department">50</option>
-   </select>Entries
-   <div class="search">
-      <input type="text" class="form-control form-control-sm"  placeholder="Search">
-      <button type="submit" class="btn btn-info btn-sm btn-search">Search</button>
-     </div>
- </div>
-</form>
-   <div class="card  mt-0">
-       <!-- <div class="card-header">Manage Departments</div> -->
-       <div class="card-block p-0 table-responsive">
-           <table class="table table-striped table-bordered" cellspacing="0" width="100%">
-               <thead class="">
-                   <tr>
-                    <th>Inward No</th>
-                    <th>Outward Date</th>
-                    <th>Letter Sent To Whom</th>
-                    <th>Letter Number</th>
-                    <th>Desk Letter Number</th>
-                    <th>Action Taken</th>
-                    <th>Rs.1</th>
-                    <th>Rs.2</th>
-                    <th>Rs.5</th>
-                    <th>Rs.50</th>
-                    <th>100</th>
-                    <th>20</th>
-                    <th>Total</th>
-                    <th>Remark</th>
-                    <th>Ticket Purchase Information</th>
-                    <th>Tappal Outward Date</th>
-                   </tr>
-               </thead>
-               <tbody>
-                 <tr>
-              <td contenteditable='true'>17-0032</td>
-             <td contenteditable='true'>12-04-2020</td>
-             <td contenteditable='true'>ZP Office</td>
-             <td contenteditable='true'>LS-2</td>
-             <td contenteditable='true'>DS-1</td>
-             <td contenteditable='true'>IN</td>
-             <td contenteditable="true">0</td>
-             <td contenteditable="true">1</td>
-             <td contenteditable="true">0</td>
-             <td contenteditable="true">0</td>
-             <td contenteditable="true">0</td>
-             <td contenteditable="true">0</td>
-             <td contenteditable="true">1</td>
-             <td contenteditable="true"></td>
-             <td class="text-center">
-              <a href="/EditTicketDetails">Edit</a>
-              <a href="/InwrdOtwrdDetails" class="text-danger mt-1">Attached<br>Document</a>
-             </td>
-             <td contenteditable="true"></td>
-               </tr>
-               <tr>
-                <td contenteditable='true'>17-0032</td>
-               <td contenteditable='true'>12-04-2020</td>
-               <td contenteditable='true'>ZP Office</td>
-               <td contenteditable='true'>LS-2</td>
-               <td contenteditable='true'>DS-1</td>
-               <td contenteditable='true'>IN</td>
-               <td contenteditable="true">0</td>
-               <td contenteditable="true">1</td>
-               <td contenteditable="true">0</td>
-               <td contenteditable="true">0</td>
-               <td contenteditable="true">0</td>
-               <td contenteditable="true">0</td>
-               <td contenteditable="true">1</td>
-               <td contenteditable="true"></td>
-               <td class="text-center">
-                <a href="/EditTicketDetails">Edit</a>
-                <a href="/InwrdOtwrdDetails" class="text-danger mt-1">Attached<br>Document</a>
-               </td>
-               <td contenteditable="true"></td>
-                 </tr>
-                 <tr>
-                  <td contenteditable='true'>17-0032</td>
-                 <td contenteditable='true'>12-04-2020</td>
-                 <td contenteditable='true'>ZP Office</td>
-                 <td contenteditable='true'>LS-2</td>
-                 <td contenteditable='true'>DS-1</td>
-                 <td contenteditable='true'>IN</td>
-                 <td contenteditable="true">0</td>
-                 <td contenteditable="true">1</td>
-                 <td contenteditable="true">0</td>
-                 <td contenteditable="true">0</td>
-                 <td contenteditable="true">0</td>
-                 <td contenteditable="true">0</td>
-                 <td contenteditable="true">1</td>
-                 <td contenteditable="true"></td>
-                 <td class="text-center">
-                  <a href="/EditTicketDetails">Edit</a>
-                  <a href="/InwrdOtwrdDetails" class="text-danger mt-1">Attached<br>Document</a>
-                 </td>
-                 <td contenteditable="true"></td>
-                   </tr>
-               </tbody>
-           </table>
-       </div>
-       <div class="card-footer p-0">
-           <nav aria-label="...">
-               <ul class="pagination justify-content-end mt-3 mr-3">
-                   <li class="page-item disabled">
-                       <span class="page-link">Previous</span>
-                   </li>
-                   <li class="page-item"><a class="page-link" href="#">1</a></li>
-                   <li class="page-item active">
-                       <span class="page-link">2<span class="sr-only">(current)</span>
-                       </span>
-                   </li>
-                   <li class="page-item"><a class="page-link" href="#">3</a></li>
-                   <li class="page-item">
-                       <a class="page-link" href="#">Next</a>
-                   </li>
-               </ul>
-           </nav>
-       </div>
-   </div>
-   <div class="form-footer footer row">
-      <a type="button" class="btn btn-info btn-sm" href="#">Save</a>
-      <button  class="btn btn-secondary ml-2"><i class="fa fa-close"></i>Cancel</button>
-  </div>
- </div>
+<!----------------Manage Departments Start-------------->
+<div class="card  mt-4">
+  <div class="card-block p-0 table-responsive">
+    <form action="/manageDepartment/" method="POST">
+      {% csrf_token %}
+      <table class="table table-bordered table-hover" cellspacing="0" width="100%" id="table_id">
+        <thead style="text-align: center;">
+          <tr class="">
+            <th>Inward ID</th>
+            <th>Recv Ref. No.</th>
+            <th>Letter Recv Date</th>
+            <th>Recieved Date</th>
+            <th>Received From</th>
+            <th>priority</th>
+            <th hidden="true">Letter Subject</th>
+            <!-- <th>Status</th> -->
+            <!-- <th>Users</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          {% for record in outwardData %}
+          <tr class="table-row">
+            <td>{{record.id}}</td>
+            <td>{{record.RecRefNumber}}</td>
+            <td>{{record.LttrRecDate}}</td>
+            <td>{{record.RecDate}}</td>
+            <td>{{record.RecFrom}}</td>
+            <td>{{record.Priority}}</td>
+            <td hidden="true">{{record.LatterDetails}}</td>
+            <!-- <td id="status">{{record.Status}}</td> -->
 
-  <!----------------Outward Registery End-------------->
+            {{ form.user_id.as_hidden }}
+
+            <!-- <td>
+              <select class="form-control form-control-sm" name="selectUser">
+                <option>Select User</option>
+                {% for user in users %}
+                <option value="{{user.user_id}}">{{user.user_id}}</option>
+                {% endfor %}
+              </select>
+            </td> -->
+            <!-- <td><a class="btn  btn-primary ml-2" role="button" href="#" value="{{record.id}}" name="buttonEdit">Edit</a>
+            </td>
+            <td> <a href=""><button class="btn btn-primary ml-2" value="{{record.id}}" name="buttonForward">Forward</button></a> </td> -->
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </form>
+  </div>
+</div>
+</div>
+
+<!----------------Manage Departments End-------------->
+
+<div class="modal fade" tabindex="-1" id="myModal">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title text-center">Manage Department Details</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <form action="/manageDepartment/" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="row d-flex justify-content-around mt-3">
+            <div class="col-6">
+              <div class="d-flex justify-content-between">
+                <label class="col-5">Inward No.</label>
+                <input type="text" name="InwardId" class="col-7 form-control form-control-sm border-light" readonly
+                  id="txtinwrdno" />
+              </div>
+              <div class="d-flex justify-content-between">
+                <label class="col-5">Recv Ref. No.</label>
+                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrefno" />
+              </div>
+              <div class="d-flex justify-content-between">
+                <label class="col-5">Letter Recv Date</label>
+                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrefdt" />
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex justify-content-between">
+                <label class="col-5">Recieved Date</label>
+                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrevdt" />
+              </div>
+              <div class="d-flex justify-content-between">
+                <label class="col-5">Received From</label>
+                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrecfrom" />
+              </div>
+              <div class="d-flex justify-content-between">
+                <label class="col-5">Priority</label>
+                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtprioriy" />
+              </div>
+            </div>
+          </div>
+          <div class="row mt-3">
+            <div class="col-6 d-flex justify-content-between">
+              <label class="col-4 mt-3">History</label>
+              <textarea class="col-8" col="35" row="20" readonly id="txtHistory" style="height: 150px;"> </textarea>
+            </div>
+            <div class="col-6 d-flex justify-content-center">
+              <label class="col-4 mt-3">Current Update</label>
+              <textarea class="col-8" col="25" row="5" id="txtUpdate" value="" style="height: 150px;" name="updateText"
+                required> </textarea>
+            </div>
+          </div>
+          <div class="row mt-3  d-flex justify-content-between">
+            <div class="col-6 d-flex justify-content-between">
+              <label class="col-4 mt-3">Attach Document</label>
+              <input type="file" class="form-control" name="DocsAttch" id="customFile">
+            </div>
+            <div class="col-6 d-flex justify-content-around">
+              <label class="col-4 ">Attached Documents</label>
+              <select class="col-6 form-control mt-2 pb-1" id = "docDropdown" name="docDropdownName">
+              </select>
+              <span class="col-2 text-center form-control border-0 my-2 ">
+                <!-- <a href="/downloadFile/"><i class="fa fa-download" style="font-size:30px;"></i></a> -->
+                <a onclick="clickeddd()"><i class="fa fa-download" style="font-size:30px;"></i></a>
+              </span>
+            </div>
+          </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="cancel" class="btn btn-dfault" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success" value="" id="saveModelButton" name="saveModelButton">Save
+          changes</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('#myModal').on('shown.bs.modal', function () {
+    document.getElementById("saveModelButton").value = document.getElementById("txtinwrdno").value
+  })
+  function clearContents(element) {
+    console.log("tringgred2222222")
+    element.value = '';
+  }
+
+  $(document).ready(function () {
+    $("#latter").hide();
+  });
+
+  $('table tbody tr td .btn').on('click', function () {
+    $("#myModal").modal("show");
+    $("#txtinwrdno").val($(this).closest('tr').children()[0].textContent);
+    $("#txtrefno").val($(this).closest('tr').children()[1].textContent);
+    $("#txtrefdt").val($(this).closest('tr').children()[2].textContent);
+    $("#txtrevdt").val($(this).closest('tr').children()[3].textContent);
+    $("#txtrecfrom").val($(this).closest('tr').children()[4].textContent);
+    $("#txtprioriy").val($(this).closest('tr').children()[5].textContent);
+    $("#txtHistory").val($(this).closest('tr').children()[6].textContent);
+  });
+  $('table tbody tr td').on('dblclick', function () {
+    $("#myModal").modal("show");
+    $("#txtinwrdno").val($(this).closest('tr').children()[0].textContent);
+    $("#txtrefno").val($(this).closest('tr').children()[1].textContent);
+    $("#txtrefdt").val($(this).closest('tr').children()[2].textContent);
+    $("#txtrevdt").val($(this).closest('tr').children()[3].textContent);
+    $("#txtrecfrom").val($(this).closest('tr').children()[4].textContent);
+    $("#txtprioriy").val($(this).closest('tr').children()[5].textContent);
+    $("#txtHistory").val($(this).closest('tr').children()[6].textContent);
+
+    $.ajax({
+      type: 'POST',
+      url: '/getFile/',
+      data: {
+        inwardId: document.getElementById("txtinwrdno").value,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+      },
+      success: function (response) {
+        $('#docDropdown').empty()
+        var res = response.inwardDocs
+        len = res['length']
+        for(var i = 0; i < len ; i++)
+        {
+          if(res[i]['fields'].DocsAttch != "")
+          $('#docDropdown').append($("<option></option>").attr("value", res[i]['fields'].DocsAttch.substring(10, )).text(res[i]['fields'].DocsAttch.substring(10, )));
+        }
+      }
+    });
+
+
+  });
+  function clickeddd(){
+    fileName = $("#docDropdown").val()
+    console.log(fileName)
+    window.open("file/"+fileName);
+  }
+</script>
+
 {% endblock content %}

@@ -19,29 +19,29 @@ class User(AbstractUser):
  
 
 class InwardReg(models.Model):
-    #InwardNumber     =  models.AutoField(null= False)
-    RecRefNumber  =  models.IntegerField(("Recieved Reference Number"),default='0000001', null=False)
-    LttrRecDate   =   models.DateField(("Latter Recieved Date"), default=datetime.now)
-    LatterDetails    = models.TextField(("Latter Details"), default='xyz', null=False)
+    #Id     =  models.AutoField(null= False)
+    RecRefNumber  =  models.CharField(("Recieved Reference Number"),default='AIM-0001', max_length=10, null=False)
+    LttrRecDate   =   models.DateField(("Letter Recieved Date"), default=datetime.now)
+    LatterDetails    = models.TextField(("Letter Details"), default='xyz', null=False)
     EmailId =   models.EmailField(("E-mail ID"), default='xyz@gmail.com',max_length=254)
     Address =   models.CharField(("Address"), default='Pune', max_length=200)
     TYPE_OF_REF= [
         ('Internal', 'Internal'),
-        ('Govt', 'Govt'),
+        ('External', 'External'),
         ]
     TypeOfReference = models.CharField(("Type Of Reference"),max_length=10, choices=TYPE_OF_REF)
-    RecDate   =    models.DateField(("Reference Date"), default=datetime.now)
+    RecDate   =    models.DateField(("Recieved Date"), default=datetime.now)
     RecFrom    =   models.CharField(("Recieved From"), default='user-1',max_length=100)
     MobileNumber    =   models.CharField(("Mobile Number"), default='8766518297',max_length=10)
     Dept= [
-        ('Tahasildar', 'Tahasildar'),
-        ('CollectorOffice', 'Collector Office'),
+        ('Department1', 'Department1'),
+        ('Department2', 'Department2'),
         ]
     RecFromDept =   models.CharField(("Received From Department"),max_length=20, choices=Dept)
     priority= [
-        ('1Day', '1Day'),
-        ('2Day', '2Day'),
-        ('3Day', '3Day')
+        ('Low', 'Low'),
+        ('Medium', 'Medium'),
+        ('High', 'High')
         ]
     Priority        =   models.CharField(("Priority"),max_length=20, choices=priority)
     Desk_id         =   models.CharField(("Desk_id"),max_length=20)
@@ -54,6 +54,7 @@ class InwardReg(models.Model):
     users     =   models.CharField((''),max_length=20, choices=users)
     user_id         =   models.CharField(('user_id'),default='0000000',max_length=20)
     Status      =   models.CharField(max_length=20, default='Unseen')
+    forwardedBy =   models.CharField(max_length=20,  null=True)
     
 class InwardDocs(models.Model):
     InwardId    =   models.ForeignKey(to=InwardReg, on_delete=models.CASCADE)
@@ -61,4 +62,10 @@ class InwardDocs(models.Model):
     DocsAttch   =   models.FileField(("Attached Documents"), upload_to='documents', max_length=100, null=True , blank=True)
     user_id         =   models.CharField(('user_id'),default='0000000',max_length=20)
 
-
+class OutwardReg(models.Model):
+    OutwardDate     =   models.DateField(("Outward Date"), default=datetime.now)
+    Note            =   models.TextField(("Forwarding Note"), default='xyz', null=False)
+    OutwardTo       =   models.CharField(("Outward To"), max_length=50)
+    OutwardBy       =   models.CharField(("Outward By"), max_length=20)
+    OutwardDoc      =   models.FileField(("Documents"), max_length=20)
+    InwardId        =   models.IntegerField(("Inward ID"))

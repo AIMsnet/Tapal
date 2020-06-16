@@ -59,7 +59,7 @@ def home(request):
 
 def inwardForm(request):
     if request.session.has_key('user_id'):
-
+        print("Inside inward ")
         form = InwardRegistryForm()
         DocForm = InwardDocForm()
 
@@ -76,11 +76,11 @@ def inwardForm(request):
                     print(desk_id, user_id)
             
                 obj =   form.save()
-                DocForm.save()
+                docs = DocForm.cleaned_data['DocsAttch']
+
+                InwardDocs.objects.create(InwardId = obj, DocsAttch = docs, user_id = user_id)
                 obj.user_id = user_id
                 obj.save()
-            
-                print('saved')
                 return redirect('inwardForm/')
             else:
                 print(form.errors)
@@ -131,6 +131,7 @@ def manageDepartment(request):
             updateRecord.user_id    =   SelectedUser
             updateRecord.RecievedFrom   =   user_id
             updateRecord.status         =   "Unseen"
+            updateRecord.forwardedBy   =    user_id
             updateRecord.save()
 
             records  =   InwardReg.objects.filter(user_id=user_id)
@@ -162,6 +163,18 @@ def manageDepartment(request):
                 'users'         : users,
             }
             return render(request, "manageDepartment.html",context)
+
+        if request.method == 'POST' and 'outwardBtn' in request.POST:
+            inwardId   =    request.POST.get('txtinwrd')
+            outwardDate =   request.POST.get('txtOutwrdDate')
+            outwardDoc =   request.FILES.get('outwrdDoc')
+            outwardTo   =   request.POST.get('outwrdTo')
+            outwardBy   =   request.POST.get('outwrdBy')
+            outwardNote   =   request.POST.get('note')
+
+            OutwardReg.objects.create(OutwardDate= outwardDate, OutwardDoc = outwardDoc, OutwardTo = outwardTo, OutwardBy = outwardBy, Note = outwardNote, InwardId = inwardId)
+
+            pass
         else:
             context ={
                 'records'   : records,
@@ -181,7 +194,21 @@ def getFiles(request):
 
 def outwardRegistery(request):
     if request.session.has_key('user_id'):
-        return render(request, "outwardRegistery.html")
+        if request.user.is_authenticated :
+                user_id     =   request.user.user_id
+        outwardData = InwardReg.objects.filter(forwardedBy = user_id)
+        if request.method == 'POST':
+            outwardData = InwardReg.objects.filter(forwardedBy = user_id)
+            context =   {
+                'outwardData' : outwardData
+            }
+            return render(request, "outwardRegistery.html", context)
+        else:
+            context =   {
+                'outwardData' : outwardData
+            }
+            return render(request, "outwardRegistery.html", context)
+
     return redirect("/")
 
 def ticketPurcahesInformation(request):
@@ -270,6 +297,7 @@ def adminManageRegistry(request):
         updateRecord   =    InwardReg.objects.get(id = buttonForward)
         updateRecord.user_id    =   SelectedUser
         updateRecord.save()
+        
 
         context ={
             'records'   : records,

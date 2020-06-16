@@ -15,7 +15,6 @@
         {% csrf_token %}
         <div class="from-group row justify-content-between">
             <div class="col-md-6">
-                
                 <div class="row mt-2">
                     <div class="col-md-8">
                         {{ form.user_id.as_hidden }}
@@ -33,27 +32,19 @@
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-8">
-                       {{ form.LatterDetails|as_crispy_field }}
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-8">
-                        {{ form.EmailId|as_crispy_field }}
-                    </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-8">
-                       {{ form.Address|as_crispy_field }}
-                    </div>
-                </div>
-
-                
-                <div class="row mt-2">
-                    <div class="col-md-8">
                         {{ form.TypeOfReference|as_crispy_field }}
                     </div>
                 </div>
-
+                <div class="row mt-2">
+                    <div class="col-md-8">
+                        {{ form.RecFromDept|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-8">
+                       {{ form.LatterDetails|as_crispy_field }}
+                    </div>
+                </div>
             </div>
 
             <div class="col-md-6 mt-2">
@@ -69,14 +60,20 @@
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-8">
+                        {{ form.EmailId|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-8">
                         {{ form.MobileNumber|as_crispy_field }}
                     </div>
                 </div>
                 <div class="row mt-2">
                     <div class="col-md-8">
-                        {{ form.RecFromDept|as_crispy_field }}
+                       {{ form.Address|as_crispy_field }}
                     </div>
                 </div>
+                
                 <div class="row mt-2" >
                     <div class="col-md-8">
                         {{ form.Priority|as_crispy_field }}
@@ -87,16 +84,19 @@
                         {{ DocForm.DocsAttch|as_crispy_field }}
                     </div>
                 </div>
-                
             </div>
         </div>
-            
         <div class="form-footer footer row">
-            <button class="btn btn-primary ml-2"><i class="fa fa-save"></i>Save</button>
-            <button class="btn btn-dark ml-2"><i class="fa fa-close"></i>Cancel</button>
+            <a href="/home/"><button class="btn btn-dark ml-2"></i>Cancel</button></a>
+            <button class="btn btn-primary ml-2"></i>Save</button>
         </div>
     </form>
 </div>
-
+<!-- onclick="myFunction()" -->
+<!-- <script>
+    function myFunction() {
+      alert("Inward Saved");
+    }
+</script> -->
 
 {% endblock content %} -->
