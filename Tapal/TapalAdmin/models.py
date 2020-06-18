@@ -54,7 +54,6 @@ class InwardReg(models.Model):
     users     =   models.CharField((''),max_length=20, choices=users)
     user_id         =   models.CharField(('user_id'),default='0000000',max_length=20)
     Status      =   models.CharField(max_length=20, default='Unseen')
-    forwardedBy =   models.CharField(max_length=20,  null=True)
     
 class InwardDocs(models.Model):
     InwardId    =   models.ForeignKey(to=InwardReg, on_delete=models.CASCADE)
@@ -68,4 +67,5 @@ class OutwardReg(models.Model):
     OutwardTo       =   models.CharField(("Outward To"), max_length=50)
     OutwardBy       =   models.CharField(("Outward By"), max_length=20)
     OutwardDoc      =   models.FileField(("Documents"), max_length=20)
-    InwardId        =   models.IntegerField(("Inward ID"))
+    InwardId        =   models.IntegerField(("Inward ID"), null=True)
+    History         =   models.TextField(("History"), default='xyz', null=False)

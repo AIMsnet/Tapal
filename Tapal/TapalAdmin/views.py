@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect, reverse
 from django.http import HttpResponseRedirect
-from .forms import createUserForms, InwardRegistryForm,forwardForm, InwardDocForm
-from .models import InwardReg, User, InwardDocs
+from .forms import createUserForms, InwardRegistryForm,forwardForm, InwardDocForm, OutwardForm
+from .models import InwardReg, User, InwardDocs, OutwardReg
 from django.contrib import messages
 from django.contrib import auth
 from django.contrib.auth import login
@@ -77,12 +77,13 @@ def inwardForm(request):
             
                 obj =   form.save()
                 docs = DocForm.cleaned_data['DocsAttch']
-
                 InwardDocs.objects.create(InwardId = obj, DocsAttch = docs, user_id = user_id)
                 obj.user_id = user_id
                 obj.save()
+                messages.success(request, "Latter Inwarded")
                 return redirect('inwardForm/')
             else:
+                messages.error(request, "Please Re-enter Something Went Wrong")
                 print(form.errors)
                 print('c')
         else:
@@ -116,6 +117,9 @@ def manageDepartment(request):
     if request.session.has_key('user_id'):
         users   =   User.objects.all()
 
+        outwardForm = OutwardForm()
+        outwardForm = OutwardForm(request.POST, request.FILES or None) 
+
         if request.user.is_authenticated :
                 desk_id     =   request.user.desk_id
                 user_id     =   request.user.user_id
@@ -123,7 +127,7 @@ def manageDepartment(request):
         records  =   InwardReg.objects.filter(user_id=user_id)
  
         if request.method == 'POST' and 'buttonForward' in request.POST:
-            print('inside post')
+            print('inside Forward')
             SelectedUser    = request.POST.get('selectUser')
             buttonForward   =  request.POST.get('buttonForward')
 
@@ -131,7 +135,6 @@ def manageDepartment(request):
             updateRecord.user_id    =   SelectedUser
             updateRecord.RecievedFrom   =   user_id
             updateRecord.status         =   "Unseen"
-            updateRecord.forwardedBy   =    user_id
             updateRecord.save()
 
             records  =   InwardReg.objects.filter(user_id=user_id)
@@ -139,8 +142,9 @@ def manageDepartment(request):
             context ={
                 'records'   : records,
                 'users'     : users,
+                'outwardForm'   : outwardForm
             }
-            return render(request, "manageDepartment.html", context)
+            return render(request, "manageDepartment.html",context)
 
         if request.method == 'POST' and 'saveModelButton' in request.POST:
             print("inside modelsave")
@@ -158,6 +162,7 @@ def manageDepartment(request):
             inwardReg = InwardReg.objects.get(id = SelectedUser)
             
             inwardDocs =  InwardDocs.objects.create(InwardId = inwardReg, DocsAttch = DocsAttch, user_id = user_id)
+            
             context ={
                 'records'       : records,
                 'users'         : users,
@@ -165,20 +170,34 @@ def manageDepartment(request):
             return render(request, "manageDepartment.html",context)
 
         if request.method == 'POST' and 'outwardBtn' in request.POST:
-            inwardId   =    request.POST.get('txtinwrd')
-            outwardDate =   request.POST.get('txtOutwrdDate')
-            outwardDoc =   request.FILES.get('outwrdDoc')
-            outwardTo   =   request.POST.get('outwrdTo')
-            outwardBy   =   request.POST.get('outwrdBy')
-            outwardNote   =   request.POST.get('note')
+            print("inside Outward")
+            outwardForm = OutwardForm(request.POST, request.FILES or None) 
+            inwardId    = request.POST.get('txtinwrdid')
+            history     = request.POST.get('txtOutwrdHistory')
 
-            OutwardReg.objects.create(OutwardDate= outwardDate, OutwardDoc = outwardDoc, OutwardTo = outwardTo, OutwardBy = outwardBy, Note = outwardNote, InwardId = inwardId)
+            if outwardForm.is_valid():
+                obj =   outwardForm.save()
+                obj.OutwardBy = user_id
+                obj.InwardId  = inwardId
+                obj.History =   history
+                obj.save()
+                outwardTo = outwardForm.cleaned_data['OutwardTo']
+                updateRecord   =    InwardReg.objects.get(id = inwardId)
+                updateRecord.user_id    =   outwardTo
+                updateRecord.save()
 
-            pass
+            context ={
+                'records'       : records,
+                'users'         : users,
+                'outwardForm'  : outwardForm  
+            }
+            return render(request, "manageDepartment.html", context)
+
         else:
             context ={
                 'records'   : records,
                 'users'     : users,
+                'outwardForm' : outwardForm,
             }
             return render(request, "manageDepartment.html", context)
     return redirect("/")
@@ -193,22 +212,27 @@ def getFiles(request):
     return HttpResponse(json.dumps(response), content_type = 'application/json')
 
 def outwardRegistery(request):
+  
     if request.session.has_key('user_id'):
         if request.user.is_authenticated :
                 user_id     =   request.user.user_id
-        outwardData = InwardReg.objects.filter(forwardedBy = user_id)
+        outwardData = OutwardReg.objects.filter(OutwardBy = user_id)
+
         if request.method == 'POST':
-            outwardData = InwardReg.objects.filter(forwardedBy = user_id)
+            inwardId    = request.POST.get('value')
+
+            outwardData = OutwardReg.objects.filter(OutwardBy = user_id)
+            records     = InwardReg.objects.get(id = inwardId)
             context =   {
-                'outwardData' : outwardData
+                'outwardData' : outwardData,
+                
             }
             return render(request, "outwardRegistery.html", context)
         else:
             context =   {
-                'outwardData' : outwardData
+                'outwardData' : outwardData,
             }
             return render(request, "outwardRegistery.html", context)
-
     return redirect("/")
 
 def ticketPurcahesInformation(request):

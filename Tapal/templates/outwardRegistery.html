@@ -12,49 +12,34 @@
 <!----------------Manage Departments Start-------------->
 <div class="card  mt-4">
   <div class="card-block p-0 table-responsive">
-    <form action="/manageDepartment/" method="POST">
+    <form action="/outwardRegistery/" method="POST">
       {% csrf_token %}
       <table class="table table-bordered table-hover" cellspacing="0" width="100%" id="table_id">
         <thead style="text-align: center;">
           <tr class="">
             <th>Inward ID</th>
-            <th>Recv Ref. No.</th>
-            <th>Letter Recv Date</th>
-            <th>Recieved Date</th>
-            <th>Received From</th>
-            <th>priority</th>
-            <th hidden="true">Letter Subject</th>
-            <!-- <th>Status</th> -->
-            <!-- <th>Users</th> -->
+            <th>Outward ID</th>
+            <th>Outward Date</th>
+            <th>Outward To</th>
+            <th>Document</th>
+            <th>Outward Note</th>
+            <th  hidden="true">Letter Subject</th>
           </tr>
         </thead>
         <tbody>
           {% for record in outwardData %}
           <tr class="table-row">
+            <td >{{record.InwardId}}</td>
             <td>{{record.id}}</td>
-            <td>{{record.RecRefNumber}}</td>
-            <td>{{record.LttrRecDate}}</td>
-            <td>{{record.RecDate}}</td>
-            <td>{{record.RecFrom}}</td>
-            <td>{{record.Priority}}</td>
-            <td hidden="true">{{record.LatterDetails}}</td>
-            <!-- <td id="status">{{record.Status}}</td> -->
+            <td>{{record.OutwardDate}}</td>
+            <td>{{record.OutwardTo}}</td>
+            <td id="outwardDoc">{{record.OutwardDoc}}</td>
+            <td>{{record.Note}}</td>
+            <td  hidden="true">{{record.History}}</td>
 
-            {{ form.user_id.as_hidden }}
-
-            <!-- <td>
-              <select class="form-control form-control-sm" name="selectUser">
-                <option>Select User</option>
-                {% for user in users %}
-                <option value="{{user.user_id}}">{{user.user_id}}</option>
-                {% endfor %}
-              </select>
-            </td> -->
-            <!-- <td><a class="btn  btn-primary ml-2" role="button" href="#" value="{{record.id}}" name="buttonEdit">Edit</a>
-            </td>
-            <td> <a href=""><button class="btn btn-primary ml-2" value="{{record.id}}" name="buttonForward">Forward</button></a> </td> -->
-          </tr>
           {% endfor %}
+
+          </tr>
         </tbody>
       </table>
     </form>
@@ -76,68 +61,45 @@
         <form action="/manageDepartment/" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           <div class="row d-flex justify-content-around mt-3">
-            <div class="col-6">
+            <div class="col-12">
               <div class="d-flex justify-content-between">
-                <label class="col-5">Inward No.</label>
-                <input type="text" name="InwardId" class="col-7 form-control form-control-sm border-light" readonly
+                <input type="text" name="InwardId" class="col-7 form-control form-control-sm border-light" hidden
                   id="txtinwrdno" />
-              </div>
-              <div class="d-flex justify-content-between">
-                <label class="col-5">Recv Ref. No.</label>
-                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrefno" />
-              </div>
-              <div class="d-flex justify-content-between">
-                <label class="col-5">Letter Recv Date</label>
-                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrefdt" />
               </div>
             </div>
             <div class="col-6">
               <div class="d-flex justify-content-between">
-                <label class="col-5">Recieved Date</label>
-                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrevdt" />
+                <label class="col-5">Outward ID.</label>
+                <input type="text" name="InwardId" class="col-7 form-control form-control-sm border-light" readonly
+                  id="txtoutrdno" />
+              </div>
+              <div class="d-flex justify-content-between">
+                <label class="col-5">Outward Date</label>
+                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtoutwrddt" />
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex justify-content-between">
+                <label class="col-5">Outward To</label>
+                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtoutwrdto" />
               </div>
               <div class="d-flex justify-content-between">
                 <label class="col-5">Received From</label>
                 <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrecfrom" />
               </div>
-              <div class="d-flex justify-content-between">
-                <label class="col-5">Priority</label>
-                <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtprioriy" />
-              </div>
             </div>
           </div>
           <div class="row mt-3">
-            <div class="col-6 d-flex justify-content-between">
-              <label class="col-4 mt-3">History</label>
-              <textarea class="col-8" col="35" row="20" readonly id="txtHistory" style="height: 150px;"> </textarea>
+            <div class="col-12 d-flex justify-content-between">
+              <label class="col-2 mt-3">History</label>
+              <textarea class="col-10" col="35" row="20" readonly id="txtHistory" style="height: 150px;"> </textarea>
             </div>
-            <div class="col-6 d-flex justify-content-center">
-              <label class="col-4 mt-3">Current Update</label>
-              <textarea class="col-8" col="25" row="5" id="txtUpdate" value="" style="height: 150px;" name="updateText"
-                required> </textarea>
-            </div>
-          </div>
-          <div class="row mt-3  d-flex justify-content-between">
-            <div class="col-6 d-flex justify-content-between">
-              <label class="col-4 mt-3">Attach Document</label>
-              <input type="file" class="form-control" name="DocsAttch" id="customFile">
-            </div>
-            <div class="col-6 d-flex justify-content-around">
-              <label class="col-4 ">Attached Documents</label>
-              <select class="col-6 form-control mt-2 pb-1" id = "docDropdown" name="docDropdownName">
-              </select>
-              <span class="col-2 text-center form-control border-0 my-2 ">
-                <!-- <a href="/downloadFile/"><i class="fa fa-download" style="font-size:30px;"></i></a> -->
-                <a onclick="clickeddd()"><i class="fa fa-download" style="font-size:30px;"></i></a>
-              </span>
-            </div>
+            
           </div>
       </div>
 
       <div class="modal-footer">
         <button type="cancel" class="btn btn-dfault" data-dismiss="modal">Cancel</button>
-        <button type="submit" class="btn btn-success" value="" id="saveModelButton" name="saveModelButton">Save
-          changes</button>
       </div>
       </form>
     </div>
@@ -145,64 +107,42 @@
 </div>
 
 <script type="text/javascript">
-  $('#myModal').on('shown.bs.modal', function () {
-    document.getElementById("saveModelButton").value = document.getElementById("txtinwrdno").value
-  })
-  function clearContents(element) {
-    console.log("tringgred2222222")
-    element.value = '';
-  }
+
 
   $(document).ready(function () {
     $("#latter").hide();
   });
 
-  $('table tbody tr td .btn').on('click', function () {
+  $('table tbody tr td #btnView').on('click', function () {
+    
     $("#myModal").modal("show");
     $("#txtinwrdno").val($(this).closest('tr').children()[0].textContent);
-    $("#txtrefno").val($(this).closest('tr').children()[1].textContent);
-    $("#txtrefdt").val($(this).closest('tr').children()[2].textContent);
-    $("#txtrevdt").val($(this).closest('tr').children()[3].textContent);
-    $("#txtrecfrom").val($(this).closest('tr').children()[4].textContent);
-    $("#txtprioriy").val($(this).closest('tr').children()[5].textContent);
-    $("#txtHistory").val($(this).closest('tr').children()[6].textContent);
+    $("#txtoutrdno").val($(this).closest('tr').children()[1].textContent);
+    $("#txtoutwrddt").val($(this).closest('tr').children()[2].textContent);
+    $("#txtoutwrdto").val($(this).closest('tr').children()[3].textContent);
+    $("#txtHistory").val($(this).closest('tr').children()[5].textContent);
+
   });
+
+  
   $('table tbody tr td').on('dblclick', function () {
     $("#myModal").modal("show");
     $("#txtinwrdno").val($(this).closest('tr').children()[0].textContent);
-    $("#txtrefno").val($(this).closest('tr').children()[1].textContent);
-    $("#txtrefdt").val($(this).closest('tr').children()[2].textContent);
-    $("#txtrevdt").val($(this).closest('tr').children()[3].textContent);
-    $("#txtrecfrom").val($(this).closest('tr').children()[4].textContent);
-    $("#txtprioriy").val($(this).closest('tr').children()[5].textContent);
+    $("#txtoutrdno").val($(this).closest('tr').children()[1].textContent);
+    $("#txtoutwrddt").val($(this).closest('tr').children()[2].textContent);
+    $("#txtoutwrdto").val($(this).closest('tr').children()[3].textContent);
     $("#txtHistory").val($(this).closest('tr').children()[6].textContent);
 
+    // AJAX CALL
     $.ajax({
       type: 'POST',
-      url: '/getFile/',
+      url: '/outwardRegistery/',
       data: {
-        inwardId: document.getElementById("txtinwrdno").value,
+        value: document.getElementById("txtinwrdno").value,
         csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
       },
-      success: function (response) {
-        $('#docDropdown').empty()
-        var res = response.inwardDocs
-        len = res['length']
-        for(var i = 0; i < len ; i++)
-        {
-          if(res[i]['fields'].DocsAttch != "")
-          $('#docDropdown').append($("<option></option>").attr("value", res[i]['fields'].DocsAttch.substring(10, )).text(res[i]['fields'].DocsAttch.substring(10, )));
-        }
-      }
     });
-
-
   });
-  function clickeddd(){
-    fileName = $("#docDropdown").val()
-    console.log(fileName)
-    window.open("file/"+fileName);
-  }
 </script>
 
 {% endblock content %}

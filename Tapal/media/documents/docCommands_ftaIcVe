@@ -1,0 +1,40 @@
+1> get the dropdown list from database
+
+declare model class in views
+
+def Function(request):
+    users   =   User.objects.all()
+	 context ={
+            'users'     : users,
+        }
+
+in templates
+<select class="selectpicker" name="selectUser">
+	 {% for user in users %}
+		<option value="{{user.user_id}}">{{user.user_id}}</option>
+	{% endfor %}
+</select> 
+
+2> update particular records on click on button
+	
+	<a href=""><button class="btn btn-primary ml-2" value="{{record.id}}" name="buttonForward">Forward</button></a>
+	
+	SelectedUser    = request.POST.get('selectUser')
+        buttonForward   =  request.POST.get('buttonForward')
+
+        updateRecord   =    InwardRegistry.objects.get(id = buttonForward)
+        updateRecord.user_id    =   SelectedUser
+        updateRecord.save()
+	
+
+3> date function in django while filtering data according to given date
+
+	records  =   InwardRegistry.objects.filter(ReferenceRecievedDate__range=(startDate, endDate))
+
+	do not use date inside range 
+
+
+
+
+
+
