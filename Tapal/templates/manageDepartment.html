@@ -16,6 +16,7 @@
     <div class="card-block p-0 table-responsive">
       <form action="/manageDepartment/" method="POST">
         {% csrf_token %}
+        
         <table class="table table-bordered table-hover" cellspacing="0" id="table_id">
           <thead style="text-align: center;">
             <tr class="">
@@ -26,7 +27,7 @@
               <th>Received From</th>
               <th>priority</th>
               <th hidden="true">Letter Subject</th>
-              <th>Users</th>
+              <!-- <th>Users</th> -->
               <th>Edit Details</th>
               <th>Forward</th>
               <th>Outward</th>
@@ -45,18 +46,21 @@
 
               {{ form.user_id.as_hidden }}
 
-              <td>
-                <select class="form-control form-control-sm" name="selectUser">
+              <!-- <td>
+                <select class="form-control form-control-sm" name="selectUser" id="slval">
                   {% for user in users %}
-                  <option value={{user.user_id}}>{{user.user_id}}</option>
+                  <option value="{{user.user_id}}">{{user.user_id}}</option>
                   {% endfor %}
                 </select>
-
-              </td>
+              </td> -->
               <td><a class="btn btn-light text-primary btnEdit" role="button" href="#" value="{{record.id}}" name="buttonEdit"><i class="fa fa-pencil-square-o"></i></a>
               </td>
-              <td> <a href=""><button class="btn btn-light text-primary" value="{{record.id}}" name="buttonForward"><i class="fa fa-arrow-right"></i></button></a> 
+              <td><button type="button" id="btnfd" class="btn text-primary btn-light btnfd" >
+                <i class="fa fa-arrow-right"></i>
+                </button>
               </td>
+              <!-- <td> <a href=""><button class="btn btn-light text-primary" value="{{record.id}}" name="buttonForward"><i class="fa fa-arrow-right"></i></button></a> 
+              </td> -->
               <td><a class="btn btn-light text-primary btnOutwrd" id="btnOutwrd" role="button" href="#" value="{{record.id}}" name="btnOutwrd">Outward</a>
               </td>
             </tr>
@@ -151,7 +155,7 @@
 
 <!-- Outward Model -->
 
-<div class="modal modal-outwrd fade ml-2 mr-2" id="outwardModel" tabindex="-2">
+<div class="modal modal-outwrd fade ml-2 mr-2" id="outwardModel" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -193,11 +197,7 @@
           </div>
           <div class="modal-footer justify-content-between">
             <div>
-              <label>Close Record</label>
-              <label class="switch">
-                <input type="checkbox" checked>
-                <span class="slider round"></span>
-              </label>
+              <input type="checkbox" data-toggle="toggle" data-on="Active" data-off="Inactive" data-onstyle="success" data-offstyle="danger" checked data-size="normal" data-width="100">
             </div>
             <div>
               <button type="cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -210,7 +210,50 @@
 </div> 
 
 
+<!-- FORWARD CONFIRMATION MODEL -->
+<div class="modal fade" tabindex="-1" id="exampleModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">FORWARD</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+      </div>
+      
+      <form action="/manageDepartment/" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="col-6">
+              Do you want to forward record with ID
+              <input class="form-control form-control-sm border-0" type="text" name="txtinwrdid" readonly id="txtinwrdidformodel">
+            </div>
+            <div class="col-6">
+              Select User
+              <select class="form-control form-control-sm" name="selectUser" id="slval">
+                <option value="{{user.user_id}}">Select User</option>
+                {% for user in users %}
+                <option value="{{user.user_id}}">{{user.user_id}}</option>
+                {% endfor %}
+              </select>
+            </div>
+         </div>
+        </div>
+        
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+          <td> <a href=""><button class="btn btn-success" id="buttonForward" name="buttonForward">YES</i></button></a> 
+          </td>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script type="text/javascript">
+  
+
+  // EDIT MODEL
   $('#myModal').on('shown.bs.modal', function () {
     document.getElementById("saveModelButton").value = document.getElementById("txtinwrdno").value
   })
@@ -222,6 +265,7 @@
     $("#latter").hide();
   });
 
+  // OUTWARD
   $('table tbody tr td #btnOutwrd').on('click', function () {
     $("#outwardModel").modal("show");
     $("#txtinwrdid").val($(this).closest('tr').children()[0].textContent);
@@ -267,14 +311,26 @@
         }
       }
     });
-
-
   });
+
   function clickeddd(){
     fileName = $("#docDropdown").val()
     console.log(fileName)
     window.open("file/"+fileName);
   }
+
+
+  //FORWARD CONFIRMATION MODEL
+  
+  $('table tbody tr td #btnfd').on('click', function () {
+    $("#exampleModal").modal("show");
+    $("#txtinwrdidformodel").val($(this).closest('tr').children()[0].textContent);
+  });
+
+  $('#exampleModal').on('shown.bs.modal', function () {
+    document.getElementById("buttonForward").value = document.getElementById("txtinwrdidformodel").value
+  });
+
 </script>
 
 {% endblock content %}

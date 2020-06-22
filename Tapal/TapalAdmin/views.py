@@ -89,7 +89,7 @@ def inwardForm(request):
         else:
             print('d')
             form = InwardRegistryForm()
-            DocForm  =   InwardDocForm()
+            DocForm  = InwardDocForm()
         return render(request, "InwardForm.html",{'form' : form, 'DocForm' : DocForm})
     return redirect("/")
 
@@ -131,6 +131,9 @@ def manageDepartment(request):
             SelectedUser    = request.POST.get('selectUser')
             buttonForward   =  request.POST.get('buttonForward')
 
+            print(SelectedUser)
+            print(buttonForward)
+
             updateRecord   =    InwardReg.objects.get(id = buttonForward)
             updateRecord.user_id    =   SelectedUser
             updateRecord.RecievedFrom   =   user_id
@@ -166,6 +169,7 @@ def manageDepartment(request):
             context ={
                 'records'       : records,
                 'users'         : users,
+                'outwardForm'   : outwardForm
             }
             return render(request, "manageDepartment.html",context)
 
