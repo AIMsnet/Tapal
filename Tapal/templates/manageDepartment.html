@@ -26,6 +26,7 @@
               <th>Recieved Date</th>
               <th>Received From</th>
               <th>priority</th>
+              <th>Status</th>
               <th hidden="true">Letter Subject</th>
               <!-- <th>Users</th> -->
               <th>Edit Details</th>
@@ -42,6 +43,7 @@
               <td>{{record.RecDate}}</td>
               <td>{{record.RecFrom}}</td>
               <td>{{record.Priority}}</td>
+              <td>{{record.Status}}</td>
               <td hidden="true">{{record.LatterDetails}}</td>
 
               {{ form.user_id.as_hidden }}
@@ -144,6 +146,9 @@
         </div>
 
         <div class="modal-footer">
+          <div class="mr-auto">
+            <input type="checkbox" name="status" id="status" class="mr-2" > Deactivate
+          </div>
           <button type="cancel" class="btn btn-dfault" data-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-success" value="" id="saveModelButton" name="saveModelButton">Save
             changes</button>
@@ -196,8 +201,8 @@
             </div>
           </div>
           <div class="modal-footer justify-content-between">
-            <div>
-              <input type="checkbox" data-toggle="toggle" data-on="Active" data-off="Inactive" data-onstyle="success" data-offstyle="danger" checked data-size="normal" data-width="100">
+            <div class="mr-auto">
+              <input type="checkbox" name="statusOutwrd" id="statusOutwrd" class="mr-2" > Deactivate
             </div>
             <div>
               <button type="cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -318,8 +323,6 @@
     console.log(fileName)
     window.open("file/"+fileName);
   }
-
-
   //FORWARD CONFIRMATION MODEL
   
   $('table tbody tr td #btnfd').on('click', function () {
@@ -330,7 +333,9 @@
   $('#exampleModal').on('shown.bs.modal', function () {
     document.getElementById("buttonForward").value = document.getElementById("txtinwrdidformodel").value
   });
-
+  
+  
 </script>
+
 
 {% endblock content %}

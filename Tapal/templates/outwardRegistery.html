@@ -23,6 +23,7 @@
             <th>Outward To</th>
             <th>Document</th>
             <th>Outward Note</th>
+            <th>Status</th>
             <th  hidden="true">Letter Subject</th>
           </tr>
         </thead>
@@ -35,6 +36,7 @@
             <td>{{record.OutwardTo}}</td>
             <td id="outwardDoc">{{record.OutwardDoc}}</td>
             <td>{{record.Note}}</td>
+            <td>{{record.Status}}</td>
             <td  hidden="true">{{record.History}}</td>
 
           {% endfor %}
@@ -99,7 +101,14 @@
       </div>
 
       <div class="modal-footer">
-        <button type="cancel" class="btn btn-dfault" data-dismiss="modal">Cancel</button>
+        <div class="mr-auto">
+          <input type="checkbox" id="openclose" data-toggle="toggle" data-on="Active" data-off="Inactive" data-onstyle="success" data-offstyle="danger" checked data-size="normal" data-width="100">
+        </div>
+        <div>
+          <button type="cancel" class="btn btn-dfault" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-dfault" data-dismiss="modal">Ok</button>
+        </div>
+      </div>
       </div>
       </form>
     </div>
@@ -143,6 +152,21 @@
       },
     });
   });
+
+
+var switchStatus = false;
+$("#openclose").on('change', function() {
+    if ($(this).is(':checked')) {
+        switchStatus = $(this).is(':checked');
+        alert(switchStatus);// To verify
+        console.log(switchStatus)
+    }
+    else {
+       switchStatus = $(this).is(':checked');
+       alert(switchStatus);// To verify
+       console.log("else", switchStatus)
+    }
+});
 </script>
 
 {% endblock content %}

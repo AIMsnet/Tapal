@@ -80,8 +80,8 @@ def inwardForm(request):
                 InwardDocs.objects.create(InwardId = obj, DocsAttch = docs, user_id = user_id)
                 obj.user_id = user_id
                 obj.save()
-                messages.success(request, "Latter Inwarded")
-                return redirect('inwardForm/')
+                a = messages.success(request, "Latter Inwarded")
+                return redirect('inwardForm/', {'a': a})
             else:
                 messages.error(request, "Please Re-enter Something Went Wrong")
                 print(form.errors)
@@ -92,7 +92,6 @@ def inwardForm(request):
             DocForm  = InwardDocForm()
         return render(request, "InwardForm.html",{'form' : form, 'DocForm' : DocForm})
     return redirect("/")
-
 
 def forward(request):
     
@@ -154,16 +153,22 @@ def manageDepartment(request):
 
             SelectedUser   =    request.POST.get('saveModelButton')
             updateText     =    request.POST.get('updateText')
-            DocsAttch        =    request.FILES.get('DocsAttch')
+            DocsAttch      =    request.FILES.get('DocsAttch')
+            status         =    request.POST.get('status')
             
             addUpdate      =    InwardReg.objects.get(id = SelectedUser)
             dat = addUpdate.LatterDetails
             tm = time.strftime('%d %b %Y')
             addUpdate.LatterDetails   =   dat + "\n"+ user_id + " : " + tm + " : " + updateText
+
+            # ----------------------Activate/Deactivate----------------------
+            if status is not None:
+                addUpdate.Status   = "Deactivated"
+            else:
+                addUpdate.Status   = "Activate"
             addUpdate.save()
 
-            inwardReg = InwardReg.objects.get(id = SelectedUser)
-            
+            inwardReg = InwardReg.objects.get(id = SelectedUser) 
             inwardDocs =  InwardDocs.objects.create(InwardId = inwardReg, DocsAttch = DocsAttch, user_id = user_id)
             
             context ={
@@ -178,12 +183,19 @@ def manageDepartment(request):
             outwardForm = OutwardForm(request.POST, request.FILES or None) 
             inwardId    = request.POST.get('txtinwrdid')
             history     = request.POST.get('txtOutwrdHistory')
-
+            status         =    request.POST.get('statusOutwrd')
+            print(status)
+            
             if outwardForm.is_valid():
                 obj =   outwardForm.save()
                 obj.OutwardBy = user_id
                 obj.InwardId  = inwardId
                 obj.History =   history
+            # ----------------------Activate/Deactivate----------------------
+                if status is not None:
+                    obj.Status   = "Deactivated"
+                else:
+                    obj.Status   = "Activate"
                 obj.save()
                 outwardTo = outwardForm.cleaned_data['OutwardTo']
                 updateRecord   =    InwardReg.objects.get(id = inwardId)
@@ -223,7 +235,10 @@ def outwardRegistery(request):
         outwardData = OutwardReg.objects.filter(OutwardBy = user_id)
 
         if request.method == 'POST':
+            print("outward")
             inwardId    = request.POST.get('value')
+            status      = request.POST.get('status')
+            print(status)
 
             outwardData = OutwardReg.objects.filter(OutwardBy = user_id)
             records     = InwardReg.objects.get(id = inwardId)
