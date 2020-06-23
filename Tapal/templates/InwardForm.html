@@ -10,6 +10,17 @@
 
 {% block content %}
 
+{% if messages %}
+    <div class="alert alert-success text-center" id="success-alert">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            <strong>{{ message }}</strong>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
 <div class="m-3"></div>
 <div class="container formcon">
      <h5 class="text-center m-2 mb-3 border-info border-bottom">INWARD REGISTERY</h5>
@@ -90,14 +101,18 @@
         </div>
         <div class="form-footer footer row">
             <a href="/home/"><button class="btn btn-dark ml-2">Cancel</button></a>
-            <button class="btn show-toast btn-primary ml-2" id="show-toast">Save</button>
+            <button class="btn show-alert btn-primary ml-2" id="show-toast">Save</button>
         </div>
     </form>
 </div>
-<script type="text/javascript">
-   
-    var msg = '{{ a }}';
-    console.log("here are the msgs", a)
-</script>
+
+<script>
+
+    // hide message window after interval
+    var message_ele = document.getElementById("success-alert");
+    setTimeout(function(){ 
+    message_ele.style.display = "none"; 
+    }, 3000);
+    </script>
 
 {% endblock content %} -->
