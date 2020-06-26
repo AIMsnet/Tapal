@@ -31,14 +31,15 @@ urlpatterns = [
     
     path('logout/', views.logout),
     path('forward/', views.forward),
+    path("getFile/", views.getFiles),
+    url('file/(?P<fileName>[\w\s,@.]+)', views.DownloadFile, name = "showSupplier"),
 
     # ADMINISTRATION
     path('adminManageRegistry/', views.adminManageRegistry),
-    
     path('DeptHome/', views.DeptHome),
     path('deptInwardReg/', views.deptInwardReg),
     path('DeptReport/', views.DeptReport),
     path('actionToBeTaken/', views.actionToBeTaken),
-    path("getFile/", views.getFiles),
-    url('file/(?P<fileName>[\w\s,@.]+)', views.DownloadFile, name = "showSupplier")
+    path('userList/', views.UserList)
+    
 ]

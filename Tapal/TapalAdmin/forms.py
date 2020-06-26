@@ -18,6 +18,7 @@ class createUserForms(UserCreationForm):
             'role',
             'desk_id',
             'designation',
+            'is_superuser',
             'password1',
             'password2'
         ]

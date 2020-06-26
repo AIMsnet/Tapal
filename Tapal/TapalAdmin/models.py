@@ -10,7 +10,7 @@ class User(AbstractUser):
     employee_id =   models.CharField(max_length=50,null=False, unique=True)
     role        =   models.CharField(max_length=50, null=False)
     designation =   models.CharField(max_length=50, null=False)
-    desk_id        =   models.CharField(max_length=50, null=False)
+    desk_id     =   models.CharField(max_length=50, null=False)
     user_id     =   models.CharField(max_length=100, null=False, unique=True)
 
 

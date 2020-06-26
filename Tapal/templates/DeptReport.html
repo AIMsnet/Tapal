@@ -22,10 +22,10 @@
             {% csrf_token %}
             <div class="form-group text-center">
               <label for="strtdt" class="form-content">Start Date</label>
-              <input class="ml-2 form-control-sm" type="date" id="strtdt" name="strtdt">
+              <input class="ml-2 form-control-sm" type="date" id="strtdt" name="strtdt" required>
       
               <label for="enddt" class="form-content ml-3">End Date</label>
-              <input class="form-control-sm" type="date" id="enddt" name="enddt">
+              <input class="form-control-sm" type="date" id="enddt" name="enddt" required>
       
               <div class="form-group m-2 p-2">
                 <button class="btn bg-info m-2" role="button" id="subtxt">ENTER</button>
@@ -39,22 +39,21 @@
                       <th>Reference Date</th>
                       <th>Date Of Reference Received</th>
                       <th>Received From</th>
-                      <th>Brief Details</th>
                       <th>Departments</th>
-                    
+                      <th>Status</th>                    
                   </tr>
               </thead>
-              <tbody>              
+              <tbody id="">              
               {% for record in records %}
-              <tr>
-                <td contenteditable='true'>{{record.id}}</td>
-                <td contenteditable='true'>{{record.RecRefNumber}}</td>
-                <td contenteditable='true'>{{record.LttrRecDate}}</td>
-                <td contenteditable='true'>{{record.RecDate}}</td>
-                <td contenteditable='true'>{{record.RecFrom}}</td>
-                <td contenteditable='true'>{{record.LatterDetails}}</td>
-                <td contenteditable='true'>{{record.user_id}}</td>
-              </tr>
+                <tr >
+                  <td contenteditable='true'>{{record.id}}</td>
+                  <td contenteditable='true'>{{record.RecRefNumber}}</td>
+                  <td contenteditable='true'>{{record.LttrRecDate}}</td>
+                  <td contenteditable='true'>{{record.RecDate}}</td>
+                  <td contenteditable='true'>{{record.RecFrom}}</td>
+                  <td contenteditable='true'>{{record.user_id}}</td>
+                  <td contenteditable='true'>{{record.Status}}</td>
+                </tr>
               {% endfor %}
               </tbody>
             </form>
@@ -62,6 +61,14 @@
       </div>
     </div>
 </div>
- <!----------------Report End-------------->
 </div>
+<script>
+  var rows = document.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+    for (i = 0; i < rows.length; i++) 
+    {
+        cells = rows[i].getElementsByTagName('td');
+        if (cells[6].innerHTML == 'Deactivated')
+            rows[i].style.color = "red";
+ }
+</script>
 {% endblock content %}

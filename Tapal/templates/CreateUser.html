@@ -46,14 +46,15 @@
                         {{ form.desk_id|as_crispy_field }}
                     </div>
                 </div>
-            </div>
-
-            <div class="col-md-6 mt-2">
-                <div class="row mt-1">
+                <div class="row mt-2">
                     <div class="col-md-8">
                         {{ form.employee_id|as_crispy_field }}
                     </div>
                 </div>
+            </div>
+
+            <div class="col-md-6 mt-2">
+                
                 <div class="row mt-2">
                     <div class="col-md-8">
                         {{ form.role|as_crispy_field }}
@@ -62,6 +63,11 @@
                 <div class="row mt-2">
                     <div class="col-md-8">
                         {{ form.designation|as_crispy_field }}
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-8">
+                        {{ form.is_superuser|as_crispy_field }}
                     </div>
                 </div>
                 <div class="row mt-2">

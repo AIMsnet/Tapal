@@ -377,3 +377,28 @@ def DownloadFile(request, fileName):
     response['Content-Length'] = os.path.getsize(file)
     response['Content-Disposition'] = 'attachment; filename=%s' % fileName
     return response
+
+def UserList(request):
+    users = User.objects.all
+
+    if request.method == 'POST':
+        print('inside userlist')
+        toChange    =   request.POST.get('changeTo')
+        print(toChange)
+
+        changeFor   =   request.POST.get('buttonId')
+        print(changeFor)
+        
+        changeStatus    =   User.objects.get(id = changeFor)
+        changeStatus.is_active  = toChange
+        changeStatus.save()
+
+        context = {
+            'users' : users
+        }
+        return render(request, "UserTable.html", context)
+    else:
+        context = {
+            'users' : users
+        }
+        return render(request, "UserTable.html", context)
