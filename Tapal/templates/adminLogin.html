@@ -27,11 +27,9 @@
         <div id="login-row" class="row justify-content-center align-items-center">
             <div id="login-column" class="col-md-6">
                 <div id="login-box" class="col-md-12">
-                    <h2 class="text-center mt-5">User Login</h2>
-                    <form action="/" method="POST" style="text-align: -webkit-center;">
+                    <h2 class="text-center mt-5">Admin Login</h2>
+                    <form action="/admin/" method="POST" style="text-align: -webkit-center;">
                         {% csrf_token %}
-                        <strong> (NOTE : Your "username" is your "user_Id" .)</strong>
-
                         {% if messages %}
                             <ul class="messages">
                                 {% for message in messages %}
@@ -46,14 +44,14 @@
                         <div class="form-group">
                             <input type="submit" value="Sign In" class="btn btn-primary">
                         </div>
-                        <a href="/admin/">AdminLogin</a>  &&
+                        Don't have account ? <a href="CreateUser/">Register Here</a><br>
                         <a href="/DeptHome/">Admin</a>
                     </form>  
                 </div>
             </div>
-            
         </div>
     </div>
+
 {% endblock content %}
 </body>
 </html>

@@ -10,13 +10,13 @@
 {% block content %}
 
 <!----------------Manage Departments Start-------------->
-<div class="card  mt-4">
-  <div class="card-block p-0 table-responsive">
+<div class="container-fluid p-0 mt-2">
+  <div class="table-responsive" style="height: 500px;">
     <form action="/outwardRegistery/" method="POST">
       {% csrf_token %}
-      <table class="table table-bordered table-hover" cellspacing="0" width="100%" id="table_id">
+      <table class="table table-hover" cellspacing="0" width="100%" id="table_id">
         <thead style="text-align: center;">
-          <tr class="">
+          <tr class="" style="text-align: center; background-color: #ace6f6;">
             <th>Inward ID</th>
             <th>Outward ID</th>
             <th>Outward Date</th>

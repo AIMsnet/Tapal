@@ -5,20 +5,20 @@
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'styles/manageDepartment2.css' %}">
-<link rel="stylesheet" type="text/css" href="{% static 'styles/modalOutwrd.css' %}">
+<!-- <link rel="stylesheet" type="text/css" href="{% static 'styles/modalOutwrd.css' %}"> -->
 {% endblock css %}
 
 
 {% block content %}
 
 <!----------------Manage Departments Start-------------->
-  <div class="card  mt-4">
-    <div class="card-block p-0 table-responsive">
+  <div class="container-fluid p-0 mt-1">
+    <div class="table-responsive" style="height: 500px;">
       <form action="/manageDepartment/" method="POST">
         {% csrf_token %}
         
-        <table class="table table-bordered table-hover" cellspacing="0" id="table_id">
-          <thead style="text-align: center;">
+        <table class="table table-hover" cellspacing="0" id="table_id">
+          <thead class="thead" style="text-align: center; background-color: #ace6f6;">
             <tr class="">
               <th>Inward ID</th>
               <th>Recv Ref. No.</th>
@@ -28,44 +28,36 @@
               <th>priority</th>
               <th>Status</th>
               <th hidden="true">Letter Subject</th>
-              <!-- <th>Users</th> -->
               <th>Edit Details</th>
               <th>Forward</th>
               <th>Outward</th>
             </tr>
           </thead>
-          <tbody class="p-0 m-0" style="text-align: center">
+          <tbody  style="text-align: center">
             {% for record in records %}
-            <tr class="table-row" style="height : 60px">
-              <td>{{record.id}}</td>
-              <td>{{record.RecRefNumber}}</td>
-              <td>{{record.LttrRecDate}}</td>
-              <td>{{record.RecDate}}</td>
-              <td>{{record.RecFrom}}</td>
-              <td>{{record.Priority}}</td>
-              <td>{{record.Status}}</td>
-              <td hidden="true">{{record.LatterDetails}}</td>
+            
+              <tr class="table-row p-0">
+                <td>{{record.id}}</td>
+                <td>{{record.RecRefNumber}}</td>
+                <td>{{record.LttrRecDate}}</td>
+                <td>{{record.RecDate}}</td>
+                <td>{{record.RecFrom}}</td>
+                <td>{{record.Priority}}</td>
+                <!-- <td>{{record.Status}}</td> -->
+                <td>{{record.Status}}</td>
+                <td hidden="true">{{record.LatterDetails}}</td>
 
-              {{ form.user_id.as_hidden }}
+                {{ form.username.as_hidden }}
 
-              <!-- <td>
-                <select class="form-control form-control-sm" name="selectUser" id="slval">
-                  {% for user in users %}
-                  <option value="{{user.user_id}}">{{user.user_id}}</option>
-                  {% endfor %}
-                </select>
-              </td> -->
-              <td><a class="btn btn-light text-primary btnEdit" role="button" href="#" value="{{record.id}}" name="buttonEdit"><i class="fa fa-pencil-square-o"></i></a>
-              </td>
-              <td><button type="button" id="btnfd" class="btn text-primary btn-light btnfd" >
-                <i class="fa fa-arrow-right"></i>
-                </button>
-              </td>
-              <!-- <td> <a href=""><button class="btn btn-light text-primary" value="{{record.id}}" name="buttonForward"><i class="fa fa-arrow-right"></i></button></a> 
-              </td> -->
-              <td><a class="btn btn-light text-primary btnOutwrd" id="btnOutwrd" role="button" href="#" value="{{record.id}}" name="btnOutwrd">Outward</a>
-              </td>
-            </tr>
+                <td><a class="btn btn-light text-primary btnEdit p-0" role="button" href="#" value="{{record.id}}" name="buttonEdit"><i class="fa fa-pencil-square-o"></i></a>
+                </td>
+                <td><button type="button" id="btnfd" class="btn text-primary btn-light btnfd p-0 pb-0" >
+                  <i class="fa fa-arrow-right"></i>
+                  </button>
+                </td>
+                <td><a class="btn btn-light text-primary btnOutwrd p-0" id="btnOutwrd" role="button" href="#" value="{{record.id}}" name="btnOutwrd">Outward</a>
+                </td>
+              </tr>
             {% endfor %}
           </tbody>
         </table>
@@ -236,9 +228,9 @@
             <div class="col-6">
               Select User
               <select class="form-control form-control-sm" name="selectUser" id="slval">
-                <option value="{{user.user_id}}">Select User</option>
+                <option value="{{user.username}}">Select User</option>
                 {% for user in users %}
-                <option value="{{user.user_id}}">{{user.user_id}}</option>
+                <option value="{{user.username}}">{{user.username}}</option>
                 {% endfor %}
               </select>
             </div>
@@ -285,7 +277,7 @@
     $("#txtrevdt").val($(this).closest('tr').children()[3].textContent);
     $("#txtrecfrom").val($(this).closest('tr').children()[4].textContent);
     $("#txtprioriy").val($(this).closest('tr').children()[5].textContent);
-    $("#txtHistory").val($(this).closest('tr').children()[6].textContent);
+    $("#txtHistory").val($(this).closest('tr').children()[7].textContent);
   });
   $('table tbody tr td').on('dblclick', function () {
     $("#myModal").modal("show");
@@ -295,7 +287,7 @@
     $("#txtrevdt").val($(this).closest('tr').children()[3].textContent);
     $("#txtrecfrom").val($(this).closest('tr').children()[4].textContent);
     $("#txtprioriy").val($(this).closest('tr').children()[5].textContent);
-    $("#txtHistory").val($(this).closest('tr').children()[6].textContent);
+    $("#txtHistory").val($(this).closest('tr').children()[7].textContent);
 
     $.ajax({
       type: 'POST',
@@ -333,6 +325,20 @@
     document.getElementById("buttonForward").value = document.getElementById("txtinwrdidformodel").value
   });
   
+
+// Change the colour of row on deactivation
+var rows = document.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
+for (i = 0; i < rows.length; i++) 
+console.log("inside for change clr")
+console.log(i)
+{
+    cells = rows[i].getElementsByTagName('td');
+    if (cells[6].innerHTML == 'Deactivated')
+    {
+        rows[i].style.color = "red"
+    }
+
+};
 
 </script>
 

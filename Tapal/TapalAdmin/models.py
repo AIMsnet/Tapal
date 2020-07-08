@@ -4,19 +4,19 @@ from datetime import datetime, date
 
 
 class User(AbstractUser):
-    username    =   None
     email       =   models.EmailField(max_length=255,null=False, unique=True)
     mobile_no   =   models.CharField(max_length=100, null=False, unique=True)
     employee_id =   models.CharField(max_length=50,null=False, unique=True)
-    role        =   models.CharField(max_length=50, null=False)
+    # role        =   models.CharField(max_length=50, null=False)
     designation =   models.CharField(max_length=50, null=False)
     desk_id     =   models.CharField(max_length=50, null=False)
-    user_id     =   models.CharField(max_length=100, null=False, unique=True)
+    # user_id     =   models.CharField(max_length=100, unique=True)
 
 
-    USERNAME_FIELD = 'user_id'
-    REQUIRED_FIELDS =  []
- 
+    # USERNAME_FIELD = 'user_id'
+    # REQUIRED_FIELD =  ['user_id']
+    # def __str__(self):
+    #     return self.user_id
 
 class InwardReg(models.Model):
     #Id     =  models.AutoField(null= False)
@@ -53,7 +53,9 @@ class InwardReg(models.Model):
         ]
     users     =   models.CharField((''),max_length=20, choices=users)
     user_id         =   models.CharField(('user_id'),default='0000000',max_length=20)
-    Status      =   models.CharField(max_length=20, default='Activated')
+    # Status      =   models.BooleanField(default= True)
+    Status    =   models.BooleanField(default=True)
+
     
 class InwardDocs(models.Model):
     InwardId    =   models.ForeignKey(to=InwardReg, on_delete=models.CASCADE)

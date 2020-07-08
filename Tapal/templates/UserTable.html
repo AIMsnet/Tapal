@@ -25,7 +25,6 @@
                     <th>Mobile no</th>
                     <th>Employee Id</th>
                     <th>Desk Id</th>
-                    <th>User Id</th>
                     <th>Designation</th>
                     <th>Is Active</th>
 
@@ -33,38 +32,37 @@
             </thead>
             <tbody>
             {% for user in users %}
-                {% if user.is_active is False %}
-                <tr class="table-row" style="color: red;">
-                  <td >{{user.id}}</td>
-                  <td >{{user.first_name}}</td>
-                  <td >{{user.last_name}}</td>
-                  <td >{{user.email}}</td>
-                  <td >{{user.mobile_no}}</td>
-                  <td >{{user.employee_id}}</td>
-                  <td >{{user.desk_id}}</td>
-                  <td >{{user.user_id}}</td> 
-                  <td >{{user.designation}}</td>
-                  <td >{{user.is_active}}</td>
-                  <td><a class="btn btn-light text-success btnOutwrd" id="activateUser" role="button" href="#" value="{{user.id}}" name="btnOutwrd">Activate</a>
-                  </td>
-                </tr>
-                {% else %}
-                <tr class="table-row">
-                  <td >{{user.id}}</td>
-                  <td >{{user.first_name}}</td>
-                  <td >{{user.last_name}}</td>
-                  <td >{{user.email}}</td>
-                  <td >{{user.mobile_no}}</td>
-                  <td >{{user.employee_id}}</td>
-                  <td >{{user.desk_id}}</td>
-                  <td >{{user.user_id}}</td> 
-                  <td >{{user.designation}}</td>
-                  <td >{{user.is_active}}</td>
-                  <td><a class="btn btn-light text-danger btnOutwrd" id="deactivateUser" role="button" href="#" value="{{user.id}}" name="btnOutwrd">Deactivate</a>
-                  </td>
-                </tr>
+                {% if user.is_superuser is False %}
+                    {% if user.is_active is False %}
+                    <tr class="table-row" style="color: red;">
+                      <td >{{user.id}}</td>
+                      <td >{{user.first_name}}</td>
+                      <td >{{user.last_name}}</td>
+                      <td >{{user.email}}</td>
+                      <td >{{user.mobile_no}}</td>
+                      <td >{{user.employee_id}}</td>
+                      <td >{{user.desk_id}}</td>
+                      <td >{{user.designation}}</td>
+                      <td >{{user.is_active}}</td>
+                      <td><a class="btn btn-light text-success btnOutwrd" id="activateUser" role="button" href="#" value="{{user.id}}" name="btnOutwrd">Activate</a>
+                      </td>
+                    </tr>
+                    {% else %}
+                    <tr class="table-row">
+                      <td >{{user.id}}</td>
+                      <td >{{user.first_name}}</td>
+                      <td >{{user.last_name}}</td>
+                      <td >{{user.email}}</td>
+                      <td >{{user.mobile_no}}</td>
+                      <td >{{user.employee_id}}</td>
+                      <td >{{user.desk_id}}</td>
+                      <td >{{user.designation}}</td>
+                      <td >{{user.is_active}}</td>
+                      <td><a class="btn btn-light text-danger btnOutwrd" id="deactivateUser" role="button" href="#" value="{{user.id}}" name="btnOutwrd">Deactivate</a>
+                      </td>
+                    </tr>
+                  {% endif %}
                 {% endif %}
-              
             {% endfor %}
             </tbody>
         </table>
@@ -148,42 +146,30 @@
   </div>
 </div>
 <script>
-  var switchStatus = false;
-  $("#toggleId").on('change', function() {
-      if ($(this).is(':checked')) {
-          switchStatus = $(this).is(':checked');
-          console.log(switchStatus);// To verify
-      }
-      else {
-        switchStatus = $(this).is(':checked');
-        console.log(switchStatus);// To verify
-      }
-  });
 
-// Activate/Deactivate
+ 
+    // Activate/Deactivate
 
-  $('table tbody tr td #deactivateUser').on('click', function () {
-    $("#deactivateModal").modal("show");
-    $("#txtinwrdidformodel").val($(this).closest('tr').children()[0].textContent);
-    $("#userId").val($(this).closest('tr').children()[7].textContent);
+      $('table tbody tr td #deactivateUser').on('click', function () {
+        $("#deactivateModal").modal("show");
+        $("#txtinwrdidformodel").val($(this).closest('tr').children()[0].textContent);
+        $("#userId").val($(this).closest('tr').children()[7].textContent);
 
-  });
+      });
 
-  $('#deactivateModal').on('shown.bs.modal', function () {
-    document.getElementById("buttonId").value = document.getElementById("txtinwrdidformodel").value
-  });
+      $('#deactivateModal').on('shown.bs.modal', function () {
+        document.getElementById("buttonId").value = document.getElementById("txtinwrdidformodel").value
+      });
 
-  $('table tbody tr td #activateUser').on('click', function () {
-    $("#activateModal").modal("show");
-    $("#getId").val($(this).closest('tr').children()[0].textContent);
-    $("#userIdActive").val($(this).closest('tr').children()[7].textContent);
+      $('table tbody tr td #activateUser').on('click', function () {
+        $("#activateModal").modal("show");
+        $("#getId").val($(this).closest('tr').children()[0].textContent);
+        $("#userIdActive").val($(this).closest('tr').children()[7].textContent);
 
-  });
+      });
 
-  $('#activateModal').on('shown.bs.modal', function () {
-    document.getElementById("buttonIdActivate").value = document.getElementById("getId").value
-  });
-
-
+      $('#activateModal').on('shown.bs.modal', function () {
+        document.getElementById("buttonIdActivate").value = document.getElementById("getId").value
+      });
 </script>
 {% endblock content %}

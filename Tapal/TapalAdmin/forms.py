@@ -9,13 +9,13 @@ class createUserForms(UserCreationForm):
     class Meta:
         model = User
         fields  =   [
-            'user_id',
+            'username',
             'first_name',
             'last_name',
             'email',
             'mobile_no',
             'employee_id',
-            'role',
+            # 'role',
             'desk_id',
             'designation',
             'is_superuser',

@@ -42,12 +42,12 @@
                 <td hidden= "true">{{record.LatterDetails}}</td>
                 <td >{{record.Status}}</td>
                    
-              {{ form.user_id.as_hidden }}
+              {{ form.username.as_hidden }}
                           
                 <td >
                     <select class="form-control form-control-sm" name="selectUser">
                       {% for user in users %}
-                        <option value="{{user.user_id}}">{{user.user_id}}</option>
+                        <option value="{{user.username}}">{{user.username}}</option>
                       {% endfor %}
                     </select> 
                 </td>

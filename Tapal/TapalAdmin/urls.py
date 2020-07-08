@@ -9,6 +9,7 @@ urlpatterns = [
 # MENU FORMS
 
     path('', views.CustomLogin.as_view(template_name='LoginForm.html'), name='login'),
+    path('admin/', views.AdminLogin.as_view(template_name='adminLogin.html'), name='login'),
 
     path('home/', views.home),
     path('inwardForm/', views.inwardForm),

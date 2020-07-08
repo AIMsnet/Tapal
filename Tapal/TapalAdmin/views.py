@@ -19,11 +19,19 @@ import json # for json dumps
 from django.core import serializers
 
 class CustomLogin(auth_views.LoginView):
-        def form_valid(self, form):
-            login(self.request, form.get_user())
-            self.request.session['user_id'] = self.request.user.user_id
-            print(self.request.session['user_id'])
-            return HttpResponseRedirect(self.get_success_url())
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        self.request.session['username'] = self.request.user.username
+        print(self.request.session['username'])
+        return HttpResponseRedirect(self.get_success_url())
+
+class AdminLogin(auth_views.LoginView):
+    def form_valid(self, form):
+        login(self.request, form.get_user())
+        # self.request.session['username'] = self.request.user.username
+        # print(self.request.session['username'])
+        return HttpResponseRedirect(self.get_success_url())
+
 
 def createUser(request):
     form = createUserForms()
@@ -33,9 +41,9 @@ def createUser(request):
         print('form')
         if form.is_valid():
             print('form is valid')
-            form.save()
-            username = form.cleaned_data.get('first_name')
-            messages.success(request, f'Your account has been created ! You are now able to login {username}!')
+            form = form.save()
+            # username = form.cleaned_data['username']
+            # messages.success(request, f'Your account has been created ! You are now able to login {username}!')
             print('saved')
             return redirect('/')
         else:
@@ -53,12 +61,12 @@ def logout(request):
     return redirect('/')
 
 def home(request):
-    if request.session.has_key('user_id'):
+    if request.session.has_key('username'):
         return render(request, "home.html")
     return redirect("/")
 
 def inwardForm(request):
-    if request.session.has_key('user_id'):
+    if request.session.has_key('username'):
         print("Inside inward ")
         form = InwardRegistryForm()
         DocForm = InwardDocForm()
@@ -72,13 +80,13 @@ def inwardForm(request):
                 print('form is valid')
                 if request.user.is_authenticated :
                     desk_id     =   request.user.desk_id
-                    user_id     =   request.user.user_id
-                    print(desk_id, user_id)
+                    username     =   request.user.username
+                    print(desk_id, username)
             
                 obj =   form.save()
                 docs = DocForm.cleaned_data['DocsAttch']
-                InwardDocs.objects.create(InwardId = obj, DocsAttch = docs, user_id = user_id)
-                obj.user_id = user_id
+                InwardDocs.objects.create(InwardId = obj, DocsAttch = docs, username = username)
+                obj.username = username
                 obj.save()
                 a = messages.success(request, "Latter Inwarded")
                 return redirect('inwardForm/', {'a': a})
@@ -100,12 +108,12 @@ def forward(request):
         form = forwardForm(request.POST or None)
         if request.user.is_authenticated :
             desk_id     =   request.user.desk_id
-            user_id     =   request.user.user_id
-            print(desk_id, user_id)
+            username     =   request.user.username
+            print(desk_id, username)
             
         if form.is_valid():
             obj =   form.save()
-            obj.user_id = user_id
+            obj.username = username
             obj.save()
     else:
         form = forwardForm()
@@ -113,7 +121,7 @@ def forward(request):
 
 @login_required
 def manageDepartment(request):
-    if request.session.has_key('user_id'):
+    if request.session.has_key('username'):
         users   =   User.objects.all()
 
         outwardForm = OutwardForm()
@@ -121,9 +129,9 @@ def manageDepartment(request):
 
         if request.user.is_authenticated :
                 desk_id     =   request.user.desk_id
-                user_id     =   request.user.user_id
+                username     =   request.user.username
         
-        records  =   InwardReg.objects.filter(user_id=user_id)
+        records  =   InwardReg.objects.filter(user_id = username)
  
         if request.method == 'POST' and 'buttonForward' in request.POST:
             print('inside Forward')
@@ -135,11 +143,11 @@ def manageDepartment(request):
 
             updateRecord   =    InwardReg.objects.get(id = buttonForward)
             updateRecord.user_id    =   SelectedUser
-            updateRecord.RecievedFrom   =   user_id
+            updateRecord.RecievedFrom   =   username
             updateRecord.status         =   "Unseen"
             updateRecord.save()
 
-            records  =   InwardReg.objects.filter(user_id=user_id)
+            records  =   InwardReg.objects.filter(user_id=username)
 
             context ={
                 'records'   : records,
@@ -159,17 +167,17 @@ def manageDepartment(request):
             addUpdate      =    InwardReg.objects.get(id = SelectedUser)
             dat = addUpdate.LatterDetails
             tm = time.strftime('%d %b %Y')
-            addUpdate.LatterDetails   =   dat + "\n"+ user_id + " : " + tm + " : " + updateText
+            addUpdate.LatterDetails   =   dat + "\n"+ username + " : " + tm + " : " + updateText
 
             # ----------------------Activate/Deactivate----------------------
             if status is not None:
-                addUpdate.Status   = "Deactivated"
+                addUpdate.Status   = "False"
             else:
-                addUpdate.Status   = "Activate"
+                addUpdate.Status   = "True"
             addUpdate.save()
 
             inwardReg = InwardReg.objects.get(id = SelectedUser) 
-            inwardDocs =  InwardDocs.objects.create(InwardId = inwardReg, DocsAttch = DocsAttch, user_id = user_id)
+            inwardDocs =  InwardDocs.objects.create(InwardId = inwardReg, DocsAttch = DocsAttch, user_id = username)
             
             context ={
                 'records'       : records,
@@ -188,7 +196,7 @@ def manageDepartment(request):
             
             if outwardForm.is_valid():
                 obj =   outwardForm.save()
-                obj.OutwardBy = user_id
+                obj.OutwardBy = username
                 obj.InwardId  = inwardId
                 obj.History =   history
             # ----------------------Activate/Deactivate----------------------
@@ -229,10 +237,10 @@ def getFiles(request):
 
 def outwardRegistery(request):
   
-    if request.session.has_key('user_id'):
+    if request.session.has_key('username'):
         if request.user.is_authenticated :
-                user_id     =   request.user.user_id
-        outwardData = OutwardReg.objects.filter(OutwardBy = user_id)
+                username     =   request.user.username
+        outwardData = OutwardReg.objects.filter(OutwardBy = username)
 
         if request.method == 'POST':
             print("outward")
@@ -240,7 +248,7 @@ def outwardRegistery(request):
             status      = request.POST.get('status')
             print(status)
 
-            outwardData = OutwardReg.objects.filter(OutwardBy = user_id)
+            outwardData = OutwardReg.objects.filter(OutwardBy = username)
             records     = InwardReg.objects.get(id = inwardId)
             context =   {
                 'outwardData' : outwardData,
@@ -255,30 +263,30 @@ def outwardRegistery(request):
     return redirect("/")
 
 def ticketPurcahesInformation(request):
-    if request.session.has_key('user_id'):
+    if request.session.has_key('username'):
         return render(request, "ticketPurcahesInformation.html")
     return redirect("/")
 
 def InwrdOtwrdDetails(request):
-    if request.session.has_key('user_id'):
+    if request.session.has_key('username'):
         return render(request, "InwrdOtwrdDetails.html")
     return redirect('/')
 
 @login_required
 def report(request):
-    if request.session.has_key('user_id'):
+    if request.session.has_key('username'):
 
         if request.user.is_authenticated :
                 desk_id     =   request.user.desk_id
-                user_id     =   request.user.user_id
-                print(desk_id, user_id)
+                username     =   request.user.username
+                print(desk_id, username)
 
         if request.method == 'POST' :
             
             startDate   = request.POST.get('strtdt')
             endDate   = request.POST.get('enddt')
 
-            records  =   InwardReg.objects.filter(LttrRecDate__range=(startDate, endDate), user_id=user_id)
+            records  =   InwardReg.objects.filter(LttrRecDate__range=(startDate, endDate), user_id=username)
             
             context ={
                 'records'   : records,          
@@ -318,7 +326,7 @@ def DeptReport(request):
         records  =   InwardReg.objects.filter(LttrRecDate__range=(startDate, endDate))
         
         context ={
-            'records'   : records,          
+            'records'   : records,
         }
         return render(request, "DeptReport.html",context)
     else:
@@ -338,7 +346,7 @@ def adminManageRegistry(request):
         buttonForward   =  request.POST.get('buttonForward')
 
         updateRecord   =    InwardReg.objects.get(id = buttonForward)
-        updateRecord.user_id    =   SelectedUser
+        updateRecord.username    =   SelectedUser
         updateRecord.save()
         
 
@@ -354,7 +362,7 @@ def adminManageRegistry(request):
         if search.isnumeric():
             records = InwardReg.objects.filter(id = search) or InwardReg.objects.filter(MobileNumber = search)
         else:
-         records = InwardReg.objects.filter(user_id = search) or InwardReg.objects.filter(EmailId = search)
+         records = InwardReg.objects.filter(username = search) or InwardReg.objects.filter(EmailId = search)
 
         context ={
             'records'   : records,
