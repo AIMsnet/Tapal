@@ -9,8 +9,478 @@
 
 {% block content %}
 
- <!----------------Manage Departments Start-------------->
+ <!----------------Manage Departments {% extends 'home.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="{% static 'styles/manageDepartment2.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'styles/home.css' %}">
+{% endblock css %}
+
+
+{% block content %}
+
+<!----------------Manage Departments Start-------------->
+<div class="container-fluid p-0 mt-1">
+  <!-- SEARCH FILTER-->
+  <form action="/manageDepartment/" method="POST">
+    {% csrf_token %}
+    <div class="form-group options">
+      <div class="search" id="searchDiv">
+        <input type="text" class="form-control form-control-sm" name="searchString" placeholder="Search" required>
+        <button type="submit" class="btn btn-info btn-search" name="btnSearch" id="btnSearch">Search</button>
+      </div>
+    </div>
+  </form>
+  <!--MANAGE DEPARTMENT TABLE -->
+    <div class="table-responsive" style="height: 500px;">
+      <form action="/manageDepartment/" method="POST">
+        {% csrf_token %}
+        <table class="table table-hover" cellspacing="0" id="table_id">
+          <thead class="thead" style="text-align: center; background-color: #ace6f6;">
+            <tr class="">
+              <th>Inward ID</th>
+              <th>Recv Ref. No.</th>
+              <th>Letter Recv Date</th>
+              <th>Recieved Date</th>
+              <th>Received From</th>
+              <th>priority</th>
+              <th>Status</th>
+              <th hidden="true">Letter Subject</th>
+              <th>Edit Details</th>
+              <th>Forward</th>
+              <th>Outward</th>
+            </tr>
+          </thead>
+          <tbody  style="text-align: center">
+            {% for record in records %}
+              {% if record.Status is True %}
+                <tr class="table-row p-0">
+                  <td>{{record.id}}</td>
+                  <td>{{record.RecRefNumber}}</td>
+                  <td>{{record.LttrRecDate}}</td>
+                  <td>{{record.RecDate}}</td>
+                  <td>{{record.RecFrom}}</td>
+                  <td>{{record.Priority}}</td>
+                  <!-- <td>{{record.Status}}</td> -->
+                  <td><a class="btn btn-light text-danger btnOutwrd p-0" id="deactivateUser" role="button" href="#" value="{{record.id}}" name="btnOutwrd">Deactivate</a>
+                  <td hidden="true">{{record.LatterDetails}}</td>
+                  {{ form.username.as_hidden }}
+                  <td>
+                    <a class="btn btn-light text-primary btnEdit p-0" role="button" href="#" value="{{record.id}}" name="buttonEdit"><i class="fa fa-pencil-square-o"></i></a>
+                  </td>
+                  <td>
+                    <button type="button" id="btnfd" class="btn text-primary btn-light btnfd p-0 pb-0" >
+                      <i class="fa fa-arrow-right"></i>
+                    </button>
+                  </td>
+                  <td>
+                    <a class="btn btn-light text-primary btnOutwrd p-0" id="btnOutwrd" role="button" href="#" value="{{record.id}}" name="btnOutwrd">Outward</a>
+                  </td>
+                </tr>
+              {% else %}
+                <tr class="table-row p-0" style="color: red;">
+                  <td>{{record.id}}</td>
+                  <td>{{record.RecRefNumber}}</td>
+                  <td>{{record.LttrRecDate}}</td>
+                  <td>{{record.RecDate}}</td>
+                  <td>{{record.RecFrom}}</td>
+                  <td>{{record.Priority}}</td>
+                  <!-- <td>{{record.Status}}</td> -->
+                  <td><a class="btn btn-light text-success btnOutwrd p-0" id="activateUser" role="button" href="#" value="{{record.id}}" name="btnOutwrd">Activate</a>
+                  <td hidden="true">{{record.LatterDetails}}</td>
+                  {{ form.username.as_hidden }}
+                  <td>
+                    <a class="btn btn-light text-primary btnEdit p-0" role="button" href="#" value="{{record.id}}" name="buttonEdit"><i class="fa fa-pencil-square-o"></i></a>
+                  </td>
+                  <td>
+                    <button type="button" id="btnfd" class="btn text-primary btn-light btnfd p-0 pb-0" >
+                      <i class="fa fa-arrow-right"></i>
+                    </button>
+                  </td>
+                  <td>
+                    <a class="btn btn-light text-primary btnOutwrd p-0" id="btnOutwrd" role="button" href="#" value="{{record.id}}" name="btnOutwrd">Outward</a>
+                  </td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </div>
 </div>
+
+<!----------------Manage Departments End-------------->
+
+
+  <div class="modal fade" tabindex="-1" id="myModal">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title text-center">Manage Department Details</h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+          <form action="/manageDepartment/" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row d-flex justify-content-around mt-3">
+              <div class="col-6">
+                <div class="d-flex justify-content-between">
+                  <label class="col-5">Inward No.</label>
+                  <input type="text" name="InwardId" class="col-7 form-control form-control-sm border-light" readonly
+                    id="txtinwrdno" />
+                </div>
+                <div class="d-flex justify-content-between">
+                  <label class="col-5">Recv Ref. No.</label>
+                  <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrefno" />
+                </div>
+                <div class="d-flex justify-content-between">
+                  <label class="col-5">Letter Recv Date</label>
+                  <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrefdt" />
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="d-flex justify-content-between">
+                  <label class="col-5">Recieved Date</label>
+                  <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrevdt" />
+                </div>
+                <div class="d-flex justify-content-between">
+                  <label class="col-5">Received From</label>
+                  <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtrecfrom" />
+                </div>
+                <div class="d-flex justify-content-between">
+                  <label class="col-5">Priority</label>
+                  <input type="text" class="col-7 form-control form-control-sm border-light" readonly id="txtprioriy" />
+                </div>
+              </div>
+            </div>
+            <div class="row mt-3">
+              <div class="col-6 d-flex justify-content-between">
+                <label class="col-4 mt-3">History</label>
+                <textarea class="col-8" col="35" row="20" readonly id="txtHistory" style="height: 150px;"> </textarea>
+              </div>
+              <div class="col-6 d-flex justify-content-center">
+                <label class="col-4 mt-3">Current Update</label>
+                <textarea class="col-8" col="25" row="5" id="txtUpdate" value="" style="height: 150px;" name="updateText"
+                  required> </textarea>
+              </div>
+            </div>
+            <div class="row mt-3  d-flex justify-content-between">
+              <div class="col-6 d-flex justify-content-between">
+                <label class="col-4 mt-3">Attach Document</label>
+                <input type="file" class="form-control" name="DocsAttch" id="customFile">
+              </div>
+              <div class="col-6 d-flex justify-content-around">
+                <label class="col-4 ">Attached Documents</label>
+                <select class="col-6 form-control mt-2 pb-1" id = "docDropdown" name="docDropdownName">
+                </select>
+                <span class="col-2 text-center form-control border-0 my-2 ">
+                  <a onclick="clickeddd()"><i class="fa fa-download" style="font-size:30px;"></i></a>
+                </span>
+              </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="cancel" class="btn btn-dfault" data-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-success" value="" id="saveModelButton" name="saveModelButton">Save
+            changes</button>
+        </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+<!-- Outward Model -->
+
+<div class="modal modal-outwrd fade ml-2 mr-2" id="outwardModel" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Outward</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="/manageDepartment/" enctype="multipart/form-data">
+        {% csrf_token %}
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-6">
+                <label>Inward ID</label>
+                <input class="form-control form-control-sm" type="text" name="txtinwrdid" readonly id="txtinwrdid">
+              </div>
+              <div class="col-6">
+                {{outwardForm.OutwardDate|as_crispy_field}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                {{outwardForm.OutwardTo|as_crispy_field}}
+              </div>
+              <div class="col-6">              
+                {{outwardForm.OutwardDoc|as_crispy_field}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                {{outwardForm.Note|as_crispy_field}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 d-flex justify-content-between">
+                <textarea class="col-8" col="35" row="20"  id="txtOutwrdHistory" name="txtOutwrdHistory" style="height: 150px;" hidden> </textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <div class="mr-auto">
+              <input type="checkbox" name="statusOutwrd" id="statusOutwrd" class="mr-2" > Deactivate
+            </div>
+            <div>
+              <button type="cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" name="outwardBtn">Move</button>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+</div> 
+
+
+<!-- FORWARD CONFIRMATION MODEL -->
+<div class="modal fade" tabindex="-1" id="exampleModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">FORWARD</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+      </div>
+      
+      <form action="/manageDepartment/" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-row">
+            <div class="col-6">
+              Do you want to forward record with ID
+              <input class="form-control form-control-sm border-0" type="text" name="txtinwrdid" readonly id="txtinwrdidformodel">
+            </div>
+            <div class="col-6">
+              Select User
+              <select class="form-control form-control-sm" name="selectUser" id="slval">
+                <option value="{{user.username}}">Select User</option>
+                {% for user in users %}
+                  {% if user.is_superuser is False %}
+                    <option value="{{user.username}}">{{user.username}}</option>
+                  {% endif %}
+                {% endfor %}
+              </select>
+            </div>
+         </div>
+        </div>
+        
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+          <td> <a href=""><button class="btn btn-success" id="buttonForward" name="buttonForward">YES</i></button></a> 
+          </td>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- DEACTIVATION CONFIRMATION MODEL -->
+
+<div class="modal fade" tabindex="-1" id="deactivateModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+      </div>
+      
+      <form action="/manageDepartment/" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-row">
+           
+              <div class="col-6">
+                  Do you want to DEACTIVATE record with Inward-ID
+                  <input class="form-control form-control-sm border-0" type="text" name="userId" readonly id="userId">
+                  <input class="form-control form-control-sm border-0" type="text" name="userId" hidden readonly id="txtinwrdidformodel">
+              </div>
+              <div class="col-6">
+                <input class="form-control form-control-sm border-0" type="text" value="False" hidden name="changeTo" readonly id="txtinwrdidformodel">
+              </div>
+            
+         </div>
+        </div>
+        
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+            <td> <a href=""><button class="btn btn-success" id="buttonId" name="buttonId">YES</i></button></a> 
+          </td>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVATION CONFIRMATION MODEL -->
+
+
+<div class="modal fade" tabindex="-1" id="activateModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+      </div>
+      
+      <form action="/manageDepartment/" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-row">
+           
+              <div class="col-6">              
+                  Do you want to ACTIVATE record with Inward-ID
+                  <input class="form-control form-control-sm border-0" type="text" name="userId" readonly id="userIdActive">
+                  <input class="form-control form-control-sm border-0" type="text" name="userId" hidden readonly id="getId">
+              </div>
+              <div class="col-6">
+                <input class="form-control form-control-sm border-0" type="text" value="True" hidden name="changeTo" readonly id="txtinwrdidformodel">
+              </div>
+            
+         </div>
+        </div>
+        
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+            <td> <a href=""><button class="btn btn-success" id="buttonIdActivate" name="buttonId">YES</i></button></a> 
+          </td>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- SCRIPT -->
+<script type="text/javascript">
+  
+  // EDIT MODEL
+  $('#myModal').on('shown.bs.modal', function () {
+    document.getElementById("saveModelButton").value = document.getElementById("txtinwrdno").value
+  })
+  function clearContents(element) {
+    element.value = '';
+  }
+
+  $(document).ready(function () {
+    $("#latter").hide();
+  });
+
+  // OUTWARD
+  $('table tbody tr td #btnOutwrd').on('click', function () {
+    $("#outwardModel").modal("show");
+    $("#txtinwrdid").val($(this).closest('tr').children()[0].textContent);
+    $("#txtOutwrdHistory").val($(this).closest('tr').children()[6].textContent);
+
+  });
+
+  $('table tbody tr td .btnEdit').on('click', function () {
+    $("#myModal").modal("show");
+    $("#txtinwrdno").val($(this).closest('tr').children()[0].textContent);
+    $("#txtrefno").val($(this).closest('tr').children()[1].textContent);
+    $("#txtrefdt").val($(this).closest('tr').children()[2].textContent);
+    $("#txtrevdt").val($(this).closest('tr').children()[3].textContent);
+    $("#txtrecfrom").val($(this).closest('tr').children()[4].textContent);
+    $("#txtprioriy").val($(this).closest('tr').children()[5].textContent);
+    $("#txtHistory").val($(this).closest('tr').children()[7].textContent);
+  });
+  $('table tbody tr td').on('dblclick', function () {
+    $("#myModal").modal("show");
+    $("#txtinwrdno").val($(this).closest('tr').children()[0].textContent);
+    $("#txtrefno").val($(this).closest('tr').children()[1].textContent);
+    $("#txtrefdt").val($(this).closest('tr').children()[2].textContent);
+    $("#txtrevdt").val($(this).closest('tr').children()[3].textContent);
+    $("#txtrecfrom").val($(this).closest('tr').children()[4].textContent);
+    $("#txtprioriy").val($(this).closest('tr').children()[5].textContent);
+    $("#txtHistory").val($(this).closest('tr').children()[7].textContent);
+
+    $.ajax({
+      type: 'POST',
+      url: '/getFile/',
+      data: {
+        inwardId: document.getElementById("txtinwrdno").value,
+        csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+      },
+      success: function (response) {
+        $('#docDropdown').empty()
+        var res = response.inwardDocs
+        len = res['length']
+        for(var i = 0; i < len ; i++)
+        {
+          if(res[i]['fields'].DocsAttch != "")
+          $('#docDropdown').append($("<option></option>").attr("value", res[i]['fields'].DocsAttch.substring(10, )).text(res[i]['fields'].DocsAttch.substring(10, )));
+        }
+      }
+    });
+  });
+
+  function clickeddd(){
+    fileName = $("#docDropdown").val()
+    console.log(fileName)
+    window.open("file/"+fileName);
+  }
+  //FORWARD CONFIRMATION MODEL
+  
+  $('table tbody tr td #btnfd').on('click', function () {
+    $("#exampleModal").modal("show");
+    $("#txtinwrdidformodel").val($(this).closest('tr').children()[0].textContent);
+  });
+
+  $('#exampleModal').on('shown.bs.modal', function () {
+    document.getElementById("buttonForward").value = document.getElementById("txtinwrdidformodel").value
+  });
+
+// ACTIVATION AND DEACTICATION
+
+
+$('table tbody tr td #deactivateUser').on('click', function () {
+  $("#deactivateModal").modal("show");
+  $("#txtinwrdidformodel").val($(this).closest('tr').children()[0].textContent);
+  $("#userId").val($(this).closest('tr').children()[0].textContent);
+
+});
+
+$('#deactivateModal').on('shown.bs.modal', function () {
+  document.getElementById("buttonId").value = document.getElementById("txtinwrdidformodel").value
+});
+
+$('table tbody tr td #activateUser').on('click', function () {
+  $("#activateModal").modal("show");
+  $("#getId").val($(this).closest('tr').children()[0].textContent);
+  $("#userIdActive").val($(this).closest('tr').children()[0].textContent);
+
+});
+
+$('#activateModal').on('shown.bs.modal', function () {
+  document.getElementById("buttonIdActivate").value = document.getElementById("getId").value
+});
+
+</script>
+
+
+{% endblock content %}Start-------------->
 <div class="card  mt-4">
     <div class="card-block p-0 table-responsive">
       <form action="/manageDepartment/" method="POST">

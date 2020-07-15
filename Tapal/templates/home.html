@@ -17,13 +17,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css' %}">
 {% endblock css %}
 
-    <title>Inward | Home </title>
+    <title>Tapal | Home </title>
 
 </head> 
 <body>  
 <!--header (modified by Ganesh )-->
 
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #446491; height : 80px">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #446491;">
         <!-- <a class="navbar-brand" href="#"><img src="{% static 'images/file-svgrepo-com.svg'%}" style="height:50px"></a> -->
         <a class="navbar-brand" href="#">AIMS</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,11 +34,11 @@
         <ul class="navbar-nav ml-auto">
             {% if user.is_authenticated %}
                 <li class="nav-item mx-3 active">
-                    <a class="nav-link" href="#">{{user.username}}</a>
+                    <a class="nav-item active text-light" href="#">{{user.username}}</a>
                 </li>
             {% endif %}
             <li class="nav-item mx-3 active">
-                <a class="nav-link" href="/logout/">logout</a>
+                <a class="nav-item active text-light" href="/logout/">logout</a>
             </li>
         </div>
     </nav>
@@ -46,27 +46,27 @@
 <!--/.header>-->
 
  <!--menu (Modified by Ganesh)-->
-        <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #4b89ac;">
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #4b89ac;">
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContentMenus" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
         
-            <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContentMenus">
+            <div class="collapse navbar-collapse justify-content-center my-auto" id="navbarSupportedContentMenus">
                 <ul class="navbar-nav">
                     <li class="nav-item active mx-3">
-                        <a class="nav-link" href="/home/">Home</a>
+                        <a class="nav-item active text-light" href="/home/">Home</a>
                     </li>
                     <li class="nav-item active mx-3">
-                        <a class="nav-link" href="/inwardForm/">Inward Registery</a>
+                        <a class="nav-item active text-light" href="/inwardForm/">Inward Registery</a>
                     </li>
                     <li class="nav-item active mx-3">
-                        <a class="nav-link" href="/manageDepartment/">Manage Department</a>
+                        <a class="nav-item active text-light" href="/manageDepartment/">Manage Department</a>
                     </li>
                     <li class="nav-item active mx-3">
-                        <a class="nav-link" href="/outwardRegistery/">Outward Registery</a>
+                        <a class="nav-item active text-light" href="/outwardRegistery/">Outward Registery</a>
                     </li>
                     <li class="nav-item active mx-3">
-                        <a class="nav-link" href="/report/">Reports</a>
+                        <a class="nav-item active text-light" href="/report/">Reports</a>
                     </li>
                 </ul>
             </div>
@@ -75,14 +75,9 @@
 
     {% block content %}
 
-        <div class="container-fluid">
+        <div class="container-fluid p-0">
         <img src=" {% static 'images/allind2.png' %} " style="width:100%; height: 300px;">
         </div>
-
-        <p>The Inward section receives letters from the citizens and registers them. These letters are then sent to Joint Municipal Commissioner/Asst. Municipal Commissioner for their information and signatures if required. The signed letters are dispatched to the concern section.
-
-        The letters from the department sent to the concern departments, Individuals and citizens are registered in outward register.<p>
-        
 
     {% endblock content %}
     

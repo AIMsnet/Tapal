@@ -67,7 +67,6 @@ class InwardRegistryForm(forms.ModelForm):
             'RecFromDept',
             'Priority',
         ]
-        
 
 class forwardForm(forms.ModelForm):
     model = InwardReg

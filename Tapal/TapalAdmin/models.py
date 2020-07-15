@@ -19,7 +19,6 @@ class User(AbstractUser):
     #     return self.user_id
 
 class InwardReg(models.Model):
-    #Id     =  models.AutoField(null= False)
     RecRefNumber  =  models.CharField(("Recieved Reference Number"),default='AIM-0001', max_length=10, null=False)
     LttrRecDate   =   models.DateField(("Letter Recieved Date"), default=datetime.now)
     LatterDetails    = models.TextField(("Letter Details"), default='xyz', null=False)
@@ -53,7 +52,6 @@ class InwardReg(models.Model):
         ]
     users     =   models.CharField((''),max_length=20, choices=users)
     user_id         =   models.CharField(('user_id'),default='0000000',max_length=20)
-    # Status      =   models.BooleanField(default= True)
     Status    =   models.BooleanField(default=True)
 
     
@@ -64,11 +62,11 @@ class InwardDocs(models.Model):
     user_id         =   models.CharField(('user_id'),default='0000000',max_length=20)
 
 class OutwardReg(models.Model):
-    OutwardDate     =   models.DateField(("Outward Date"), default=datetime.now, null=False)
+    OutwardDate     =   models.DateField(("Outward Date"), default=datetime.now)
     Note            =   models.TextField(("Forwarding Note"), default='xyz', null=False)
     OutwardTo       =   models.CharField(("Outward To"), max_length=50)
     OutwardBy       =   models.CharField(("Outward By"), max_length=20)
     OutwardDoc      =   models.FileField(("Documents"), max_length=20)
     InwardId        =   models.IntegerField(("Inward ID"), null=True)
     History         =   models.TextField(("History"), default='xyz', null=False)
-    Status          =   models.CharField(max_length=20, default='Activated')
+    Status          =   models.BooleanField(default=True)

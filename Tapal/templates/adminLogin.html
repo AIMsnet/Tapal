@@ -18,7 +18,7 @@
     <!-- External CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css' %}">
     <link rel="stylesheet" type="text/css" href=" {% static 'styles/login.css' %}">
-    <title>Tappal | LogIn </title>
+    <title>Tappal | Admin Login </title>
 
 </head> 
 <body>
@@ -28,7 +28,7 @@
             <div id="login-column" class="col-md-6">
                 <div id="login-box" class="col-md-12">
                     <h2 class="text-center mt-5">Admin Login</h2>
-                    <form action="/admin/" method="POST" style="text-align: -webkit-center;">
+                    <form action="/adminLogin/" method="POST" style="text-align: -webkit-center;">
                         {% csrf_token %}
                         {% if messages %}
                             <ul class="messages">

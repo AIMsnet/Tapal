@@ -5,18 +5,28 @@
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="{% static 'styles/manageDepartment2.css' %}">
-<!-- <link rel="stylesheet" type="text/css" href="{% static 'styles/modalOutwrd.css' %}"> -->
+<link rel="stylesheet" type="text/css" href="{% static 'styles/home.css' %}">
 {% endblock css %}
 
 
 {% block content %}
 
 <!----------------Manage Departments Start-------------->
-  <div class="container-fluid p-0 mt-1">
+<div class="container-fluid p-0 mt-1">
+  <!-- SEARCH FILTER-->
+  <form action="/manageDepartment/" method="POST">
+    {% csrf_token %}
+    <div class="form-group options">
+      <div class="search" id="searchDiv">
+        <input type="text" class="form-control form-control-sm" name="searchString" placeholder="Search" required>
+        <button type="submit" class="btn btn-info btn-search" name="btnSearch" id="btnSearch">Search</button>
+      </div>
+    </div>
+  </form>
+  <!--MANAGE DEPARTMENT TABLE -->
     <div class="table-responsive" style="height: 500px;">
       <form action="/manageDepartment/" method="POST">
         {% csrf_token %}
-        
         <table class="table table-hover" cellspacing="0" id="table_id">
           <thead class="thead" style="text-align: center; background-color: #ace6f6;">
             <tr class="">
@@ -35,29 +45,55 @@
           </thead>
           <tbody  style="text-align: center">
             {% for record in records %}
-            
-              <tr class="table-row p-0">
-                <td>{{record.id}}</td>
-                <td>{{record.RecRefNumber}}</td>
-                <td>{{record.LttrRecDate}}</td>
-                <td>{{record.RecDate}}</td>
-                <td>{{record.RecFrom}}</td>
-                <td>{{record.Priority}}</td>
-                <!-- <td>{{record.Status}}</td> -->
-                <td>{{record.Status}}</td>
-                <td hidden="true">{{record.LatterDetails}}</td>
-
-                {{ form.username.as_hidden }}
-
-                <td><a class="btn btn-light text-primary btnEdit p-0" role="button" href="#" value="{{record.id}}" name="buttonEdit"><i class="fa fa-pencil-square-o"></i></a>
-                </td>
-                <td><button type="button" id="btnfd" class="btn text-primary btn-light btnfd p-0 pb-0" >
-                  <i class="fa fa-arrow-right"></i>
-                  </button>
-                </td>
-                <td><a class="btn btn-light text-primary btnOutwrd p-0" id="btnOutwrd" role="button" href="#" value="{{record.id}}" name="btnOutwrd">Outward</a>
-                </td>
-              </tr>
+              {% if record.Status is True %}
+                <tr class="table-row p-0">
+                  <td>{{record.id}}</td>
+                  <td>{{record.RecRefNumber}}</td>
+                  <td>{{record.LttrRecDate}}</td>
+                  <td>{{record.RecDate}}</td>
+                  <td>{{record.RecFrom}}</td>
+                  <td>{{record.Priority}}</td>
+                  <!-- <td>{{record.Status}}</td> -->
+                  <td><a class="btn btn-light text-danger btnOutwrd p-0" id="deactivateUser" role="button" href="#" value="{{record.id}}" name="btnOutwrd">Deactivate</a>
+                  <td hidden="true">{{record.LatterDetails}}</td>
+                  {{ form.username.as_hidden }}
+                  <td>
+                    <a class="btn btn-light text-primary btnEdit p-0" role="button" href="#" value="{{record.id}}" name="buttonEdit"><i class="fa fa-pencil-square-o"></i></a>
+                  </td>
+                  <td>
+                    <button type="button" id="btnfd" class="btn text-primary btn-light btnfd p-0 pb-0" >
+                      <i class="fa fa-arrow-right"></i>
+                    </button>
+                  </td>
+                  <td>
+                    <a class="btn btn-light text-primary btnOutwrd p-0" id="btnOutwrd" role="button" href="#" value="{{record.id}}" name="btnOutwrd">Outward</a>
+                  </td>
+                </tr>
+              {% else %}
+                <tr class="table-row p-0" style="color: red;">
+                  <td>{{record.id}}</td>
+                  <td>{{record.RecRefNumber}}</td>
+                  <td>{{record.LttrRecDate}}</td>
+                  <td>{{record.RecDate}}</td>
+                  <td>{{record.RecFrom}}</td>
+                  <td>{{record.Priority}}</td>
+                  <!-- <td>{{record.Status}}</td> -->
+                  <td><a class="btn btn-light text-success btnOutwrd p-0" id="activateUser" role="button" href="#" value="{{record.id}}" name="btnOutwrd">Activate</a>
+                  <td hidden="true">{{record.LatterDetails}}</td>
+                  {{ form.username.as_hidden }}
+                  <td>
+                    <a class="btn btn-light text-primary btnEdit p-0" role="button" href="#" value="{{record.id}}" name="buttonEdit"><i class="fa fa-pencil-square-o"></i></a>
+                  </td>
+                  <td>
+                    <button type="button" id="btnfd" class="btn text-primary btn-light btnfd p-0 pb-0" >
+                      <i class="fa fa-arrow-right"></i>
+                    </button>
+                  </td>
+                  <td>
+                    <a class="btn btn-light text-primary btnOutwrd p-0" id="btnOutwrd" role="button" href="#" value="{{record.id}}" name="btnOutwrd">Outward</a>
+                  </td>
+                </tr>
+              {% endif %}
             {% endfor %}
           </tbody>
         </table>
@@ -67,6 +103,7 @@
 </div>
 
 <!----------------Manage Departments End-------------->
+
 
   <div class="modal fade" tabindex="-1" id="myModal">
     <div class="modal-dialog modal-lg">
@@ -138,9 +175,6 @@
         </div>
 
         <div class="modal-footer">
-          <div class="mr-auto">
-            <input type="checkbox" name="status" id="status" class="mr-2" > Deactivate
-          </div>
           <button type="cancel" class="btn btn-dfault" data-dismiss="modal">Cancel</button>
           <button type="submit" class="btn btn-success" value="" id="saveModelButton" name="saveModelButton">Save
             changes</button>
@@ -230,7 +264,9 @@
               <select class="form-control form-control-sm" name="selectUser" id="slval">
                 <option value="{{user.username}}">Select User</option>
                 {% for user in users %}
-                <option value="{{user.username}}">{{user.username}}</option>
+                  {% if user.is_superuser is False %}
+                    <option value="{{user.username}}">{{user.username}}</option>
+                  {% endif %}
                 {% endfor %}
               </select>
             </div>
@@ -247,6 +283,86 @@
   </div>
 </div>
 
+
+<!-- DEACTIVATION CONFIRMATION MODEL -->
+
+<div class="modal fade" tabindex="-1" id="deactivateModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+      </div>
+      
+      <form action="/manageDepartment/" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-row">
+           
+              <div class="col-6">
+                  Do you want to DEACTIVATE record with Inward-ID
+                  <input class="form-control form-control-sm border-0" type="text" name="userId" readonly id="userId">
+                  <input class="form-control form-control-sm border-0" type="text" name="userId" hidden readonly id="txtinwrdidformodel">
+              </div>
+              <div class="col-6">
+                <input class="form-control form-control-sm border-0" type="text" value="False" hidden name="changeTo" readonly id="txtinwrdidformodel">
+              </div>
+            
+         </div>
+        </div>
+        
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+            <td> <a href=""><button class="btn btn-success" id="buttonId" name="buttonId">YES</i></button></a> 
+          </td>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- ACTIVATION CONFIRMATION MODEL -->
+
+
+<div class="modal fade" tabindex="-1" id="activateModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"></h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+      </div>
+      
+      <form action="/manageDepartment/" method="POST">
+        {% csrf_token %}
+        <div class="modal-body">
+          <div class="form-row">
+           
+              <div class="col-6">              
+                  Do you want to ACTIVATE record with Inward-ID
+                  <input class="form-control form-control-sm border-0" type="text" name="userId" readonly id="userIdActive">
+                  <input class="form-control form-control-sm border-0" type="text" name="userId" hidden readonly id="getId">
+              </div>
+              <div class="col-6">
+                <input class="form-control form-control-sm border-0" type="text" value="True" hidden name="changeTo" readonly id="txtinwrdidformodel">
+              </div>
+            
+         </div>
+        </div>
+        
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
+            <td> <a href=""><button class="btn btn-success" id="buttonIdActivate" name="buttonId">YES</i></button></a> 
+          </td>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- SCRIPT -->
 <script type="text/javascript">
   
   // EDIT MODEL
@@ -324,21 +440,31 @@
   $('#exampleModal').on('shown.bs.modal', function () {
     document.getElementById("buttonForward").value = document.getElementById("txtinwrdidformodel").value
   });
-  
 
-// Change the colour of row on deactivation
-var rows = document.getElementsByTagName("tbody")[0].getElementsByTagName("tr");
-for (i = 0; i < rows.length; i++) 
-console.log("inside for change clr")
-console.log(i)
-{
-    cells = rows[i].getElementsByTagName('td');
-    if (cells[6].innerHTML == 'Deactivated')
-    {
-        rows[i].style.color = "red"
-    }
+// ACTIVATION AND DEACTICATION
 
-};
+
+$('table tbody tr td #deactivateUser').on('click', function () {
+  $("#deactivateModal").modal("show");
+  $("#txtinwrdidformodel").val($(this).closest('tr').children()[0].textContent);
+  $("#userId").val($(this).closest('tr').children()[0].textContent);
+
+});
+
+$('#deactivateModal').on('shown.bs.modal', function () {
+  document.getElementById("buttonId").value = document.getElementById("txtinwrdidformodel").value
+});
+
+$('table tbody tr td #activateUser').on('click', function () {
+  $("#activateModal").modal("show");
+  $("#getId").val($(this).closest('tr').children()[0].textContent);
+  $("#userIdActive").val($(this).closest('tr').children()[0].textContent);
+
+});
+
+$('#activateModal').on('shown.bs.modal', function () {
+  document.getElementById("buttonIdActivate").value = document.getElementById("getId").value
+});
 
 </script>
 

@@ -50,28 +50,48 @@ body{
 
 /*--------------Searchbox---------------------*/
 
-/* underline on hover  */
-
-/* .navbar-nav .nav-link {
-    text-decoration: none;
+#search {
+    float: right;
+    margin-top: 9px;
+    width: 250px;
+    right: 12px;
+  }
+  
+  .search {
+    padding: 5px 0;
+    width: 230px;
+    height: 40px;
     position: relative;
-    color: inherit;
+    /* left: 10px; */
+    float: right;
+    line-height: 22px;
   }
   
-.navbar-nav .nav-link::after {
+.search input {
     position: absolute;
-    content: "";
-    height: .1em;
-    top: 100%;
-    background: currentColor;
-    z-index: -1;
-    left: 0;
-    right: 0;
-    transform: scaleX(0);
-    transition: transform .5s cubic-bezier(.95, .05, .795, .035);
-  }
+    width: 0px;
+    float: Left;
+    margin-left: 210px;
+    -webkit-transition: all 0.7s ease-in-out;
+    -moz-transition: all 0.7s ease-in-out;
+    -o-transition: all 0.7s ease-in-out;
+    transition: all 0.7s ease-in-out;
+    height: 30px;
+    line-height: 18px;
+    padding: 0 2px 0 2px;
+    border-radius:1px;
+}
+
+    .search:hover input, .search input:focus {
+        width: 200px;
+        margin-left: 0px;
+    }
   
-.navbar-nav .nav-link :hover::after {
-    transition-timing-function: cubic-bezier(.19, 1, .22, 1);  
-    transform: scaleX(1);
-  } */
+.btn-search {
+height: 30px;
+position: absolute;
+right: 0;
+top: 5px;
+border-radius:1px;
+}
+

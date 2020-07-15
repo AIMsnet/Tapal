@@ -19,32 +19,32 @@
     <link rel="stylesheet" type="text/css" href="{% static 'styles/NavMenu.css' %}">
     {% endblock css %}
     
+    <title>Tapal | Admin </title>
 </head> 
 <body>
    
 <!--header-->
-    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #446491; height : 80px">
-        <!-- <a class="navbar-brand" href="#"><img src="{% static 'images/file-svgrepo-com.svg'%}" style="height:50px"></a> -->
-        <a class="navbar-brand" href="#">AIMS</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #446491;">
+        <a class="navbar-brand" href="#">ADMINISTRATION<br> PANEL</a>
+        <!-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-            {% if user.is_authenticated %}
-                <li class="nav-item mx-3 active">
-                    <a class="nav-link" href="#">{{user.username}}</a>
+        </button> -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">            
+            <ul class="navbar-nav P-0 ml-auto">
+                {% if user.is_authenticated %}
+                    <li class="nav-item mx-3">
+                        <a class="nav-item text-light" href="">{{user.username}}</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item mx-3 ">
+                    <a class="nav-item active text-light" href="/logoutAdmin/">logout</a>
                 </li>
-            {% endif %}
-            <li class="nav-item mx-3 active">
-                <a class="nav-link" href="/">logout</a>
-            </li>
+            </ul>
         </div>
     </nav>
 <!--/.header>-->
 <!--menu-->
-    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #4b89ac;">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #4b89ac;">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContentMenus" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
         </button>
@@ -70,18 +70,9 @@
         </div>
     </nav>
     
-        <!-- <nav class="nav bg-dark menulist justify-content-center m-0">
-          <a class="nav-link text-light m-2 mt-0" href="/DeptHome">Home</a>
-          <a class="nav-link text-light m-2 mt-0" href="/CreateUser">Create User</a>
-          <a class="nav-link text-light m-2 mt-0" href="/adminManageRegistry">Manage Department</a>
-          <a class="nav-link text-light m-2 mt-0" href="/DeptReport">Reports</a>
-          <a class="nav-link text-light m-2 mt-0" href="/userList">User's List</a> -->
-
-        </nav>
-    <!--/.menu-->
     {% block content %}
-    <div class="card">
-        <img src=" {% static 'images/allind2.png' %} " style="width:100%; height: 300px;">
+    <div class="container-fluid p-0">
+        <img class="img" src=" {% static 'images/allind2.png' %} " style="width:100%; height: 300px;">
         </div>
     {% endblock content %}
     

@@ -9,7 +9,7 @@ urlpatterns = [
 # MENU FORMS
 
     path('', views.CustomLogin.as_view(template_name='LoginForm.html'), name='login'),
-    path('admin/', views.AdminLogin.as_view(template_name='adminLogin.html'), name='login'),
+    path('adminLogin/', views.AdminLogin.as_view(template_name='adminLogin.html'), name='login'),
 
     path('home/', views.home),
     path('inwardForm/', views.inwardForm),
@@ -31,13 +31,20 @@ urlpatterns = [
 
     
     path('logout/', views.logout),
+    path('logoutAdmin/', views.logoutAdmin),
+
+    
     path('forward/', views.forward),
     path("getFile/", views.getFiles),
     url('file/(?P<fileName>[\w\s,@.]+)', views.DownloadFile, name = "showSupplier"),
 
+    url('outwardFile/(?P<fileName>[\w\s,@.]+)', views.DownloadOutwrdFile, name = "showSupplier"),
+
     # ADMINISTRATION
     path('adminManageRegistry/', views.adminManageRegistry),
     path('DeptHome/', views.DeptHome),
+    path('adminLogin/DeptHome/', views.DeptHome),
+
     path('deptInwardReg/', views.deptInwardReg),
     path('DeptReport/', views.DeptReport),
     path('actionToBeTaken/', views.actionToBeTaken),

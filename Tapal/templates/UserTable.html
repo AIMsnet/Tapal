@@ -71,7 +71,7 @@
 </div>
 </div>
 
-<!-- Activation/Deactivation Confirmation Model -->
+<!-- Deactivation Confirmation Model -->
 
 <div class="modal fade" tabindex="-1" id="deactivateModal">
   <div class="modal-dialog">
@@ -96,7 +96,6 @@
                 <input class="form-control form-control-sm border-0" type="text" value="False" hidden name="changeTo" readonly id="txtinwrdidformodel">
               </div>
             
-            
          </div>
         </div>
         
@@ -109,6 +108,9 @@
     </div>
   </div>
 </div>
+
+<!-- Activation Confirmation Model -->
+
 
 <div class="modal fade" tabindex="-1" id="activateModal">
   <div class="modal-dialog">
@@ -145,31 +147,32 @@
     </div>
   </div>
 </div>
+
 <script>
 
  
-    // Activate/Deactivate
+// Activate/Deactivate
 
-      $('table tbody tr td #deactivateUser').on('click', function () {
-        $("#deactivateModal").modal("show");
-        $("#txtinwrdidformodel").val($(this).closest('tr').children()[0].textContent);
-        $("#userId").val($(this).closest('tr').children()[7].textContent);
+  $('table tbody tr td #deactivateUser').on('click', function () {
+    $("#deactivateModal").modal("show");
+    $("#txtinwrdidformodel").val($(this).closest('tr').children()[0].textContent);
+    $("#userId").val($(this).closest('tr').children()[7].textContent);
 
-      });
+  });
 
-      $('#deactivateModal').on('shown.bs.modal', function () {
-        document.getElementById("buttonId").value = document.getElementById("txtinwrdidformodel").value
-      });
+  $('#deactivateModal').on('shown.bs.modal', function () {
+    document.getElementById("buttonId").value = document.getElementById("txtinwrdidformodel").value
+  });
 
-      $('table tbody tr td #activateUser').on('click', function () {
-        $("#activateModal").modal("show");
-        $("#getId").val($(this).closest('tr').children()[0].textContent);
-        $("#userIdActive").val($(this).closest('tr').children()[7].textContent);
+  $('table tbody tr td #activateUser').on('click', function () {
+    $("#activateModal").modal("show");
+    $("#getId").val($(this).closest('tr').children()[0].textContent);
+    $("#userIdActive").val($(this).closest('tr').children()[7].textContent);
 
-      });
+  });
 
-      $('#activateModal').on('shown.bs.modal', function () {
-        document.getElementById("buttonIdActivate").value = document.getElementById("getId").value
-      });
+  $('#activateModal').on('shown.bs.modal', function () {
+    document.getElementById("buttonIdActivate").value = document.getElementById("getId").value
+  });
 </script>
 {% endblock content %}

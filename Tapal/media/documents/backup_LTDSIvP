@@ -1,0 +1,266 @@
+# path('manageDepartment/manageDepartment/', views.manageDepartment),
+    # path('manageDepartment/manageDepartment/manageDepartment/', views.manageDepartment),
+    # path('manageDepartment/manageDepartment/manageDepartment/manageDepartment/', views.manageDepartment),
+    # path('manageDepartment/manageDepartment/manageDepartment/manageDepartment/manageDepartment/', views.manageDepartment),
+
+ # path('CreateUser/CreateUser/', views.createUser),
+    # path('CreateUser/CreateUser/CreateUser/', views.createUser),
+    # path('CreateUser/CreateUser/CreateUser/CreateUser/', views.createUser),
+    # path('CreateUser/CreateUser/CreateUser/CreateUser/CreateUser/', views.createUser),
+
+# path('login/', auth_views.LoginView.as_view(template_name='LoginForm.html'), name='login'),
+    # path('login/login/', auth_views.LoginView.as_view(template_name='LoginForm.html'), name='login'),
+    # path('login/login/login/', auth_views.LoginView.as_view(template_name='LoginForm.html'), name='login'),
+    # path('login/login/login/login/', auth_views.LoginView.as_view(template_name='LoginForm.html'), name='login'),
+    # path('login/login/login/login/login/', auth_views.LoginView.as_view(template_name='LoginForm.html'), name='login'),
+path('inwardForm/inwardForm/', views.inwardForm),
+    path('inwardForm/inwardForm/inwardForm/', views.inwardForm),
+    path('inwardForm/inwardForm/inwardForm/inwardForm/', views.inwardForm),
+
+
+
+
+
+
+<div class="modal modal-outwrd fade ml-2 mr-2" id="outwardModel" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Outward</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form method="POST" action="/manageDepartment/" enctype="multipart/form-data">
+        {% csrf_token %}
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-6">
+                <label>Inward ID</label>
+                <input class="form-control form-control-sm" type="text" name="txtinwrdid" readonly id="txtinwrdid">
+              </div>
+              <div class="col-6">
+                {{ outwardForm.OutwardDate|as_crispy_field }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                {{ outwardForm.OutwardTo|as_crispy_field }}
+              </div>
+              <div class="col-6">
+                {{ outwardForm.OutwardDoc|as_crispy_field }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                  {{ outwardForm.Note|as_crispy_field }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-6 d-flex justify-content-between">
+                <textarea class="col-8" col="35" row="20"  id="txtOutwrdHistory" name="txtOutwrdHistory" style="height: 150px;" hidden> </textarea>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer justify-content-between">
+            <div>
+              <label>Close Record</label>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+            </div>
+            <div>
+              <button type="cancel" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" name="outwardBtn">Move</button>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+</div> 
+
+
+
+                {{ outwardForm.OutwardDate|as_crispy_field }}
+                {{ outwardForm.OutwardTo|as_crispy_field }}
+                {{ outwardForm.OutwardDoc|as_crispy_field }}
+                {{ outwardForm.Note|as_crispy_field }}
+
+
+
+
+{% for message in messages %}
+<div class="toast" id="myToast" style="position: absolute; top: 0; right: 0;" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <strong class="mr-auto">
+        {% if message.tags == 'error' %}
+          <i class="fa fa-times mr-2"></i>
+        {% elif message.tags == 'warning' %}
+          <i class="fa fa-exclamation mr-2"></i>
+        {% elif message.tags == 'info' %}
+          <i class="fa fa-info mr-2"></i>
+        {% elif message.tags == 'success' %}
+          <i class="fa fa-check mr-2"></i>
+        {% endif %}
+        {{message.tags|capfirst}}
+      </strong>
+      
+    </div>
+    <div class="toast-body">
+      {{message|safe}}
+    </div>
+  </div>
+{% endfor %}
+
+
+
+        <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #446491;">
+                <div class="col-9 col-lg-9 col-md-9 col-sm-9 mt-2">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item mt-2 mr-1">
+                           <a ><img src="{% static 'images/file-svgrepo-com.svg'%}" style="height:50px"></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-3 col-lg-3 col-md-3 col-sm-3 mb-2" style="text-align: right; justify-content: center;">
+                    <ul class="navbar-nav justify-content-end">
+                        <!-- <li class="nav-item mt-2 mr-1"><img src="{% static 'images/log-in-svgrepo-com.svg'%}" style="height:50px"></li> -->
+                        <li class="nav-item mt-2 mr-1">
+                          <a class="navbar-brand ml-2" style="font-size: 14px;" href="#">WELCOME<br>
+
+                        {% if user.is_authenticated %}
+                            <h5 class="m-0">{{user.user_id}}</h5>
+                        {% endif %}
+                            <a href="/logout/" type="button" class="btn btn-sm btn-outline-light ml-0 mb-3">Sign Out</a>
+                          </a>
+                        </li>
+                    </ul>
+                </div>
+        </nav>
+
+
+ <!--menu-->
+
+        <nav class="nav menulist justify-content-center m-0" style="background-color: #4b89ac;">
+          <a class="nav-link text-light m-2 mt-0 active" href="/home">Home</a>
+          <a class="nav-link text-light m-2 mt-0" href="/inwardForm">Inward Registery</a>
+          <a class="nav-link text-light m-2 mt-0" href="/manageDepartment">Manage Department</a>
+          <a class="nav-link text-light m-2 mt-0" href="/outwardRegistery">Outward Registery</a>
+          <a class="nav-link text-light m-2 mt-0" href="/report">Reports</a>
+          
+        </nav>
+
+
+
+
+
+
+
+  .footer .btn {
+  /*background-color: DodgerBlue;*/
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 83px;
+  height: 40px;
+
+}
+
+
+/*---------login-----------*/
+#login .container #login-row #login-column #login-box {
+  margin-top: 120px;
+  max-width: 500px;
+  height: 320px;
+  border: 1px solid #9C9C9C;
+  /*background-color: #EAEAEA;*/
+}
+#login .container #login-row #login-column #login-box #login-form {
+  padding: 20px;
+
+}
+#login .container #login-row #login-column #login-box #login-form #register-link {
+  margin-top: -85px;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+/*----------------------login-----------------*/
+
+
+/*--------------Searchbox---------------------*/
+
+
+#search {
+  float: right;
+  margin-top: 9px;
+  width: 250px;
+}
+
+.search {
+  padding: 5px 0;
+  width: 230px;
+  height: 30px;
+  position: relative;
+  /* left: 10px; */
+  float: right;
+  line-height: 22px;
+}
+
+  .search input {
+      position: absolute;
+      width: 0px;
+      float: Left;
+      margin-left: 210px;
+      -webkit-transition: all 0.7s ease-in-out;
+      -moz-transition: all 0.7s ease-in-out;
+      -o-transition: all 0.7s ease-in-out;
+      transition: all 0.7s ease-in-out;
+      height: 30px;
+      line-height: 18px;
+      padding: 0 2px 0 2px;
+      border-radius:1px;
+  }
+
+      .search:hover input, .search input:focus {
+          width: 200px;
+          margin-left: 0px;
+      }
+
+.btn-search {
+  height: 30px;
+  position: absolute;
+  right: 0;
+  top: 5px;
+  border-radius:1px;
+}
+/*--------------Searchbox---------------------*/
+
+/* Outword Registary */
+
+.outwordRegisteryFormcon{
+  width: 90%;
+  padding: 4px 4vh;
+  border-style: groove;
+  border-radius: 5px;
+  border-color: #17a2b8;
+  font-size:14px;
+}
