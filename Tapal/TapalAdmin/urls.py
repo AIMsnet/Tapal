@@ -6,48 +6,31 @@ from django.contrib.auth import views as auth_views
 
 urlpatterns = [
 
-# MENU FORMS
-
+# USER
     path('', views.CustomLogin.as_view(template_name='LoginForm.html'), name='login'),
-    path('adminLogin/', views.AdminLogin.as_view(template_name='adminLogin.html'), name='login'),
-
     path('home/', views.home),
     path('inwardForm/', views.inwardForm),
     path('inwardForm/inwardForm/', views.inwardForm),
     path('inwardForm/inwardForm/inwardForm/', views.inwardForm),
     path('manageDepartment/', views.manageDepartment),
     path('outwardRegistery/', views.outwardRegistery),
-    path('ticketPurcahesInformation/', views.ticketPurcahesInformation),
-    
     path('report/', views.report),
-
-    path('changePassword/', views.changePassword),
-    path('InwrdOtwrdDetails/', views.InwrdOtwrdDetails),
-    path('receipt/', views.receipt),
-    path('SendingDetails/', views.SendingDetails),
-    path('EditTicketDetails/', views.EditTicketDetails),
-
-    path('CreateUser/', views.createUser),
-
-    
-    path('logout/', views.logout),
-    path('logoutAdmin/', views.logoutAdmin),
-
-    
     path('forward/', views.forward),
     path("getFile/", views.getFiles),
     url('file/(?P<fileName>[\w\s,@.]+)', views.DownloadFile, name = "showSupplier"),
-
     url('outwardFile/(?P<fileName>[\w\s,@.]+)', views.DownloadOutwrdFile, name = "showSupplier"),
+    path('logout/', views.logout),    
 
-    # ADMINISTRATION
-    path('adminManageRegistry/', views.adminManageRegistry),
+
+# ADMINISTRATION
+    path('adminLogin/', views.AdminLogin.as_view(template_name='adminLogin.html'), name='login'),
     path('DeptHome/', views.DeptHome),
-    path('adminLogin/DeptHome/', views.DeptHome),
-
-    path('deptInwardReg/', views.deptInwardReg),
+    path('CreateUser/', views.createUser),
+    path('adminManageRegistry/', views.adminManageRegistry),
+    path('adminOutwardRegistry/', views.adminOutwardRegistry),
     path('DeptReport/', views.DeptReport),
-    path('actionToBeTaken/', views.actionToBeTaken),
-    path('userList/', views.UserList)
+    path('userList/', views.UserList),
+    path('logoutAdmin/', views.logoutAdmin),
+
     
 ]

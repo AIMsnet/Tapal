@@ -15,9 +15,10 @@ from django.db.models import Q
 from django.http import HttpResponse
 from wsgiref.util import FileWrapper
 import os
-import json # for json dumps
+import json
 from django.core import serializers
 from django.contrib.auth.decorators import user_passes_test
+from Tapal import settings
 
 
 class CustomLogin(auth_views.LoginView):
@@ -27,39 +28,48 @@ class CustomLogin(auth_views.LoginView):
         if not self.request.user.is_superuser:
             self.request.session['username'] = self.request.user.username
             print(self.request.session['username'])
-            return HttpResponseRedirect(self.get_success_url())
+            # return HttpResponseRedirect(self.get_success_url())
+            return HttpResponseRedirect(settings.cutomer_url)
         else:
-            messages.error(self, "Enter correct username and password.")
-            # return redirect("/")
-            return HttpResponseRedirect(self.get_success_url())
+            messages.error(self.request, 'Enter valid "USERNAME" and "PASSWARD"')
+            # auth.logout(self.request)
+            return redirect("/")
 
 class AdminLogin(auth_views.LoginView):
     def form_valid(self, form):
         login(self.request, form.get_user())
-        self.request.session['username'] = self.request.user.username
-        print(self.request.session['username'])
-        return HttpResponseRedirect(self.get_success_url())
+        if self.request.user.is_superuser:
+            self.request.session['email'] = self.request.user.email
+            print(self.request.session['email'])
+            # return HttpResponseRedirect(self.get_success_url())
+            return HttpResponseRedirect(settings.admin_url)
 
+        else:
+            messages.error(self.request, 'Enter valid "USERNAME" and "PASSWARD"')
+            # auth.logout(self.request)
+            return redirect("/adminLogin/")
 
 def createUser(request):
-    form = createUserForms()
-    if request.method == 'POST':
-        print('insude if post')
-        form = createUserForms(request.POST or None)
-        print('form')
-        if form.is_valid():
-            print('form is valid')
-            form = form.save()
-            # username = form.cleaned_data['username']
-            # messages.success(request, f'Your account has been created ! You are now able to login {username}!')
-            print('saved')
-            return redirect('/')
-        else:
-            print('invalid')
-            print(form.errors)
-    else:
+    if request.session.has_key('email'):
         form = createUserForms()
-    return render (request, "CreateUser.html", {'form' : form})
+        if request.method == 'POST':
+            print('insude if post')
+            form = createUserForms(request.POST or None)
+            print('form')
+            if form.is_valid():
+                print('form is valid')
+                form = form.save()
+                # username = form.cleaned_data['username']
+                # messages.success(request, f'Your account has been created ! You are now able to login {username}!')
+                print('saved')
+                return redirect('/')
+            else:
+                print('invalid')
+                print(form.errors)
+        else:
+            form = createUserForms()
+        return render (request, "CreateUser.html", {'form' : form})
+    return redirect("/adminLogin/")
 
 def logout(request):   
     print('logging out')
@@ -134,7 +144,6 @@ def forward(request):
         form = forwardForm()
         return render(request, "manageDepartment.html" )
 
-@login_required
 def manageDepartment(request):
     if request.session.has_key('username'):
         # FETCHING USERS FROM DB
@@ -278,7 +287,6 @@ def manageDepartment(request):
             return render(request, "manageDepartment.html", context)
     return redirect("/")
 
-
 def getFiles(request):
     if request.method == 'POST':
         inwardDocs = InwardDocs.objects.filter(InwardId = request.POST['inwardId'])
@@ -314,17 +322,6 @@ def outwardRegistery(request):
             return render(request, "outwardRegistery.html", context)
     return redirect("/")
 
-def ticketPurcahesInformation(request):
-    if request.session.has_key('username'):
-        return render(request, "ticketPurcahesInformation.html")
-    return redirect("/")
-
-def InwrdOtwrdDetails(request):
-    if request.session.has_key('username'):
-        return render(request, "InwrdOtwrdDetails.html")
-    return redirect('/')
-
-@login_required
 def report(request):
     if request.session.has_key('username'):
 
@@ -348,89 +345,202 @@ def report(request):
             
             return render(request, "report.html")
     return redirect('/')
-    
-def changePassword(request):
-    return render(request, "changePassword.html")
-
-def receipt(request):
-    return render(request, "receipt.html")
-
-def SendingDetails(request):
-    return render(request, "SendingDetails.html")
-
-def EditTicketDetails(request):
-    return render(request, 'EditTicketDetails.html')
-
 
 def DeptHome(request):
-    if request.session.has_key('username'):
+    if request.session.has_key('email'):
         return render(request, 'DeptHome.html')
     return redirect("/adminLogin/")
 
-def deptInwardReg(request):
-    return render(request, 'deptInwardReg.html')
-
 def DeptReport(request):
+    if request.session.has_key('email'):
+        if request.method == 'POST' :
+            
+            startDate   = request.POST.get('strtdt')
+            endDate   = request.POST.get('enddt')
 
-    if request.method == 'POST' :
-        
-        startDate   = request.POST.get('strtdt')
-        endDate   = request.POST.get('enddt')
-
-        records  =   InwardReg.objects.filter(LttrRecDate__range=(startDate, endDate))
-        
-        context ={
-            'records'   : records,
-        }
-        return render(request, "DeptReport.html",context)
-    else:
-        return render(request,'DeptReport.html')
-
-def actionToBeTaken(request):
-    return render(request, "ActionToBeTaken.html")
+            records  =   InwardReg.objects.filter(LttrRecDate__range=(startDate, endDate))
+            
+            context ={
+                'records'   : records,
+            }
+            return render(request, "DeptReport.html",context)
+        else:
+            return render(request,'DeptReport.html')
+    return redirect("/adminLogin/")
 
 def adminManageRegistry(request):
 
-    users   =   User.objects.all()
-    records  =   InwardReg.objects.all
+    if request.session.has_key('email'):
+        # FETCHING USERS FROM DB
+        users   =   User.objects.all()
 
-    if request.method == 'POST' and 'buttonForward' in request.POST:
-        print('inside post')
-        SelectedUser    = request.POST.get('selectUser')
-        buttonForward   =  request.POST.get('buttonForward')
+        outwardForm = OutwardForm()
+        outwardForm = OutwardForm(request.POST, request.FILES or None) 
 
-        updateRecord   =    InwardReg.objects.get(id = buttonForward)
-        updateRecord.username    =   SelectedUser
-        updateRecord.save()
+        # GETTING CREDENTIALS OF LOGGED IN USER
+        if request.user.is_authenticated :
+                desk_id     =   request.user.desk_id
+                username     =   request.user.username
         
+        records  =   InwardReg.objects.all
 
-        context ={
-            'records'   : records,
-            'users'     : users,
-        }
-        return render(request, "adminManageRegistry.html", context)
+        # FORWARD RECORD
+        if request.method == 'POST' and 'buttonForward' in request.POST:
+            print('inside Forward')
+            SelectedUser    = request.POST.get('selectUser')
+            buttonForward   =  request.POST.get('buttonForward')
 
-    elif request.method == 'POST' and 'buttonSearch' in request.POST:
-        search    = request.POST.get('searchInput')
+            print(SelectedUser)
+            print(buttonForward)
 
-        if search.isnumeric():
-            records = InwardReg.objects.filter(id = search) or InwardReg.objects.filter(MobileNumber = search)
+            updateRecord   =    InwardReg.objects.get(id = buttonForward)
+            updateRecord.user_id    =   SelectedUser
+            updateRecord.RecievedFrom   =   username
+            updateRecord.save()
+
+            records  =   InwardReg.objects.all
+
+            context ={
+                'records'   : records,
+                'users'     : users,
+                'outwardForm'   : outwardForm
+            }
+            return render(request, "adminManageRegistry.html",context)
+
+        # EIDT INWARD RECORD 
+        if request.method == 'POST' and 'saveModelButton' in request.POST:
+            print("inside modelsave")
+
+            SelectedUser   =    request.POST.get('saveModelButton')
+            updateText     =    request.POST.get('updateText')
+            DocsAttch      =    request.FILES.get('DocsAttch')
+            status         =    request.POST.get('status')
+            
+            addUpdate      =    InwardReg.objects.get(id = SelectedUser)
+            dat = addUpdate.LatterDetails
+            tm = time.strftime('%d %b %Y')
+            addUpdate.LatterDetails   =   dat + "\n"+ username + " : " + tm + " : " + updateText
+            addUpdate.save()
+
+            inwardReg = InwardReg.objects.get(id = SelectedUser) 
+            inwardDocs =  InwardDocs.objects.create(InwardId = inwardReg, DocsAttch = DocsAttch, user_id = username)
+            
+            context ={
+                'records'       : records,
+                'users'         : users,
+                'outwardForm'   : outwardForm
+            }
+            return render(request, "adminManageRegistry.html",context)
+
+        # RECORD OUTWARDING 
+        if request.method == 'POST' and 'outwardBtn' in request.POST:
+            print("inside Outward")
+            outwardForm = OutwardForm(request.POST, request.FILES or None) 
+            inwardId    = request.POST.get('txtinwrdid')
+            history     = request.POST.get('txtOutwrdHistory')
+            status         =    request.POST.get('statusOutwrd')
+            print(status)
+            
+            if outwardForm.is_valid():
+                obj =   outwardForm.save()
+                obj.OutwardBy = username
+                obj.InwardId  = inwardId
+                obj.History =   history
+            # ----------------------Activate/Deactivate----------------------
+                if status is not None:
+                    obj.Status   = "Deactivated"
+                else:
+                    obj.Status   = "Activate"
+                obj.save()
+                outwardTo = outwardForm.cleaned_data['OutwardTo']
+                updateRecord   =    InwardReg.objects.get(id = inwardId)
+                updateRecord.user_id    =   outwardTo
+                updateRecord.save()
+
+            context ={
+                'records'       : records,
+                'users'         : users,
+                'outwardForm'  : outwardForm  
+            }
+            return render(request, "adminManageRegistry.html", context)
+
+        # ACTIVATE / DEACTIVATE
+        if request.method == 'POST' and 'buttonId' in request.POST:
+            print('inside userlist')
+            
+            changeFor   =   request.POST.get('buttonId')
+            print(changeFor)
+
+            toChange    =   request.POST.get('changeTo')
+            print(toChange)
+
+            inwardReg = InwardReg.objects.get(id = changeFor)
+            inwardReg.Status = toChange
+            inwardReg.save()
+
+            context ={
+                'records'       : records,
+                'users'         : users,
+                'outwardForm'  : outwardForm  
+            }
+            return render(request, "adminManageRegistry.html", context)
+
+        # SEARCH RECORD
+        if request.method == 'POST' and 'btnSearch' in request.POST:
+            searchString =  request.POST.get('searchString')
+            print(searchString)
+
+            records  =   InwardReg.objects.filter(user_id = username).filter(Q(id = searchString)| Q(MobileNumber = searchString))
+        
+            # records  =   InwardReg.objects.filter(user_id = username).filter(MobileNumber = searchString)
+
+
+            context ={
+                'records'   : records,
+                'users'     : users,
+                'outwardForm'   : outwardForm
+            }
+            return render(request, "adminManageRegistry.html",context)
+
+
         else:
-         records = InwardReg.objects.filter(username = search) or InwardReg.objects.filter(EmailId = search)
+            context ={
+                'records'   : records,
+                'users'     : users,
+                'outwardForm' : outwardForm,
+            }
+            return render(request, "adminManageRegistry.html", context)
+    return redirect("/adminLogin/")
 
-        context ={
-            'records'   : records,
-            'users'      : users
-        }
-        return render(request, "adminManageRegistry.html", context)
+def adminOutwardRegistry(request):
 
-    else:
-        context ={
-            'records'   : records,
-            'users'     : users,
-        }
-        return render(request, "adminManageRegistry.html", context)
+    if request.session.has_key('email'):
 
+        if request.user.is_authenticated :
+                username     =   request.user.username
+        outwardData = OutwardReg.objects.all
+
+        if request.method == 'POST':
+            print("outward")
+            inwardId    = request.POST.get('value')
+            status      = request.POST.get('status')
+            print(status)
+
+            outwardData = OutwardReg.objects.all
+            records     = InwardReg.objects.get(id = inwardId)
+            context =   {
+                'outwardData' : outwardData,
+                
+            }
+            return render(request, "adminOutwardRegistry.html", context)
+        else:
+            context =   {
+                'outwardData' : outwardData,
+            }
+            return render(request, "adminOutwardRegistry.html", context)
+
+    return redirect("/adminLogin/")
+    
 def DownloadFile(request, fileName):
     print("I m from view and file name is", fileName)
     file = "media/documents/" + fileName
@@ -450,26 +560,28 @@ def DownloadOutwrdFile(request, fileName):
     return response
 
 def UserList(request):
-    users = User.objects.all
+    if request.session.has_key('email'):
+        users = User.objects.all
 
-    if request.method == 'POST':
-        print('inside userlist')
-        toChange    =   request.POST.get('changeTo')
-        print(toChange)
+        if request.method == 'POST':
+            print('inside userlist')
+            toChange    =   request.POST.get('changeTo')
+            print(toChange)
 
-        changeFor   =   request.POST.get('buttonId')
-        print(changeFor)
-        
-        changeStatus    =   User.objects.get(id = changeFor)
-        changeStatus.is_active  = toChange
-        changeStatus.save()
+            changeFor   =   request.POST.get('buttonId')
+            print(changeFor)
+            
+            changeStatus    =   User.objects.get(id = changeFor)
+            changeStatus.is_active  = toChange
+            changeStatus.save()
 
-        context = {
-            'users' : users
-        }
-        return render(request, "UserTable.html", context)
-    else:
-        context = {
-            'users' : users
-        }
-        return render(request, "UserTable.html", context)
+            context = {
+                'users' : users
+            }
+            return render(request, "UserTable.html", context)
+        else:
+            context = {
+                'users' : users
+            }
+            return render(request, "UserTable.html", context)
+    return redirect("/adminLogin/")

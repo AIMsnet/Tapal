@@ -23,17 +23,18 @@
 </head> 
 <body>
 {% block content %}
-    <div class="container formcon my-5">
+    <div class="container my-5">
         <div id="login-row" class="row justify-content-center align-items-center">
             <div id="login-column" class="col-md-6">
                 <div id="login-box" class="col-md-12">
-                    <h2 class="text-center mt-5">Admin Login</h2>
-                    <form action="/adminLogin/" method="POST" style="text-align: -webkit-center;">
+                    <form class=" border border-dark p-5" action="/adminLogin/" method="POST" style="text-align: -webkit-center;">
                         {% csrf_token %}
+                        <h2 class="text-center mb-5">Admin Login</h2>
+
                         {% if messages %}
-                            <ul class="messages">
+                            <ul class="messages list-unstyled">
                                 {% for message in messages %}
-                                <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                <li {% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %} role="alert">{{ message }}</li>
                                 {% endfor %}
                             </ul>
                         {% endif %}
@@ -44,8 +45,6 @@
                         <div class="form-group">
                             <input type="submit" value="Sign In" class="btn btn-primary">
                         </div>
-                        Don't have account ? <a href="CreateUser/">Register Here</a><br>
-                        <a href="/DeptHome/">Admin</a>
                     </form>  
                 </div>
             </div>

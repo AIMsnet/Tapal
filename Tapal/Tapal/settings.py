@@ -11,6 +11,14 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from django.contrib.messages import constants as messages
+
+#Set how messages shuld be seen
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -141,6 +149,6 @@ MEDIA_ROOT =    os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'TapalAdmin.User'
 
-LOGIN_REDIRECT_URL= 'home/' 
+cutomer_url = LOGIN_REDIRECT_URL= '/home/' 
 
-# LOGIN_REDIRECT_URL = '/adminLogin/DeptHome/'
+admin_url = LOGIN_REDIRECT_URL = '/DeptHome/'
