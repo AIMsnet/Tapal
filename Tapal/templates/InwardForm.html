@@ -5,6 +5,8 @@
 {% block css %}
     <link rel="stylesheet" type="text/css" href="{% static 'styles/InwardForm.css'%}">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/tabs.css'%}">
+
 {% endblock css %}
 
 {% block content %}
@@ -21,7 +23,7 @@
 {% endif %}
 
 <div class="m-3"></div>
-<div class="container-fluid m-0 p-0" style="height:500px; overflow-y: scroll;">
+<div class="container-fluid border border-dark m-0 p-0" style="height:550px; overflow-y: scroll;">
      <h5 class="text-center mt-0 pt-3 border-info border-bottom" style="background-color: #ace6f6;">INWARD REGISTERY</h5>
     <form action="/inwardForm/" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -29,7 +31,7 @@
             <div class="col-md-6">
                 <div class="row mt-2">
                     <div class="col-md-8">
-                        {{ form.username.as_hidden }}
+                        {{ form.user_id.as_hidden }}
                     </div>
                 </div>
                 <div class="row mt-2">

@@ -110,14 +110,14 @@ def inwardForm(request):
             
                 obj =   form.save()
                 docs = DocForm.cleaned_data['DocsAttch']
-                InwardDocs.objects.create(InwardId = obj, DocsAttch = docs, username = username)
+                InwardDocs.objects.create(InwardId = obj, DocsAttch = docs, user_id = username)
                 obj.username = username
                 obj.save()
                 a = messages.success(request, "Latter Inwarded")
                 return redirect('inwardForm/', {'a': a})
             else:
                 messages.error(request, "Please Re-enter Something Went Wrong")
-                print(form.errors)
+                print(form.errors.as_json)
                 print('c')
         else:
             print('d')
@@ -223,9 +223,9 @@ def manageDepartment(request):
                 obj.History =   history
             # ----------------------Activate/Deactivate----------------------
                 if status is not None:
-                    obj.Status   = "Deactivated"
+                    obj.Status   = "False"
                 else:
-                    obj.Status   = "Activate"
+                    obj.Status   = "True"
                 obj.save()
                 outwardTo = outwardForm.cleaned_data['OutwardTo']
                 updateRecord   =    InwardReg.objects.get(id = inwardId)
@@ -490,7 +490,7 @@ def adminManageRegistry(request):
             searchString =  request.POST.get('searchString')
             print(searchString)
 
-            records  =   InwardReg.objects.filter(user_id = username).filter(Q(id = searchString)| Q(MobileNumber = searchString))
+            records  =   InwardReg.objects.filter(Q(id = searchString)| Q(MobileNumber = searchString))
         
             # records  =   InwardReg.objects.filter(user_id = username).filter(MobileNumber = searchString)
 
