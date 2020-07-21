@@ -1,0 +1,98 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap');
+
+body{
+    font-family: 'Baloo Tammudu 2', cursive;
+    background-color:#fff;
+}
+
+.formcon{
+    width: 77%;
+    padding: 4px 4vh;
+    border-style: groove;
+    border-radius: 5px;
+    border-color: #17a2b8;
+    font-size:14px;
+
+}
+.formcon input{
+    margin-bottom: 2px;
+    padding-top: 2px 0vh;
+
+}
+.formcon label{
+    margin-top:3px;
+    padding:1vh;
+}
+.form-footer{
+    justify-content: center;
+    padding:3px 0vh;
+    margin: 3px;
+}
+
+/*------Manage Departements----*/
+
+
+
+.footer .btn {
+  /*background-color: DodgerBlue;*/
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 83px;
+  height: 40px;
+
+}
+
+
+/*--------------Searchbox---------------------*/
+
+#search {
+    float: right;
+    margin-top: 9px;
+    width: 250px;
+    right: 12px;
+  }
+  
+  .search {
+    padding: 5px 0;
+    width: 230px;
+    height: 40px;
+    position: relative;
+    /* left: 10px; */
+    float: right;
+    line-height: 22px;
+  }
+  
+.search input {
+    position: absolute;
+    width: 0px;
+    float: Left;
+    margin-left: 210px;
+    -webkit-transition: all 0.7s ease-in-out;
+    -moz-transition: all 0.7s ease-in-out;
+    -o-transition: all 0.7s ease-in-out;
+    transition: all 0.7s ease-in-out;
+    height: 30px;
+    line-height: 18px;
+    padding: 0 2px 0 2px;
+    border-radius:1px;
+}
+
+    .search:hover input, .search input:focus {
+        width: 200px;
+        margin-left: 0px;
+    }
+  
+.btn-search {
+height: 30px;
+position: absolute;
+right: 0;
+top: 5px;
+border-radius:1px;
+}
+
+

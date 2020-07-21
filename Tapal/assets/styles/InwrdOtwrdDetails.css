@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap');
+
+body{
+    font-family: 'Baloo Tammudu 2', cursive;
+    background-color:#fff;
+}
+
+.MainBlock{
+  height: 430px;
+  float: none;
+  border-style: groove;
+  border-width: 2px;
+  border-color: #17a2b8;
+  outline: none;
+  padding: 0px 0px;
+  font-size: 17px;
+  width: 65%;
+}
+
+.nav{
+  background-color: #17a2b8;
+  justify-content: left;
+}
+
+.tablink{
+  float:left;
+  border: none;
+  outline: none;
+  padding: 5px 10px;
+  font-size: 17px;
+  background-color: #17a2b8;
+  height: 30px;
+  margin-top: 20px;
+}
+.tablink:hover {
+  background-color: #ddd;
+  color: black;
+}
+.tablink:active {
+  border:none;
+  outline: none;
+}
+
+.block {
+  display: none;
+  padding: 100px 20px;
+  height: 100%;
+}
+
+#InwardReg {background-color: white;}
+#OutwardReg {background-color: white;}
+
+.BlockOne .row{
+  margin-top: 15px;
+  padding: 4px;
+}
+.BlockOne input{
+  margin-left: 25px;
+  padding: 0px;
+  size: 14px;
+  color: #6c757d;
+  width:150px; 
+}
+
+.BlockOne label{
+  margin-left: 20px;
+  font-size: 17px;
+}
+
+.fileNF{
+  height:50px;
+  margin-top: 20px;
+}
+

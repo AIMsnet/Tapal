@@ -263,9 +263,9 @@
               Select User
               <select class="form-control form-control-sm" name="selectUser" id="slval">
                 <option value="{{user.username}}">Select User</option>
-                {% for user in users %}
+                {% for user in userToFrwrd %}
                   {% if user.is_superuser is False %}
-                    <option value="{{user.username}}">{{user.username}}</option>
+                    <option value="{{user.username}}">{{user.username}}</option>  
                   {% endif %}
                 {% endfor %}
               </select>
@@ -275,8 +275,7 @@
         
         <div class="modal-footer justify-content-center">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">NO</button>
-          <td> <a href=""><button class="btn btn-success" id="buttonForward" name="buttonForward">YES</i></button></a> 
-          </td>
+          <a href=""><button class="btn btn-success" id="buttonForward" name="buttonForward">YES</i></button></a> 
         </div>
       </form>
     </div>

@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap');
+
+body{
+    font-family: 'Baloo Tammudu 2', cursive;
+}
+
+/* table {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+}
+
+thead {
+  flex: 0 0 auto;
+
+}
+
+tbody {
+  flex: 1 1 auto;
+  display: block;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+tr {
+  width: 100%;
+  display: table;
+  table-layout: fixed;
+}
+ */
+
+
+
+.table-definition {
+  pointer-events: none;
+  background: white;
+  border: none;
+}
+
+.table td {
+  text-align: center;
+  margin: 0px;
+}
+
+
+thead tr{
+  font-size: 16px;
+}
+tbody tr{
+  font-size: 14px;
+  padding-bottom: 0px;
+}
+
+.modal-header .modal-title{
+  font-size: 16px;
+}
+
+.modal-body{
+  font-size: 12px;
+  
+}
+
+.modal-body label{
+  margin-top: 6px;
+  font-size: 12px;
+}
+
+.modal-body small{
+  margin-top: -10px;
+}
+.modal-body select{
+  font-size: 12px;
+}
+

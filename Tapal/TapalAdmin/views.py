@@ -148,10 +148,11 @@ def manageDepartment(request):
     if request.session.has_key('username'):
         # FETCHING USERS FROM DB
         users   =   User.objects.all()
+        # Dropdown select user to forward
+        userToFrwrd   =   User.objects.exclude(username=request.user.username)
 
         outwardForm = OutwardForm()
-        outwardForm = OutwardForm(request.POST, request.FILES or None) 
-
+        
         # GETTING CREDENTIALS OF LOGGED IN USER
         if request.user.is_authenticated :
                 desk_id     =   request.user.desk_id
@@ -177,7 +178,7 @@ def manageDepartment(request):
 
             context ={
                 'records'   : records,
-                'users'     : users,
+                'userToFrwrd'     : userToFrwrd,
                 'outwardForm'   : outwardForm
             }
             return render(request, "manageDepartment.html",context)
@@ -264,12 +265,16 @@ def manageDepartment(request):
         if request.method == 'POST' and 'btnSearch' in request.POST:
             searchString =  request.POST.get('searchString')
             print(searchString)
+            
+            #check searching string is an integer or string
 
-            records  =   InwardReg.objects.filter(user_id = username).filter(Q(id = searchString)| Q(MobileNumber = searchString))
-        
-            # records  =   InwardReg.objects.filter(user_id = username).filter(MobileNumber = searchString)
-
-
+            if searchString.isnumeric():
+                print("is integer")
+                records  =   InwardReg.objects.filter(user_id = username).filter(Q(id = searchString)| Q(MobileNumber = searchString))
+            else:
+                print("is string")
+                records  =   InwardReg.objects.filter(user_id = username).filter(Q(Status = searchString)| Q(Priority = searchString))
+            
             context ={
                 'records'   : records,
                 'users'     : users,
@@ -282,6 +287,7 @@ def manageDepartment(request):
             context ={
                 'records'   : records,
                 'users'     : users,
+                'userToFrwrd' : userToFrwrd,
                 'outwardForm' : outwardForm,
             }
             return render(request, "manageDepartment.html", context)
@@ -490,10 +496,13 @@ def adminManageRegistry(request):
             searchString =  request.POST.get('searchString')
             print(searchString)
 
-            records  =   InwardReg.objects.filter(Q(id = searchString)| Q(MobileNumber = searchString))
-        
-            # records  =   InwardReg.objects.filter(user_id = username).filter(MobileNumber = searchString)
-
+            if searchString.isnumeric():
+                print("is integer")
+                records  =   InwardReg.objects.filter(user_id = username).filter(Q(id = searchString)| Q(MobileNumber = searchString))
+            else:
+                print("is string")
+                records  =   InwardReg.objects.filter(user_id = username).filter(Q(Status = searchString)| Q(Priority = searchString))
+            
 
             context ={
                 'records'   : records,

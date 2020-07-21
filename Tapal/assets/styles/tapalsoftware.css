@@ -1,0 +1,153 @@
+@import url('https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Kalam:wght@700&display=swap');
+
+body{
+    font-family: 'Baloo Tammudu 2', cursive;
+    background-color:#fff;
+}
+
+.navbar{
+    padding: 4px 3vh 0vh;
+}
+
+.nav-item a{
+    font-size: 10px;
+    text-align: left;
+    min-height: 60px;
+    padding: 2px 0vh 0vh;
+}
+
+.menulist{
+    padding: 4px 3vh 0vh;
+    margin-top: 2px;
+
+}
+
+.menulist a{
+    font-size: 14px;
+    margin: 4px;
+    padding: 3px 3vh;
+text-decoration-color: dark;
+}
+
+.formcon{
+    width: 77%;
+    padding: 4px 4vh;
+    border-style: groove;
+    border-radius: 5px;
+    border-color: #17a2b8;
+    font-size:14px;
+
+}
+.formcon input{
+    margin-bottom: 2px;
+    padding-top: 2px 0vh;
+
+}
+.formcon label{
+    margin-top:3px;
+    padding:1vh;
+}
+.form-footer{
+    justify-content: center;
+    padding:3px 0vh;
+    margin: 3px;
+}
+/*.pagination>li>a, .pagination>li>span { 
+    border-radius: 50% !important;
+    margin: 0 5px;
+}*/
+
+/*------Manage Departements----*/
+.has-search .form-control {
+    padding-left: 2.375rem;
+   
+}
+.has-search {
+     width: 15%;
+    float: right;
+}
+
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
+}
+/*------Manage Departements----*/
+
+.custab{
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 5% 0;
+    box-shadow: 3px 3px 2px #ccc;
+    transition: 0.5s;
+    }
+.custab:hover{
+    box-shadow: 3px 3px 0px transparent;
+    transition: 0.5s;
+    }
+
+   .btn {
+  /*background-color: DodgerBlue;*/
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 83px;
+  height: 40px;
+
+}
+
+/* Darker background on mouse-over */
+/*.btn:hover {
+  background-color: RoyalBlue;
+}*/
+
+/*body {
+  margin: 0;
+  padding: 0;
+  background-color: #17a2b8;
+  height: 100vh;
+}*/
+/*---------login-----------*/
+#login .container #login-row #login-column #login-box {
+  margin-top: 120px;
+  max-width: 600px;
+  height: 320px;
+  border: 1px solid #9C9C9C;
+  /*background-color: #EAEAEA;*/
+}
+#login .container #login-row #login-column #login-box #login-form {
+  padding: 20px;
+
+}
+#login .container #login-row #login-column #login-box #login-form #register-link {
+  margin-top: -85px;
+}
+
+.btn-circle {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 6px 0;
+  font-size: 12px;
+  line-height: 1.428571429;
+  border-radius: 15px;
+}
+.btn-circle.btn-lg {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.33;
+  border-radius: 25px;
+}
+/*----------------------login-----------------*/
+
+
