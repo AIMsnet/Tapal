@@ -59,10 +59,8 @@ def createUser(request):
             if form.is_valid():
                 print('form is valid')
                 form = form.save()
-                # username = form.cleaned_data['username']
-                # messages.success(request, f'Your account has been created ! You are now able to login {username}!')
                 print('saved')
-                return redirect('/')
+                return redirect('/CreateUser/')
             else:
                 print('invalid')
                 print(form.errors)
@@ -112,6 +110,7 @@ def inwardForm(request):
                 docs = DocForm.cleaned_data['DocsAttch']
                 InwardDocs.objects.create(InwardId = obj, DocsAttch = docs, user_id = username)
                 obj.username = username
+                obj.user_id = username
                 obj.save()
                 a = messages.success(request, "Latter Inwarded")
                 return redirect('inwardForm/', {'a': a})
@@ -127,7 +126,6 @@ def inwardForm(request):
     return redirect("/")
 
 def forward(request):
-    
     if request.method == 'POST':
         # selectedUser    = 
         form = forwardForm(request.POST or None)
@@ -152,7 +150,6 @@ def manageDepartment(request):
         userToFrwrd   =   User.objects.exclude(username=request.user.username)
 
         outwardForm = OutwardForm()
-        
         # GETTING CREDENTIALS OF LOGGED IN USER
         if request.user.is_authenticated :
                 desk_id     =   request.user.desk_id
