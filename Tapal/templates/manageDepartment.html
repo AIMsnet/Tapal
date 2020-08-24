@@ -99,7 +99,6 @@
         </table>
       </form>
     </div>
-  </div>
 </div>
 
 <!----------------Manage Departments End-------------->
@@ -255,19 +254,23 @@
         {% csrf_token %}
         <div class="modal-body">
           <div class="form-row">
-            <div class="col-6">
-              Do you want to forward record with ID
+            <div class="col-4">
+              Forward record with ID
               <input class="form-control form-control-sm border-0" type="text" name="txtinwrdid" readonly id="txtinwrdidformodel">
             </div>
-            <div class="col-6">
+            <div class="col-4">
               Select User
-              <select class="form-control form-control-sm" name="selectUser" id="slval">
-                <option value="{{user.username}}">Select User</option>
-                {% for user in userToFrwrd %}
-                  {% if user.is_superuser is False %}
-                    <option value="{{user.username}}">{{user.username}}</option>  
-                  {% endif %}
+              <select class="form-control form-control-sm" name="selectDept" id="selectDept" onchange="getUser()" required>
+                <option value="">Select Department</option>
+                {% for dept in deptToFrword %}
+                    <option value="{{dept.d_name}}">{{dept.d_name}}</option>
                 {% endfor %}
+              </select>
+            </div>
+            <div class="col-4">
+              Select User
+              <select class="form-control form-control-sm" name="selectUser" id="selectUser" required>
+                <option value="">Select User</option>
               </select>
             </div>
          </div>
@@ -465,6 +468,32 @@ $('#activateModal').on('shown.bs.modal', function () {
   document.getElementById("buttonIdActivate").value = document.getElementById("getId").value
 });
 
+//For Select User
+function getUser(){
+  department =  $('#selectDept').val()
+  console.log("Got it" + department)
+  $.ajax({
+    type: 'POST', 
+    url: '/manageDepartment/',
+    data: {
+      user : true,
+      department : department,
+      csrfmiddlewaretoken: $('input[name=csrfmiddlewaretoken]').val()
+    },
+    success: function (response) {
+      if(response.status == 0){
+        userToFrwrd = response.userToFrwrd
+        console.log("User are" + userToFrwrd['0']['fields']['username'])
+        len = userToFrwrd.length
+        console.log(len)
+        $("#selectUser").empty()
+        for(var i = 0; i < len; i++){
+          $('#selectUser').append($("<option></option>").attr("value", userToFrwrd['0']['fields']['username']).text(userToFrwrd['0']['fields']['username'])); 
+        }
+      }
+    }
+  });
+}
 </script>
 
 

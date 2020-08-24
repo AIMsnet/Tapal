@@ -1,7 +1,8 @@
 from django.shortcuts import render,redirect, reverse
+from django import forms
 from django.http import HttpResponseRedirect
-from .forms import createUserForms, InwardRegistryForm,forwardForm, InwardDocForm, OutwardForm
-from .models import InwardReg, User, InwardDocs, OutwardReg
+from .forms import createUserForms, InwardRegistryForm,forwardForm, InwardDocForm, OutwardForm, CreateDeptForms
+from .models import InwardReg, User, InwardDocs, OutwardReg, Dept
 from django.contrib import messages
 from django.contrib import auth
 from django.contrib.auth import login
@@ -51,22 +52,33 @@ class AdminLogin(auth_views.LoginView):
 
 def createUser(request):
     if request.session.has_key('email'):
-        form = createUserForms()
-        if request.method == 'POST':
-            print('insude if post')
-            form = createUserForms(request.POST or None)
-            print('form')
-            if form.is_valid():
-                print('form is valid')
-                form = form.save()
-                print('saved')
-                return redirect('/CreateUser/')
-            else:
-                print('invalid')
-                print(form.errors)
-        else:
+        # try:
+            depts = Dept.objects.all()
             form = createUserForms()
-        return render (request, "CreateUser.html", {'form' : form})
+            if request.method == 'POST':
+                print('insude if post')
+                form = createUserForms(request.POST or None)
+                print('form')
+                
+                if form.is_valid():
+                    print('form is valid')
+                    deptChoice = form.cleaned_data['dept']
+                    print(deptChoice)
+                    form = form.save()
+                    
+                    form.dept   =  str(deptChoice)
+                    form.save()
+                    print('saved')
+                    return redirect('/CreateUser/')
+                else:
+                    print('invalid')
+                    print(form.errors)
+            else:
+                form = createUserForms()
+            return render (request, "CreateUser.html", {'form' : form, 'depts' : depts})
+        # except Exception as e:
+        #     print(type(e))
+        #     messages.success(request, type(e))
     return redirect("/adminLogin/")
 
 def logout(request):   
@@ -93,6 +105,7 @@ def inwardForm(request):
         print("Inside inward ")
         form = InwardRegistryForm()
         DocForm = InwardDocForm()
+       
 
         if request.method == 'POST':
             print('a')
@@ -103,14 +116,15 @@ def inwardForm(request):
                 print('form is valid')
                 if request.user.is_authenticated :
                     desk_id     =   request.user.desk_id
-                    username     =   request.user.username
-                    print(desk_id, username)
+                    username    =   request.user.username
+                    currentDept =   request.user.dept
+                    print(desk_id, username, currentDept)
             
                 obj =   form.save()
                 docs = DocForm.cleaned_data['DocsAttch']
                 InwardDocs.objects.create(InwardId = obj, DocsAttch = docs, user_id = username)
-                obj.username = username
                 obj.user_id = username
+                obj.currentDept =  currentDept
                 obj.save()
                 a = messages.success(request, "Latter Inwarded")
                 return redirect('inwardForm/', {'a': a})
@@ -126,6 +140,7 @@ def inwardForm(request):
     return redirect("/")
 
 def forward(request):
+    
     if request.method == 'POST':
         # selectedUser    = 
         form = forwardForm(request.POST or None)
@@ -147,9 +162,11 @@ def manageDepartment(request):
         # FETCHING USERS FROM DB
         users   =   User.objects.all()
         # Dropdown select user to forward
-        userToFrwrd   =   User.objects.exclude(username=request.user.username)
+        deptToFrword  =   Dept.objects.all()
+        # userToFrwrd   =   User.objects.exclude(username=request.user.username)
 
         outwardForm = OutwardForm()
+        
         # GETTING CREDENTIALS OF LOGGED IN USER
         if request.user.is_authenticated :
                 desk_id     =   request.user.desk_id
@@ -157,29 +174,46 @@ def manageDepartment(request):
         
         records  =   InwardReg.objects.filter(user_id = username)
 
+
         # FORWARD RECORD
         if request.method == 'POST' and 'buttonForward' in request.POST:
             print('inside Forward')
             SelectedUser    = request.POST.get('selectUser')
+            SelectDept      =  request.POST.get('selectDept')
             buttonForward   =  request.POST.get('buttonForward')
-
             print(SelectedUser)
             print(buttonForward)
 
+            userToFrwrd   =   User.objects.filter(dept="SelectDept")
+
             updateRecord   =    InwardReg.objects.get(id = buttonForward)
             updateRecord.user_id    =   SelectedUser
+            updateRecord.currentDept    = SelectDept
             updateRecord.RecievedFrom   =   username
             updateRecord.save()
 
             records  =   InwardReg.objects.filter(user_id=username)
-
             context ={
                 'records'   : records,
-                'userToFrwrd'     : userToFrwrd,
+                # 'userToFrwrd'     : userToFrwrd,
+                'deptToFrword'  : deptToFrword,
                 'outwardForm'   : outwardForm
             }
             return render(request, "manageDepartment.html",context)
 
+
+        # Get user
+        if request.method == 'POST' and request.POST['user'] == "true":
+            department = request.POST['department']
+            print("Inside Method Of get user--------------------", department)
+            userToFrwrd   =   User.objects.filter(dept = department)
+            print("User ares------------------------\n", userToFrwrd)
+            userToFrwrd = serializers.serialize('json', userToFrwrd)
+            userToFrwrd = json.loads(userToFrwrd)
+            response = {'status' : 0, 'userToFrwrd' : userToFrwrd}
+            return HttpResponse(json.dumps(response), content_type = 'application/json')
+
+        
         # EIDT INWARD RECORD 
         if request.method == 'POST' and 'saveModelButton' in request.POST:
             print("inside modelsave")
@@ -284,7 +318,8 @@ def manageDepartment(request):
             context ={
                 'records'   : records,
                 'users'     : users,
-                'userToFrwrd' : userToFrwrd,
+                # 'userToFrwrd' : userToFrwrd,
+                'deptToFrword' : deptToFrword,
                 'outwardForm' : outwardForm,
             }
             return render(request, "manageDepartment.html", context)
@@ -376,6 +411,7 @@ def adminManageRegistry(request):
     if request.session.has_key('email'):
         # FETCHING USERS FROM DB
         users   =   User.objects.all()
+        deptToFrword  =   Dept.objects.all()
 
         outwardForm = OutwardForm()
         outwardForm = OutwardForm(request.POST, request.FILES or None) 
@@ -391,24 +427,39 @@ def adminManageRegistry(request):
         if request.method == 'POST' and 'buttonForward' in request.POST:
             print('inside Forward')
             SelectedUser    = request.POST.get('selectUser')
+            SelectDept      =  request.POST.get('selectDept')
             buttonForward   =  request.POST.get('buttonForward')
-
             print(SelectedUser)
             print(buttonForward)
 
+            userToFrwrd   =   User.objects.filter(dept="SelectDept")
+
             updateRecord   =    InwardReg.objects.get(id = buttonForward)
             updateRecord.user_id    =   SelectedUser
+            updateRecord.currentDept    = SelectDept
             updateRecord.RecievedFrom   =   username
             updateRecord.save()
 
-            records  =   InwardReg.objects.all
-
+            records  =   InwardReg.objects.filter(user_id=username)
             context ={
                 'records'   : records,
-                'users'     : users,
+                # 'userToFrwrd'     : userToFrwrd,
+                'deptToFrword'  : deptToFrword,
                 'outwardForm'   : outwardForm
             }
-            return render(request, "adminManageRegistry.html",context)
+            return render(request, "manageDepartment.html",context)
+
+
+        # Get user
+        if request.method == 'POST' and request.POST['user'] == "true":
+            department = request.POST['department']
+            print("Inside Method Of get user--------------------", department)
+            userToFrwrd   =   User.objects.filter(dept = department)
+            print("User ares------------------------\n", userToFrwrd)
+            userToFrwrd = serializers.serialize('json', userToFrwrd)
+            userToFrwrd = json.loads(userToFrwrd)
+            response = {'status' : 0, 'userToFrwrd' : userToFrwrd}
+            return HttpResponse(json.dumps(response), content_type = 'application/json')
 
         # EIDT INWARD RECORD 
         if request.method == 'POST' and 'saveModelButton' in request.POST:
@@ -512,6 +563,7 @@ def adminManageRegistry(request):
         else:
             context ={
                 'records'   : records,
+                'deptToFrword': deptToFrword,
                 'users'     : users,
                 'outwardForm' : outwardForm,
             }
@@ -590,4 +642,24 @@ def UserList(request):
                 'users' : users
             }
             return render(request, "UserTable.html", context)
+    return redirect("/adminLogin/")
+
+def createDept(request):
+    if request.session.has_key('email'):
+        form = CreateDeptForms()
+        if request.method == 'POST':
+            print('insude if post')
+            form = CreateDeptForms(request.POST or None)
+            print('form')
+            if form.is_valid():
+                print('form is valid dept')
+                form = form.save()
+                print('saved')
+                return redirect('/CreateDept/')
+            else:
+                print('invalid')
+                print(form.errors)
+        else:
+            form = CreateDeptForms()
+        return render (request, "createDept.html", {'form' : form})
     return redirect("/adminLogin/")

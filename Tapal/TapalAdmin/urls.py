@@ -22,6 +22,7 @@ urlpatterns = [
     path('logout/', views.logout),    
 
 
+
 # ADMINISTRATION
     path('adminLogin/', views.AdminLogin.as_view(template_name='adminLogin.html'), name='login'),
     path('DeptHome/', views.DeptHome),
@@ -31,6 +32,5 @@ urlpatterns = [
     path('DeptReport/', views.DeptReport),
     path('userList/', views.UserList),
     path('logoutAdmin/', views.logoutAdmin),
-
-    
+    path('CreateDept/', views.createDept),
 ]

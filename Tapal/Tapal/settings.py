@@ -90,7 +90,7 @@ WSGI_APPLICATION = 'Tapal.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME':'tapalnew',
+        'NAME':'Tapalnew',
         'USER':'root',
         'PASSWORD':'root',
         'HOST': 'localhost',

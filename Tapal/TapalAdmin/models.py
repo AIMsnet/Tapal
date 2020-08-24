@@ -7,16 +7,14 @@ class User(AbstractUser):
     email       =   models.EmailField(max_length=255,null=False, unique=True)
     mobile_no   =   models.CharField(max_length=100, null=False, unique=True)
     employee_id =   models.CharField(max_length=50,null=False, unique=True)
-    # role        =   models.CharField(max_length=50, null=False)
     designation =   models.CharField(max_length=50, null=False)
     desk_id     =   models.CharField(max_length=50, null=False)
-    # user_id     =   models.CharField(max_length=100, unique=True)
-
+    dept        =   models.CharField(max_length=50, null=False)
 
     # USERNAME_FIELD = 'user_id'
     # REQUIRED_FIELD =  ['user_id']
-    # def __str__(self):
-    #     return self.user_id
+    def __str__(self):
+        return self.first_name
 
 class InwardReg(models.Model):
     RecRefNumber  =  models.CharField(("Recieved Reference Number"),default='AIM-0001', max_length=10, null=False)
@@ -53,6 +51,7 @@ class InwardReg(models.Model):
     users     =   models.CharField((''),max_length=20, choices=users)
     user_id         =   models.CharField(('user_id'),default='0000000',max_length=20)
     Status    =   models.BooleanField(default=True)
+    currentDept =   models.CharField(max_length=125, null=False)
 
     
 class InwardDocs(models.Model):
@@ -62,6 +61,7 @@ class InwardDocs(models.Model):
     user_id         =   models.CharField(('user_id'),default='0000000',max_length=20)
 
 class OutwardReg(models.Model):
+
     OutwardDate     =   models.DateField(("Outward Date"), default=datetime.now)
     Note            =   models.TextField(("Forwarding Note"), default='xyz', null=False)
     OutwardTo       =   models.CharField(("Outward To"), max_length=50)
@@ -70,3 +70,12 @@ class OutwardReg(models.Model):
     InwardId        =   models.IntegerField(("Inward ID"), null=True)
     History         =   models.TextField(("History"), default='xyz', null=False)
     Status          =   models.BooleanField(default=True)
+
+class Dept(models.Model):
+    d_name  = models.CharField("Department Name",max_length=125, null=False)
+    d_phone = models.CharField("Department Phone",max_length=11, null=False)
+    d_location = models.CharField("Location",max_length=125, null=False)
+    pin     =   models.CharField("Pin",max_length=6, null=False)
+
+    def __str__(self):
+        return self.d_name

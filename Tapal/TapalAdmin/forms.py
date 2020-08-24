@@ -1,11 +1,13 @@
 from django import forms
-from  .models import User, InwardReg, InwardDocs, OutwardReg
+from  .models import User, InwardReg, InwardDocs, OutwardReg, Dept
+# , Department
 from django.contrib.auth.forms import UserCreationForm
 
 
 
 class createUserForms(UserCreationForm):
     error_css_class = 'error'
+    dept    =   forms.ModelChoiceField(queryset=Dept.objects.all(), empty_label="Select Department", label='Department')
     class Meta:
         model = User
         fields  =   [
@@ -15,14 +17,16 @@ class createUserForms(UserCreationForm):
             'email',
             'mobile_no',
             'employee_id',
-            # 'role',
             'desk_id',
             'designation',
             'is_superuser',
+            'dept',
             'password1',
             'password2'
         ]
 
+# class UserDeptChoiceField(forms.Form):
+#     dept = forms.ModelChoiceField(queryset=Department.objects.all(), label="Department", empty_label="Select Department", required=False)
 
 
     def clean_email(self):
@@ -90,4 +94,9 @@ class OutwardForm(forms.ModelForm):
                 'OutwardDoc',
                 'Note',
         ]
+
+class CreateDeptForms(forms.ModelForm):
+    class Meta:
+        model  =  Dept
+        fields  = '__all__'
         
