@@ -12,7 +12,7 @@
 {% block content %}
 
 <!----------------Manage Departments Start-------------->
-<div class="container-fluid p-0 mt-1">
+<div class="container-fluid p-0">
   <!-- SEARCH FILTER-->
   <form action="/manageDepartment/" method="POST">
     {% csrf_token %}
@@ -24,7 +24,7 @@
     </div>
   </form>
   <!--MANAGE DEPARTMENT TABLE -->
-    <div class="table-responsive border border-dark" style="height: 550px;">
+    <div class="table-responsive border border-dark" style="height: 450px;">
       <form action="/manageDepartment/" method="POST">
         {% csrf_token %}
         <table class="table table-hover" cellspacing="0" id="table_id">
@@ -216,7 +216,17 @@
             </div>
             <div class="row">
               <div class="col-12">
-                {{outwardForm.Note|as_crispy_field}}
+                {{outwardForm.OutwardAdd|as_crispy_field}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                {{outwardForm.sub|as_crispy_field}}
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                {{outwardForm.Comment|as_crispy_field}}
               </div>
             </div>
             <div class="row">
@@ -474,7 +484,7 @@ function getUser(){
   console.log("Got it" + department)
   $.ajax({
     type: 'POST', 
-    url: '/manageDepartment/',
+    url: '/getUserDropDown/',
     data: {
       user : true,
       department : department,

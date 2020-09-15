@@ -1,0 +1,74 @@
+{% extends 'home.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/InwardForm.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/home.css'%}">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/tabs.css'%}">
+
+{% endblock css %}
+
+{% block content %}
+
+{% if messages %}
+    <div class="alert alert-success text-center" id="success-alert">
+        <button type="button" class="close" data-dismiss="alert">x</button>
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            <strong>{{ message }}</strong>
+        </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+<!-- <div class="m-3"></div> -->
+<div class="container-fluid border border-dark m-0 p-0" style="height:500px; overflow-y: scroll;">
+     <h5 class="text-center mt-0 pt-3 border-info border-bottom" style="background-color: #ace6f6;">OUTWARD REGISTERY</h5>
+    <form action="/outwardRegistery/" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group m-5">
+            <div class="row">
+                <div class="col-md-2 ml-auto">
+                    {{ form.OutwardDate|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form.sub|as_crispy_field }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.OutwardTo|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form.OutwardAdd|as_crispy_field }}
+                </div>
+                <div class="col-md-6">
+                    {{ form.OutwardDoc|as_crispy_field }}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {{ form.Comment|as_crispy_field }}
+                </div>
+            </div>
+            <div class="form-footer footer row">
+                <a href="/home/"><button class="btn btn-dark ml-2">Cancel</button></a>
+                <button class="btn show-alert btn-primary ml-2" id="show-toast">Save</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+
+    // hide message window after interval
+    var message_ele = document.getElementById("success-alert");
+    setTimeout(function(){ 
+    message_ele.style.display = "none"; 
+    }, 3000);
+    </script>
+
+{% endblock content %} -->

@@ -105,7 +105,6 @@ def inwardForm(request):
         print("Inside inward ")
         form = InwardRegistryForm()
         DocForm = InwardDocForm()
-       
 
         if request.method == 'POST':
             print('a')
@@ -140,7 +139,6 @@ def inwardForm(request):
     return redirect("/")
 
 def forward(request):
-    
     if request.method == 'POST':
         # selectedUser    = 
         form = forwardForm(request.POST or None)
@@ -189,7 +187,7 @@ def manageDepartment(request):
             updateRecord   =    InwardReg.objects.get(id = buttonForward)
             updateRecord.user_id    =   SelectedUser
             updateRecord.currentDept    = SelectDept
-            updateRecord.RecievedFrom   =   username
+            updateRecord.RecFrom   =   username
             updateRecord.save()
 
             records  =   InwardReg.objects.filter(user_id=username)
@@ -203,15 +201,15 @@ def manageDepartment(request):
 
 
         # Get user
-        if request.method == 'POST' and request.POST['user'] == "true":
-            department = request.POST['department']
-            print("Inside Method Of get user--------------------", department)
-            userToFrwrd   =   User.objects.filter(dept = department)
-            print("User ares------------------------\n", userToFrwrd)
-            userToFrwrd = serializers.serialize('json', userToFrwrd)
-            userToFrwrd = json.loads(userToFrwrd)
-            response = {'status' : 0, 'userToFrwrd' : userToFrwrd}
-            return HttpResponse(json.dumps(response), content_type = 'application/json')
+        # if request.method == 'POST' and request.POST['user'] == "true":
+        #     department = request.POST['department']
+        #     print("Inside Method Of get user--------------------", department)
+        #     userToFrwrd   =   User.objects.filter(dept = department)
+        #     print("User ares------------------------\n", userToFrwrd)
+        #     userToFrwrd = serializers.serialize('json', userToFrwrd)
+        #     userToFrwrd = json.loads(userToFrwrd)
+        #     response = {'status' : 0, 'userToFrwrd' : userToFrwrd}
+        #     return HttpResponse(json.dumps(response), content_type = 'application/json')
 
         
         # EIDT INWARD RECORD 
@@ -239,7 +237,7 @@ def manageDepartment(request):
             }
             return render(request, "manageDepartment.html",context)
 
-        # RECORD OUTWARDING 
+        # OUTWARDING RECORD 
         if request.method == 'POST' and 'outwardBtn' in request.POST:
             print("inside Outward")
             outwardForm = OutwardForm(request.POST, request.FILES or None) 
@@ -253,6 +251,7 @@ def manageDepartment(request):
                 obj.OutwardBy = username
                 obj.InwardId  = inwardId
                 obj.History =   history
+                print(username, inwardId, history)
             # ----------------------Activate/Deactivate----------------------
                 if status is not None:
                     obj.Status   = "False"
@@ -261,9 +260,10 @@ def manageDepartment(request):
                 obj.save()
                 outwardTo = outwardForm.cleaned_data['OutwardTo']
                 updateRecord   =    InwardReg.objects.get(id = inwardId)
-                updateRecord.user_id    =   outwardTo
-                updateRecord.save()
-
+                # updateRecord.user_id    =   outwardTo
+                # updateRecord.save()
+                updateRecord.delete()
+            print(outwardForm.errors)
             context ={
                 'records'       : records,
                 'users'         : users,
@@ -325,6 +325,18 @@ def manageDepartment(request):
             return render(request, "manageDepartment.html", context)
     return redirect("/")
 
+def getUserDropdown(request):
+    # Get user
+    if request.method == 'POST' and request.POST['user'] == "true":
+        department = request.POST['department']
+        print("Inside Method Of get user--------------------", department)
+        userToFrwrd   =   User.objects.filter(dept = department)
+        print("User ares------------------------\n", userToFrwrd)
+        userToFrwrd = serializers.serialize('json', userToFrwrd)
+        userToFrwrd = json.loads(userToFrwrd)
+        response = {'status' : 0, 'userToFrwrd' : userToFrwrd}
+        return HttpResponse(json.dumps(response), content_type = 'application/json')
+
 def getFiles(request):
     if request.method == 'POST':
         inwardDocs = InwardDocs.objects.filter(InwardId = request.POST['inwardId'])
@@ -333,8 +345,7 @@ def getFiles(request):
         response = {'status' : 0, 'inwardDocs' : inwardDocs}
     return HttpResponse(json.dumps(response), content_type = 'application/json')
 
-def outwardRegistery(request):
-  
+def outwardManager(request):
     if request.session.has_key('username'):
         if request.user.is_authenticated :
                 username     =   request.user.username
@@ -352,37 +363,67 @@ def outwardRegistery(request):
                 'outwardData' : outwardData,
                 
             }
-            return render(request, "outwardRegistery.html", context)
+            return render(request, "outwardManager.html", context)
         else:
             context =   {
                 'outwardData' : outwardData,
             }
-            return render(request, "outwardRegistery.html", context)
+            return render(request, "outwardManager.html", context)
     return redirect("/")
 
-def report(request):
+def outwardRegistery(request):
     if request.session.has_key('username'):
+        form = OutwardForm()
+        if request.user.is_authenticated :
+            username     =   request.user.username
+        if request.method == "POST":
+            print("in")
+            form = OutwardForm(request.POST, request.FILES or None)
+            if form.is_valid():
+                print("valid")
+                form = form.save()
+                form.OutwardBy = username
+                form.save()
+                a = messages.success(request, "Latter Inwarded")
+                return redirect('/outwardRegistery/', {'a': a})
+        return render(request, "outwardForm.html", {'form'  : form} )
+    return redirect("/")
 
+
+def report(request):
+    # if request.session.has_key('username'):
         if request.user.is_authenticated :
                 desk_id     =   request.user.desk_id
-                username     =   request.user.username
+                username    =   request.user.username
                 print(desk_id, username)
-
+        
         if request.method == 'POST' :
-            
+            selectFilterType = request.POST.get('selectFilterType')
             startDate   = request.POST.get('strtdt')
             endDate   = request.POST.get('enddt')
+            print(selectFilterType)
 
-            records  =   InwardReg.objects.filter(LttrRecDate__range=(startDate, endDate), user_id=username)
-            
-            context ={
+            if selectFilterType == 'all' :
+                print("in all")
+                records  =   InwardReg.objects.filter(LttrRecDate__range=(startDate, endDate), user_id=username)
+
+                context ={
                 'records'   : records,          
-            }
-            return render(request, "report.html",context)
-        else:
-            
+                }
+                return render(request, "report.html",context)
+
+            elif selectFilterType == 'forwarded':
+                print("forwarded")
+                records  =   InwardReg.objects.filter(LttrRecDate__range=(startDate, endDate), RecFrom=username)
+                context ={
+                'records'   : records,          
+                }
+                return render(request, "report.html",context)
+
             return render(request, "report.html")
-    return redirect('/')
+        else:
+            return render(request, "report.html")
+    # return redirect('/')
 
 def DeptHome(request):
     if request.session.has_key('email'):

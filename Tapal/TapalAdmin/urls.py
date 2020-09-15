@@ -13,6 +13,7 @@ urlpatterns = [
     path('inwardForm/inwardForm/', views.inwardForm),
     path('inwardForm/inwardForm/inwardForm/', views.inwardForm),
     path('manageDepartment/', views.manageDepartment),
+    path('outwardManager/', views.outwardManager),
     path('outwardRegistery/', views.outwardRegistery),
     path('report/', views.report),
     path('forward/', views.forward),
@@ -20,6 +21,8 @@ urlpatterns = [
     url('file/(?P<fileName>[\w\s,@.]+)', views.DownloadFile, name = "showSupplier"),
     url('outwardFile/(?P<fileName>[\w\s,@.]+)', views.DownloadOutwrdFile, name = "showSupplier"),
     path('logout/', views.logout),    
+
+    path('getUserDropDown/',views.getUserDropdown, name = 'getUserDropDown'),
 
 
 

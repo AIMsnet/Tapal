@@ -61,14 +61,15 @@ class InwardDocs(models.Model):
     user_id         =   models.CharField(('user_id'),default='0000000',max_length=20)
 
 class OutwardReg(models.Model):
-
     OutwardDate     =   models.DateField(("Outward Date"), default=datetime.now)
-    Note            =   models.TextField(("Forwarding Note"), default='xyz', null=False)
-    OutwardTo       =   models.CharField(("Outward To"), max_length=50)
+    sub             =   models.CharField(("Subject"), max_length=255) 
+    Comment         =   models.TextField(("Comment Here"), default='xyz', null=False)
+    OutwardTo       =   models.CharField(("To"), max_length=100)
+    OutwardAdd      =   models.CharField(("Address"), max_length=255)
     OutwardBy       =   models.CharField(("Outward By"), max_length=20)
     OutwardDoc      =   models.FileField(("Documents"), max_length=20)
     InwardId        =   models.IntegerField(("Inward ID"), null=True)
-    History         =   models.TextField(("History"), default='xyz', null=False)
+    History         =   models.TextField(("History"), default='NONE', null=False)
     Status          =   models.BooleanField(default=True)
 
 class Dept(models.Model):

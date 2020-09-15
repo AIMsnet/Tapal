@@ -90,9 +90,12 @@ class OutwardForm(forms.ModelForm):
         model  =  OutwardReg
         fields = [
                 'OutwardDate',
+                'sub',
+                'Comment',
                 'OutwardTo',
+                'OutwardAdd',
                 'OutwardDoc',
-                'Note',
+                
         ]
 
 class CreateDeptForms(forms.ModelForm):

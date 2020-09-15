@@ -13,17 +13,34 @@
   {% csrf_token %}
   <div class="container-fluid p-0">
     <h5 class="text-center m-3 border-bottom border-info">Report</h5>
-    <div class="form-group text-center mt-2" >
-      <label for="strtdt" class="form-content">Start Date</label>
-      <input class="ml-2 form-control-sm" type="date" id="strtdt" name="strtdt" required>
-
-      <label for="enddt" class="form-content ml-3">End Date</label>
-      <input class="form-control-sm" type="date" id="enddt" name="enddt" required>
-
-      <button class="btn btn-info form-control-sm ml-3" role="button" id="subtxt">ENTER</button> 
+    
+    <div class="container-fluid">
+      <div class="form-group text-center" > 
+        <div class="row justify-content-center">
+          
+          <div class="col-3">
+            <label for="strtdt" class="form-content">Report Type : </label>
+            <select class="form-control-sm" name="selectFilterType" id="selectFilterType" required>
+              <option value="">select</option>
+              <option value="all">All</option>
+              <option value="forwarded">Forwarded</option>
+              <option value="outwarded">Outwarded</option>
+            </select>
+          </div>
+          <div class="col-6">
+            <label for="strtdt" class="form-content mr-2">Start Date :</label>
+            <input class="form-control-sm mr-2" type="date" id="strtdt" name="strtdt" required>
+          
+            <label for="enddt" class="form-content mr-2">End Date :</label>
+            <input class="form-control-sm mr-2" type="date" id="enddt" name="enddt" required>
+            <button class="btn btn-info btn-sm mt-1" role="button" id="subtxt">ENTER</button> 
+          </div>
+          <div class="col-3"></div>
+        </div>    
+      </div>
     </div>
 
-    <div class="table-responsive" style="height: 400px;">
+    <div class="table-responsive" style="height: 350px;">
       <table class="table">
           <thead class="thead" style="text-align: center; background-color: #ace6f6;">
               <tr>
